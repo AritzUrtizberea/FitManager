@@ -18,10 +18,10 @@ public function up(): void
         
         // Campos adicionales
         $table->string('phone');
-        $table->string('sexo');
-        $table->float('peso');
-        $table->integer('altura');
-        $table->string('actividad');
+        $table->string('sex');
+        $table->float('weight');
+        $table->integer('height');
+        $table->string('activity');
         
         $table->timestamps();
     });

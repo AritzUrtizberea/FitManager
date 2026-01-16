@@ -9,10 +9,10 @@ class Profile extends Model
     protected $fillable = [
     'user_id',
     'phone',
-    'sexo',
-    'peso',
-    'altura',
-    'actividad',
+    'sex',
+    'weight',
+    'height',
+    'activity',
 ];
 
 // Relación inversa (opcional pero recomendada)
