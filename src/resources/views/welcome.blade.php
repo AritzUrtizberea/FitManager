@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitManager - Landing Page</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">
+        <img src="{{ asset('Fotos/Logo_FitManager.png') }}" alt="FitManager Logo" class="logo-img">
+        </div>
+
+    <nav class="desktop-nav">
+        <a href="{{ route('login') }}" class="btn-nav-outline" style="text-decoration: none;">Iniciar Sesión</a>
+        <a href="{{ route('register') }}" class="btn-nav-desktop" style="text-decoration: none;">Registrarse</a>
+    </nav>
+
+        <div class="menu-icon" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay">
+        <div class="overlay-content">
+
+            <div class="nav-footer">
+                <img src="Fotos/Logo_FitManager.png" alt="FitManager Logo" class="logo-img">
+            </div>
+            <hr class="divider">
+            <div class="nav-buttons">
+                <button class="btn-nav">INICIAR SESIÓN</button>
+                <button class="btn-nav">REGISTRARSE</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Transforma tu cuerpo, gestiona tu vida</h1>
+                <button class="btn-primary">Empieza Gratis</button>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Características Clave</h2>
+                <p class="subtitle">Descubre cómo FitManager puede ayudarte a alcanzar tus metas de fitness.</p>
+
+                <div class="features-grid">
+                    <div class="card">
+                        <i class="fa-solid fa-apple-whole icon"></i>
+                        <h3>Seguimiento de Nutrición</h3>
+                        <p>Controla tus calorías y macronutrientes con facilidad.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-dumbbell icon"></i>
+                        <h3>Planes de Entrenamiento Personalizados</h3>
+                        <p>Entrenamientos adaptados a tus objetivos y nivel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="reviews">
+            <div class="container">
+                <h2>Reseñas</h2>
+                <div class="reviews-grid">
+                    <div class="review-item">
+                        <div class="review-header">
+                            <strong>Isabella Rossi</strong>
+                            <span class="date">Hace 2 semanas</span>
+                        </div>
+                        <div class="stars">★★★★★</div>
+                        <p>FitManager ha sido un cambio de juego en mi viaje de fitness. La interfaz es intuitiva y el
+                            seguimiento de nutrición es muy fácil de usar.</p>
+                        <div class="review-footer">
+                            <span><i class="fa-regular fa-thumbs-up"></i> 12</span>
+                            <span><i class="fa-regular fa-thumbs-down"></i> 2</span>
+                        </div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="review-header">
+                            <strong>Mateo Bianchi</strong>
+                            <span class="date">Hace 1 mes</span>
+                        </div>
+                        <div class="stars">★★★★★</div>
+                        <p>Los planes de entrenamiento personalizados son excelentes. He visto resultados significativos
+                            en solo unas pocas semanas.</p>
+                        <div class="review-footer">
+                            <span><i class="fa-regular fa-thumbs-up"></i> 15</span>
+                            <span><i class="fa-regular fa-thumbs-down"></i> 1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
