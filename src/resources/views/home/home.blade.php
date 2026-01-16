@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitManager Dashboard - Final</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+</head>
+<body>
+
+    <header class="white z-depth-1 fm-header">
+        <img src="{{ asset('Fotos/Logo_FitManager.png') }}" alt="FitManager" class="fm-logo">
+    </header>
+
+    <main class="container fm-container">
+        <h1 class="welcome-title">Bienvenido, {{ $user->name }}!</h1>
+
+        <div class="row fm-dashboard-grid">
+            <div class="col s12 l7">
+            <button class="btn waves-effect waves-light fm-btn-blue-slim">
+                PESO ACTUAL: {{ $user->profile->peso }} KG - ¡VAMOS A ELLO!
+            </button>
+
+                <div class="card fm-card z-depth-1">
+                    <div class="card-content center-align">
+                        <span class="card-title fm-card-title">Objetivo Semanal de Entrenamiento</span>
+                        
+                        <div class="fm-progress-wrapper">
+                            
+                            <svg viewBox="0 0 100 100" class="fm-progress-svg">
+                                <circle cx="50" cy="50" r="45" class="bg"></circle>
+                                <circle cx="50" cy="50" r="45" class="bar" id="progress-bar"></circle>
+                            </svg>
+                            <div class="fm-progress-text">
+                                <span class="number">3/4</span>
+                                <span class="label">Días completados</span>
+                            </div>
+                        </div>
+
+                        <button class="btn waves-effect waves-light fm-btn-secondary">
+                            Ver Plan de Entrenamiento
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l5">
+                <div class="fm-nutrition-banner">
+                    <div class="banner-main-row">
+                        <i class="ph-bold ph-fork-knife icon-med"></i>
+                        <p class="banner-text">No olvides preocuparte por tu alimentación también</p>
+                    </div>
+                    <div class="banner-action">
+                        <button class="btn waves-effect waves-light fm-btn-analyze">
+                            Analizar Alimento
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fm-bottom-nav white z-depth-2">
+        <div class="nav-item active"><i class="ph-fill ph-house"></i><span>Casa</span></div>
+        <div class="nav-item"><i class="ph-bold ph-unite"></i><span>Nutrición</span></div>
+        <div class="nav-item"><i class="ph-bold ph-barbell"></i><span>Entrenamiento</span></div>
+        <a href="{{ route('perfil') }}" class="nav-item">
+            <i class="ph ph-user"></i>
+            <span>Perfil</span>
+        </a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('progress-bar').style.strokeDashoffset = "70";
+        });
+    </script>
+</body>
+</html>

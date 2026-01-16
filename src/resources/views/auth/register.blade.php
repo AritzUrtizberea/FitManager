@@ -130,27 +130,27 @@
 
                     </div>
 
-                                    <div class="space-y-6" style="margin-top: 30px !important;">
+                    <div class="space-y-6" style="margin-top: 30px !important;">
                     <label class="flex items-center justify-between p-4 border rounded-[12px] cursor-pointer hover:border-[#185a94] transition-all shadow-sm">
                         <div class="flex items-center">
                             <input type="radio" name="actividad" value="sedentario" class="text-[#185a94] focus:ring-[#185a94]" required>
                             <div class="ml-4">
-                                <span class="block font-bold text-sm text-[#111318]">Poco o ningún ejercicio</span>
-                                <span class="text-xs text-[#616f89] italic">Principalmente sentado (ej. oficina)</span>
+                                <span class="block font-bold text-sm">Moderado (3-5 días/sem)</span>
+                                <span class="text-xs text-gray-500 italic">Trotar</span>
                             </div>
                         </div>
-                        <span class="text-2xl">🪑</span>
+                        <span class="text-2xl">🏃</span>
                     </label>
 
                     <label class="flex items-center justify-between p-4 border rounded-[12px] cursor-pointer hover:border-[#185a94] transition-all shadow-sm bg-green-50/20">
                         <div class="flex items-center">
                             <input type="radio" name="actividad" value="ligero" class="text-[#185a94] focus:ring-[#185a94]">
                             <div class="ml-4">
-                                <span class="block font-bold text-sm text-[#111318]">Ejercicio ligero</span>
-                                <span class="text-xs text-[#616f89] italic">1-3 días a la semana (ej. jardinería)</span>
+                                <span class="block font-bold text-sm">Fuerte (6-7 días/sem)</span>
+                                <span class="text-xs text-gray-500 italic">Correr</span>
                             </div>
                         </div>
-                        <span class="text-2xl">🏡</span>
+                        <span class="text-2xl">⚡</span>
                     </label>
 
                     </div>

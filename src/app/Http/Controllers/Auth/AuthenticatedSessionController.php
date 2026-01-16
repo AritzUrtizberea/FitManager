@@ -19,16 +19,15 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
-    public function store(LoginRequest $request): RedirectResponse
+    // app/Http/Controllers/Auth/AuthenticatedSessionController.php
+
+    public function store(LoginRequest $request) // Quita ': RedirectResponse' de aquí
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Ahora sí puedes devolver la vista directamente
+        return response()->view('home.home', ['user' => Auth::user()]);
     }
 
     /**

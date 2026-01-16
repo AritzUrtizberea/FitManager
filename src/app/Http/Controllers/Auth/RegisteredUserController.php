@@ -28,23 +28,41 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+{
+    // 1. Validamos todos los datos que llegan de los 3 pasos
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'surname' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => ['required', 'confirmed'],
+        'phone' => 'nullable|string',
+        'sexo' => 'required',
+        'peso' => 'required|numeric',
+        'altura' => 'required|numeric',
+        'actividad' => 'required',
+    ]);
 
-        event(new Registered($user));
+    // 2. Insertamos en la tabla 'users'
+    $user = User::create([
+        'name' => $request->name,
+        'surname' => $request->surname,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
 
-        Auth::login($user);
+    // 3. Insertamos en la tabla 'profiles' usando la relación
+    // Esto asume que tienes 'public function profile() { return $this->hasOne(Profile::class); }' en User.php
+    $user->profile()->create([
+        'phone' => $request->phone,
+        'sexo' => $request->sexo,
+        'peso' => $request->peso,
+        'altura' => $request->altura,
+        'actividad' => $request->actividad,
+    ]);
 
-        return redirect(route('dashboard', absolute: false));
-    }
+    Auth::login($user);
+
+    return view('home.home', ['user' => $user]);
+}
 }

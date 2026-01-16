@@ -1,0 +1,75 @@
+:root {
+    --fm-blue: #1d64a1;
+    --fm-green: #82b946;
+    --fm-dark: #212121;
+    --radius: 12px;
+}
+
+body { background-color: #ffffff; font-family: 'Inter', sans-serif; }
+
+/* Header e Icono Ajustes */
+.fm-header-p { padding: 20px; }
+.header-flex { display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto; }
+.fm-logo-p { height: 35px; }
+.gear-icon { font-size: 28px; color: #333; }
+
+/* Nombre Usuario */
+.user-name {
+    font-size: 44px !important;
+    font-weight: 800 !important;
+    margin: 50px 0 !important;
+    letter-spacing: -1px;
+}
+
+/* Cuadrados de colores */
+.stats-container { max-width: 600px; margin: 0 auto !important; }
+.stat-box {
+    border-radius: var(--radius);
+    height: 105px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+.box-blue { background-color: var(--fm-blue); }
+.box-green { background-color: var(--fm-green); }
+.box-dark { background-color: var(--fm-dark); }
+
+.val { font-size: 19px; font-weight: 700; display: block; }
+.lab { font-size: 11px; font-weight: 300; opacity: 0.9; margin-top: 4px; }
+
+/* Lista de Edición Perfil */
+.settings-section { max-width: 580px; margin: 40px auto 0 auto; padding: 0 15px; }
+.section-title { font-weight: 800; font-size: 18px; margin-bottom: 25px; }
+
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 0;
+    border-bottom: 1px solid transparent; /* Para el efecto waves */
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+}
+.settings-item i { font-size: 22px; color: #222; }
+
+/* Barra de Navegación Inferior (Misma que la anterior) */
+.fm-bottom-nav {
+    position: fixed; bottom: 0; width: 100%; height: 85px;
+    display: flex; justify-content: space-around; align-items: center;
+    border-top: 1px solid #f0f0f0; z-index: 1000;
+}
+.nav-item { display: flex; flex-direction: column; align-items: center; color: #999; font-size: 11px; }
+.nav-item i { font-size: 28px; margin-bottom: 5px; }
+.nav-item.active { color: #000; font-weight: 600; }
+
+/* --- RESPONSIVE UNIFICADO (PC y Tablet) --- */
+@media only screen and (min-width: 601px) {
+    .fm-main-p {
+        max-width: 550px; /* Centrado y estrecho como en la imagen */
+        margin: 0 auto;
+    }
+}

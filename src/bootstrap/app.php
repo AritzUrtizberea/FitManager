@@ -10,9 +10,15 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
-        //
+    // En bootstrap/app.php cambia el users: '/' por '/inicio'
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->redirectTo(
+            guests: '/login',
+            users: '/inicio'  // <--- CAMBIA ESTO
+        );
+        $middleware->append(\App\Http\Middleware\PreventBackHistory::class);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
+
+    ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
