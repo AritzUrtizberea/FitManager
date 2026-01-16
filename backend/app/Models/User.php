@@ -50,4 +50,12 @@ class User extends Authenticatable
     public function profile() {
     return $this->hasOne(Profile::class);
 }
+
+    public function diets() {
+    return $this->hasMany(Diet::class);
+}
+
+    public function routines() {
+    return $this->hasMany(Routine::class);
+}
 }

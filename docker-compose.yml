@@ -1,89 +1,54 @@
 services:
-  # ----------------------------------------------------
-  # 1. SERVICIO DE APLICACIÓN WEB (PHP-Apache)
-  # ----------------------------------------------------
-  web:
-    # Construye la imagen usando el Dockerfile creado
-    build:
-      context: ./docker/php
-    container_name: laravel-apache-reto2
-    restart: unless-stopped
-    # Mapea la carpeta local 'app' al directorio de trabajo del contenedor
-    volumes:
-      - ./src:/var/www/html
-    # Expone el puerto 80 del contenedor al puerto 80 del host
+  # 1. EL PROXY (NGINX) - La puerta de entrada
+  nginx:
+    image: nginx:alpine
+    container_name: fitmanager-proxy
     ports:
       - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - db
-    # Conecta a la red interna
+      - backend
+      - frontend
     networks:
-      - laravel_network-reto2
+      - app-network
 
-  # ----------------------------------------------------
-  # 2. SERVICIO DE BASE DE DATOS (MySQL)
-  # ----------------------------------------------------
+  # 2. EL BACKEND (LARAVEL)
+  backend:
+    build:
+      context: ./backend    # <--- FÍJATE: Apunta a la carpeta backend
+      dockerfile: Dockerfile
+    container_name: fitmanager-backend
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - app-network
+    # Comando para arrancar Laravel en el puerto 8000
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  # 3. EL FRONTEND (WEB)
+  frontend:
+    build:
+      context: ./frontend   # <--- FÍJATE: Apunta a la carpeta frontend
+      dockerfile: Dockerfile
+    container_name: fitmanager-frontend
+    networks:
+      - app-network
+
+  # 4. BASE DE DATOS
   db:
     image: mysql:8.0
-    container_name: laravel-mysql-reto2
-    restart: unless-stopped
+    container_name: fitmanager-db
+    restart: always
     environment:
-      # Variables de entorno de MySQL. ¡Cambia las contraseñas!
-      MYSQL_ROOT_PASSWORD: root_password_segura
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_password_segura
-    # Mapea un volumen para persistir los datos de la base de datos
-    volumes:
-      - dbdata:/var/lib/mysql
-    networks:
-      - laravel_network-reto2
-
-  # ----------------------------------------------------
-  # 3. SERVICIO DE GESTIÓN DE BASES DE DATOS (phpMyAdmin)
-  # ----------------------------------------------------
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: laravel-phpmyadmin-reto2
-    restart: unless-stopped
-    # Mapea el puerto 8080 del host al 80 del phpMyAdmin
     ports:
-      - "8080:80"
-    environment:
-      # El host es el nombre del servicio Docker de la base de datos
-      PMA_HOST: db
-      # El puerto de MySQL dentro de la red Docker
-      PMA_PORT: 3306 
-    depends_on:
-      - db
+      - "3306:3306"
     networks:
-      - laravel_network-reto2
+      - app-network
 
-# ----------------------------------------------------
-# 4. NODE.JS PARA VITE
-# ----------------------------------------------------
-  node:
-      image: node:22
-      working_dir: /var/www/html
-      volumes:
-        - ./src:/var/www/html
-      ports:
-        - "5173:5173"
-      #Se instalan dependencias y pone en marcha el servicio  
-      command: sh -c "npm install && npm run dev -- --host"
-      # Conecta a la red interna
-      networks:
-        - laravel_network-reto2
-
-
-# ----------------------------------------------------
-# 5. REDES Y VOLÚMENES
-# ----------------------------------------------------
 networks:
-  # Red interna para que los contenedores se comuniquen entre sí por nombre
-  laravel_network-reto2:
+  app-network:
     driver: bridge
-
-volumes:
-  # Volumen para persistir los datos de MySQL
-  dbdata:
