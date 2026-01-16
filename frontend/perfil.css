@@ -1,0 +1,114 @@
+/* --- CONFIGURACIÓN DE FORMULARIO --- */
+
+.fm-container-slim {
+    max-width: 500px !important;
+    padding-top: 20px;
+    margin-bottom: 120px;
+}
+
+/* El "Card" que envuelve el formulario */
+.form-card {
+    background: #ffffff;
+    padding: 10px;
+}
+
+.fm-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #444;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Contenedor del Input con Icono */
+.fm-input-group { margin-bottom: 25px; }
+
+.fm-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.fm-input-wrapper i {
+    position: absolute;
+    left: 15px;
+    font-size: 20px;
+    color: var(--fm-blue);
+}
+
+/* Input Estilo Moderno */
+.fm-input-field {
+    width: 100% !important;
+    height: 54px !important;
+    background-color: #f8f9fa !important;
+    border: 1px solid #eee !important;
+    border-radius: 14px !important;
+    padding: 0 15px 0 45px !important;
+    font-size: 16px !important;
+    color: #333 !important;
+    box-sizing: border-box !important;
+    transition: all 0.2s ease;
+}
+
+.fm-input-field:focus {
+    background-color: #fff !important;
+    border-color: var(--fm-blue) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    outline: none;
+}
+
+/* Selector de Género Segmentado */
+.gender-selector {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 4px;
+    border: 1px solid #eee;
+}
+
+.gender-option {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #888;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.gender-option.active {
+    background: var(--fm-blue);
+    color: white;
+}
+
+/* Botón Guardar (Verde según la imagen) */
+.fm-btn-save {
+    background-color: var(--fm-green) !important;
+    width: 100%;
+    height: 54px !important;
+    line-height: 54px !important;
+    border-radius: 14px !important;
+    text-transform: none !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(113, 164, 61, 0.3) !important;
+}
+
+.fm-cancel-text {
+    margin-top: 15px;
+    color: #999;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* --- RESPONSIVE TABLET/PC --- */
+@media only screen and (min-width: 601px) {
+    .form-card {
+        padding: 40px;
+        border-radius: 24px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    }
+}
