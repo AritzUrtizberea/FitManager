@@ -16,7 +16,8 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
+        // Cambiamos 'profile.edit' por 'configuration.edit'
+        return view('configuration.edit', [
             'user' => $request->user(),
         ]);
     }
@@ -26,15 +27,26 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        
+        // Esto guarda Nombre y Email
+        $user->fill($request->validated());
+        $user->save();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+        // Esto guarda los datos de peso, altura, etc.
+        // Usamos $request->all() o los nombres directos para asegurar que entran
+        $user->profile()->updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'phone'    => $request->phone,
+                'sex'      => $request->sex,
+                'weight'   => $request->weight,
+                'height'   => $request->height,
+                'activity' => $request->activity,
+            ]
+        );
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return redirect()->route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**

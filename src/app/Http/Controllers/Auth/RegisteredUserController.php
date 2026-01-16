@@ -29,38 +29,37 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
 {
-    // 1. Validamos usando los nombres exactos de tu HTML
+    // 1. Validación (Nombres internos en inglés)
     $request->validate([
         'name'      => 'required|string|max:255',
-        'surname'   => 'required|string|max:255', // En tu HTML es 'surname'
+        'surname'   => 'required|string|max:255',
         'email'     => 'required|string|email|max:255|unique:users',
         'password'  => ['required', 'confirmed'],
         'phone'     => 'nullable|string',
-        'sexo'      => 'required', // En tu HTML es 'sexo'
-        'peso'      => 'required|numeric', // En tu HTML es 'peso'
-        'altura'    => 'required|numeric', // En tu HTML es 'altura'
-        'actividad' => 'required', // En tu HTML es 'actividad'
+        'sex'       => 'required',
+        'weight'    => 'required|numeric',
+        'height'    => 'required|numeric',
+        'activity'  => 'required',
     ]);
 
-    // 2. Creamos el Usuario (Base de datos en Inglés)
+    // 2. Crear Usuario
     $user = User::create([
         'name'     => $request->name,
-        'surname'  => $request->surname, 
+        'surname'  => $request->surname,
         'email'    => $request->email,
         'password' => Hash::make($request->password),
     ]);
 
-    // 3. Creamos el Perfil (Base de datos en Inglés)
+    // 3. Crear Perfil (Todo directo en inglés)
     $user->profile()->create([
         'phone'    => $request->phone,
-        'sex'      => $request->sexo,      // DB: sex <--- HTML: sexo
-        'weight'   => $request->peso,      // DB: weight <--- HTML: peso
-        'height'   => $request->altura,    // DB: height <--- HTML: altura
-        'activity' => $request->actividad, // DB: activity <--- HTML: actividad
+        'sex'      => $request->sex,
+        'weight'   => $request->weight,
+        'height'   => $request->height,
+        'activity' => $request->activity,
     ]);
 
     Auth::login($user);
-
     return redirect()->route('home');
 }
 }

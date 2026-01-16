@@ -23,13 +23,13 @@
         <div class="row stats-container">
             <div class="col s4">
                 <div class="stat-box box-blue">
-                    <span class="val">{{ Auth::user()->profile->peso ?? '0' }} kg</span>
+                    <span class="val">{{ Auth::user()->profile->weight ?? '0' }} kg</span>
                     <span class="lab">Peso actual</span>
                 </div>
             </div>
             <div class="col s4">
                 <div class="stat-box box-green">
-                    <span class="val">{{ Auth::user()->profile->altura ?? '0' }} cm</span>
+                    <span class="val">{{ Auth::user()->profile->height ?? '0' }} cm</span>
                     <span class="lab">Altura</span>
                 </div>
             </div>
@@ -41,22 +41,23 @@
             </div>
         </div>
 
-        <div class="settings-section">
-            <h6 class="section-title">Usuario</h6>
-            <div class="settings-list">
-                <div class="settings-item waves-effect">
-                    <span>Editar Perfil</span>
+    <div class="settings-section">
+        <h6 class="section-title">Usuario</h6>
+        <div class="settings-list">
+            <a href="{{ route('profile.edit') }}" class="settings-item waves-effect" style="display: flex; justify-content: space-between; align-items: center; color: inherit; text-decoration: none;">
+                <span>Editar Perfil</span>
+                <i class="ph ph-caret-right"></i>
+            </a>
+
+            <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                @csrf
+                <div class="settings-item waves-effect" onclick="document.getElementById('logout-form').submit();" style="cursor: pointer;">
+                    <span>Cerrar Sesión</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
-                <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                    @csrf
-                    <div class="settings-item waves-effect" onclick="document.getElementById('logout-form').submit();">
-                        <span>Cerrar Sesión</span>
-                        <i class="ph ph-caret-right"></i>
-                    </div>
-                </form>
-            </div>
+            </form>
         </div>
+    </div>
     </main>
 
     <footer class="fm-bottom-nav white">

@@ -21,7 +21,7 @@
         <div class="row fm-dashboard-grid">
             <div class="col s12 l7">
             <button class="btn waves-effect waves-light fm-btn-blue-slim">
-                PESO ACTUAL: {{ $user->profile->peso }} KG - ¡VAMOS A ELLO!
+                PESO ACTUAL: {{ $user->profile->weight }} KG - ¡VAMOS A ELLO!
             </button>
 
                 <div class="card fm-card z-depth-1">
