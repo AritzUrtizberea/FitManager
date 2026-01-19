@@ -9,18 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+public function up(): void
 {
     Schema::create('profiles', function (Blueprint $table) {
         $table->id();
-        // Creamos la relación 1:1 con la tabla users
+        // Relación con el usuario
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         
-        $table->integer('age');
-        $table->enum('gender', ['male', 'female', 'other']);
-        $table->decimal('height', 5, 2); // Hasta 999.99 (ej: 175.50)
-        $table->decimal('weight', 5, 2); // Hasta 999.99 (ej: 80.20)
-        $table->string('physical_activity'); 
+        // Campos adicionales
+        $table->string('phone');
+        $table->string('sex');
+        $table->float('weight');
+        $table->integer('height');
+        $table->string('activity');
+        
         $table->timestamps();
     });
 }
