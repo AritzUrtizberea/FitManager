@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +10,11 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="assets/css/home.css">
 </head>
+
 <body>
 
     <header class="white z-depth-1 fm-header">
-        <img src="assets/img/Logo_FitManager.png" alt="Logo FitManager" class="fm-logo">
+        <img src="assets/img/Logo_FitManager.png" alt="FitManager" class="fm-logo">
     </header>
 
     <main class="container fm-container">
@@ -27,9 +29,9 @@
                 <div class="card fm-card z-depth-1">
                     <div class="card-content center-align">
                         <span class="card-title fm-card-title">Objetivo Semanal de Entrenamiento</span>
-                        
+
                         <div class="fm-progress-wrapper">
-                            
+
                             <svg viewBox="0 0 100 100" class="fm-progress-svg">
                                 <circle cx="50" cy="50" r="45" class="bg"></circle>
                                 <circle cx="50" cy="50" r="45" class="bar" id="progress-bar"></circle>
@@ -64,17 +66,33 @@
     </main>
 
     <footer class="fm-bottom-nav white z-depth-2">
-        <div class="nav-item active"><i class="ph-fill ph-house"></i><span>Casa</span></div>
-        <div class="nav-item"><i class="ph-bold ph-unite"></i><span>Nutrición</span></div>
-        <div class="nav-item"><i class="ph-bold ph-barbell"></i><span>Entrenamiento</span></div>
-        <div class="nav-item"><i class="ph-bold ph-user"></i><span>Perfil</span></div>
+        <a href="/home" class="nav-item active">
+            <i class="ph-fill ph-house"></i>
+            <span>Inicio</span>
+        </a>
+
+        <div class="nav-item">
+            <i class="ph-bold ph-unite"></i>
+            <span>Nutrición</span>
+        </div>
+
+        <div class="nav-item">
+            <i class="ph ph-barbell"></i>
+            <span>Entrenamiento</span>
+        </div>
+
+        <a href="/perfil" class="nav-item">
+            <i class="ph-bold ph-user"></i>
+            <span>Perfil</span>
+        </a>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('progress-bar').style.strokeDashoffset = "70";
         });
     </script>
 </body>
+
 </html>

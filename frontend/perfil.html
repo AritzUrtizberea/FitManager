@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="assets/css/configuration.css">
 </head>
+
 <body>
 
     <header class="fm-header-p">
@@ -60,24 +62,32 @@
         </div>
     </main>
 
-    <footer class="fm-bottom-nav white">
-        <div class="nav-item">
-            <i class="ph ph-house"></i>
-            <span>Casa</span>
-        </div>
-        <div class="nav-item">
-            <i class="ph ph-unite"></i>
-            <span>Nutricion</span>
-        </div>
-        <div class="nav-item">
-            <i class="ph ph-barbell"></i>
-            <span>Entrnamiento</span>
-        </div>
-        <div class="nav-item active">
-            <i class="ph-fill ph-user"></i>
-            <span>Perfil</span>
-        </div>
-    </footer>
+<footer class="fm-bottom-nav white z-depth-2"
+    style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0;">
+    
+    <a href="/home" class="nav-item"
+        style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+        <i class="ph-bold ph-house" style="font-size: 24px;"></i>
+        <span style="font-size: 12px;">Inicio</span>
+    </a>
+
+    <div class="nav-item" style="display: flex; flex-direction: column; align-items: center; color: #5f6368;">
+        <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
+        <span style="font-size: 12px;">Nutrición</span>
+    </div>
+
+    <div class="nav-item" style="display: flex; flex-direction: column; align-items: center; color: #5f6368;">
+        <i class="ph-bold ph-barbell" style="font-size: 24px;"></i>
+        <span style="font-size: 12px;">Entrenamiento</span>
+    </div>
+
+    <a href="/perfil" class="nav-item active"
+        style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
+        <i class="ph-fill ph-user" style="font-size: 24px;"></i>
+        <span style="font-size: 12px;">Perfil</span>
+    </a>
+</footer>
 
 </body>
+
 </html>

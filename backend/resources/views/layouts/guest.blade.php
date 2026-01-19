@@ -16,7 +16,7 @@
             
     <div class="mb-4">
         <a href="/">
-            <img src="{{ asset('fotos/Logo_FitManager.png') }}" width="150" height="150" style="object-fit: contain;" alt="Logo">
+            <img src="/assets/img/Logo_FitManager.png" width="150" height="150" style="object-fit: contain;" alt="LOGO">
         </a>
     </div>
 
