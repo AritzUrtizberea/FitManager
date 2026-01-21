@@ -1,4 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+
+    const menuToggle = document.getElementById('menu-toggle');
+    
+if (menuToggle) { // Añade esta condición
+    menuToggle.addEventListener('click', function() {
+    document.addEventListener('DOMContentLoaded', () => {
         const menuToggle = document.getElementById('menuToggle');
         const navOverlay = document.getElementById('navOverlay');
 
@@ -8,3 +14,5 @@ document.addEventListener('DOMContentLoaded', () => {
             menuToggle.classList.toggle('open');
         });
     });
+    });
+}

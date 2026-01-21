@@ -60,6 +60,6 @@ class RegisteredUserController extends Controller
     ]);
 
     Auth::login($user);
-    return redirect('/home.html');
+    return redirect('/home');
 }
 }
