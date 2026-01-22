@@ -33,8 +33,11 @@ services:
       context: ./frontend   # <--- FÍJATE: Apunta a la carpeta frontend
       dockerfile: Dockerfile
     container_name: fitmanager-frontend
+    volumes:
+        - ./frontend:/usr/share/nginx/html 
+    # ------------------
     networks:
-      - app-network
+        - app-network
 
   # 4. BASE DE DATOS
   db:

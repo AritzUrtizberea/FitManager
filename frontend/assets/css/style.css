@@ -260,6 +260,7 @@ body {
         border-radius: var(--radius-standard);
         font-weight: 700;
         cursor: pointer;
+        text-decoration: none;
     }
 
     .btn-nav-desktop {
@@ -270,6 +271,7 @@ body {
         border-radius: var(--radius-standard);
         font-weight: 700;
         cursor: pointer;
+        text-decoration: none;
     }
 
     .hero h1 {

@@ -14,10 +14,11 @@
     </head>
     <body class="font-sans text-[#111318] antialiased"> <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#f8f9fc]"> 
             
-            <div class="mb-4"> <a href="/">
-                    <x-application-logo class="w-20 h-20" />
-                </a>
-            </div>
+    <div class="mb-4">
+        <a href="/">
+            <img src="/assets/img/Logo_FitManager.png" width="150" height="150" style="object-fit: contain;" alt="LOGO">
+        </a>
+    </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-8 bg-white shadow-[0_2px_4px_rgba(0,0,0,0.05)] overflow-hidden sm:rounded-[12px] border border-[#d7dce0]">
                 {{ $slot }}

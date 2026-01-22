@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitManager - Landing Page</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -13,13 +13,13 @@
 
     <header class="header">
         <div class="logo">
-        <img src="{{ asset('Fotos/Logo_FitManager.png') }}" alt="FitManager Logo" class="logo-img">
+            <img src="assets/img/Logo_FitManager.png" alt="Logo FitManager" class="logo-img">
         </div>
 
-    <nav class="desktop-nav">
-        <a href="{{ route('login') }}" class="btn-nav-outline" style="text-decoration: none;">Iniciar Sesión</a>
-        <a href="{{ route('register') }}" class="btn-nav-desktop" style="text-decoration: none;">Registrarse</a>
-    </nav>
+        <nav class="desktop-nav">
+            <a href="/login" class="btn-nav-outline">Iniciar Sesión</a>
+            <a href="/register" class="btn-nav-desktop">Registrarse</a>
+        </nav>
 
         <div class="menu-icon" id="menuToggle">
             <span></span>

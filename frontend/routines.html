@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitManager - Rutinas</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/routines.css">
+</head>
+
+<body>
+
+    <div class="container" style="margin-top: 20px; width: 90%;">
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card-panel shadow-none" style="background: #f9f9f9;">
+                    <h5 class="blue-text"><i class="ph ph-magnifying-glass"></i> Buscador Global</h5>
+                    <div class="input-field">
+                        <input type="text" id="buscador-total"
+                            placeholder="Escribe para buscar (ej: Press, Sentadilla...)">
+                    </div>
+                    <div id="resultados-busqueda" class="collection"></div>
+
+                    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ddd;">
+
+                    <h5 class="green-text"><i class="ph ph-sparkle"></i> Sugerencias para ti</h5>
+                    <div id="lista-ejercicios">
+                        <p class="center-align grey-text">Cargando rutinas inteligentes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 m6">
+                <div class="card-panel" style="position: sticky; top: 20px; border: 2px solid #26a69a;">
+                    <h5><i class="ph ph-barbell"></i> Mi Rutina Personalizada</h5>
+                    <div class="input-field">
+                        <input id="routine_name" type="text" class="validate">
+                        <label for="routine_name">Nombre de la Rutina (ej: Lunes Pecho)</label>
+                    </div>
+
+                    <div id="rutina-personalizada" class="collection"
+                        style="min-height: 400px; background: #fafafa; border: 2px dashed #ccc;">
+                        <p class="center-align placeholder-text" style="padding-top: 150px;">
+                            Arrastra aquí los ejercicios de la izquierda
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-large waves-effect waves-light w-100" id="save-routine"
+                            style="width: 100%;">
+                            Guardar Rutina <i class="ph ph-floppy-disk"></i>
+                        </button>
+                    </div>
+
+                    <div id="mis-rutinas-guardadas" style="margin-top: 40px;">
+                        <h5><i class="ph ph-folder-star"></i> Mis Rutinas Guardadas</h5>
+                        <div id="lista-rutinas-db" class="collection">
+                            <p class="center-align grey-text">Aún no has guardado ninguna rutina.</p>
+                        </div>
+                    </div>
+
+                    <div class="container fm-back-container">
+                        <a href="/training" class="waves-effect waves-blue fm-btn-back">
+                            <i class="ph-bold ph-arrow-left"></i>
+                            <span>Volver al Entrenamiento</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="js/apiEjercicios.js"></script>
+
+</body>
+
+</html>

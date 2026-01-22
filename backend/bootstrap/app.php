@@ -12,8 +12,19 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        
+        // 1. ESTO ES LO QUE QUITA EL ERROR 419 (Sin Tokens)
+        $middleware->validateCsrfTokens(except: [
+            'api/routines', 
+            'api/routines/*', // Por si acaso usas parámetros
+        ]);
+
+        // Tu configuración actual de redirección
+        $middleware->redirectTo(
+            guests: '/login',
+            users: '/home.html'
+        );
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
+    ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

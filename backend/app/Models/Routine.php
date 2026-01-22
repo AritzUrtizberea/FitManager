@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Añadido
 use Illuminate\Database\Eloquent\Model;
 
 class Routine extends Model
@@ -10,18 +11,15 @@ class Routine extends Model
 
     protected $fillable = ['user_id', 'name', 'description'];
 
-    // Relación con el Usuario
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relación con Ejercicios (N:M)
     public function exercises()
     {
-        // ¡Importante! withPivot para poder leer las series y reps después
         return $this->belongsToMany(Exercise::class)
-                    ->withPivot('sets', 'reps') 
+                    ->withPivot('sets', 'reps', 'rest_time') // Añadido rest_time que está en tu migración
                     ->withTimestamps();
     }
 }

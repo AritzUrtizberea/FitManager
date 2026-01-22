@@ -28,23 +28,38 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+{
+    // 1. Validación (Nombres internos en inglés)
+    $request->validate([
+        'name'      => 'required|string|max:255',
+        'surname'   => 'required|string|max:255',
+        'email'     => 'required|string|email|max:255|unique:users',
+        'password'  => ['required', 'confirmed'],
+        'phone'     => 'nullable|string',
+        'sex'       => 'required',
+        'weight'    => 'required|numeric',
+        'height'    => 'required|numeric',
+        'activity'  => 'required',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    // 2. Crear Usuario
+    $user = User::create([
+        'name'     => $request->name,
+        'surname'  => $request->surname,
+        'email'    => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
 
-        event(new Registered($user));
+    // 3. Crear Perfil (Todo directo en inglés)
+    $user->profile()->create([
+        'phone'    => $request->phone,
+        'sex'      => $request->sex,
+        'weight'   => $request->weight,
+        'height'   => $request->height,
+        'activity' => $request->activity,
+    ]);
 
-        Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
-    }
+    Auth::login($user);
+    return redirect('/home');
+}
 }

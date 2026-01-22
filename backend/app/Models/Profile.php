@@ -6,10 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    protected $fillable = ['user_id', 'age', 'gender', 'height', 'weight', 'physical_activity'];
+    protected $fillable = [
+    'user_id',
+    'phone',
+    'sex',
+    'weight',
+    'height',
+    'activity',
+];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+// Relación inversa (opcional pero recomendada)
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }

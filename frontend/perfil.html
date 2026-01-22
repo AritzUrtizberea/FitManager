@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitManager - Perfil</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="perfil.css">
+    <link rel="stylesheet" href="assets/css/configuration.css">
 </head>
+
 <body>
 
     <header class="fm-header-p">
         <div class="header-flex">
-            <img src="Fotos/Logo_FitManager.png" alt="FitManager" class="fm-logo-p">
+            <img src="assets/img/Logo_FitManager.png" alt="Logo FitManager" class="fm-logo-p">
             <i class="ph ph-gear-six gear-icon"></i>
         </div>
     </header>
@@ -60,24 +62,34 @@
         </div>
     </main>
 
-    <footer class="fm-bottom-nav white">
-        <div class="nav-item">
-            <i class="ph ph-house"></i>
-            <span>Casa</span>
-        </div>
-        <div class="nav-item">
-            <i class="ph ph-unite"></i>
-            <span>Nutricion</span>
-        </div>
-        <div class="nav-item">
-            <i class="ph ph-barbell"></i>
-            <span>Entrnamiento</span>
-        </div>
-        <div class="nav-item active">
-            <i class="ph-fill ph-user"></i>
-            <span>Perfil</span>
-        </div>
+    <footer class="fm-bottom-nav white z-depth-2"
+        style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0; background-color: white; border-top: 1px solid #f0f0f0;">
+
+        <a href="/home" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-house" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Inicio</span>
+        </a>
+
+        <a href="/nutricion" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Nutrición</span>
+        </a>
+
+        <a href="/entrenamiento" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-barbell" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Entrenamiento</span>
+        </a>
+
+        <a href="/perfil" class="nav-item active"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
+            <i class="ph-fill ph-user" style="font-size: 24px;"></i>
+            <span style="font-size: 12px; font-weight: bold;">Perfil</span>
+        </a>
     </footer>
 
 </body>
+
 </html>
