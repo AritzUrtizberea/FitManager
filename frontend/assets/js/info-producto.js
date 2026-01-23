@@ -53,7 +53,7 @@ function cargarDatosProducto() {
 
     } else {
         alert("No hay producto seleccionado");
-        window.location.href = 'nutricion.html';
+        window.location.href = 'nutrition';
     }
 }
 
@@ -83,6 +83,15 @@ function updateBadges(data) {
     }
 }
 
+// 1. FUNCIÓN AUXILIAR (Pégala arriba del todo o antes de guardarProducto)
+// Sirve para recuperar el token de seguridad que Laravel guarda en las cookies
+function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+// 2. TU FUNCIÓN CORREGIDA
 async function guardarProducto() {
     const btn = document.querySelector('.btn-add');
     const originalText = btn.innerHTML;
@@ -105,11 +114,13 @@ async function guardarProducto() {
     };
 
     try {
-        const response = await fetch('http://localhost:8000/api/products', {
+        const response = await fetch('/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                // --- CAMBIO IMPORTANTE AQUÍ (Soluciona el error 419) ---
+                'X-XSRF-TOKEN': decodeURIComponent(getCookie('XSRF-TOKEN'))
             },
             body: JSON.stringify(payload)
         });
@@ -117,8 +128,12 @@ async function guardarProducto() {
         if (response.ok) {
             btn.style.background = '#4cd137';
             btn.innerHTML = '<i class="ph ph-check"></i> ¡Guardado!';
-            setTimeout(() => { window.location.href = 'nutricion.html'; }, 1500);
+            
+            // He añadido la barra / para asegurar que vuelve a la raíz correcta
+            setTimeout(() => { window.location.href = '/nutrition'; }, 1500); 
         } else {
+            // Si el servidor devuelve error (ej. 422 o 500)
+            console.log("Status:", response.status);
             throw new Error('Error en servidor');
         }
     } catch (error) {

@@ -148,5 +148,5 @@ function guardarYSalir() {
         completado: true 
     }));
     
-    window.location.href = 'nutricion.html';
+    window.location.href = 'nutrition';
 }
