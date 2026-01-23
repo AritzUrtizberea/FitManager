@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             listaResultadosBusqueda.innerHTML += `
                         <div class="collection-item" data-id="${ex.wger_id || ex.id}" data-name="${ex.name}" data-duration="${dur}">
                             <span class="handle"><i class="ph ph-dots-six-vertical"></i> <b>${ex.name}</b></span>
-                            <i class="ph ph-plus right blue-text"></i>
+                            <i class="ph ph-plus right blue-text" tabindex = 0></i>
                         </div>`;
                         });
                         new Sortable(listaResultadosBusqueda, { group: { name: 'fit', pull: 'clone', put: false }, animation: 150, handle: '.handle' });
@@ -295,49 +295,57 @@ document.addEventListener('DOMContentLoaded', function () {
     // --- 7. GUARDAR EN BD ---
 
     // --- 7. GUARDAR EN BD ---
-if (btnGuardar) {
-    btnGuardar.onclick = function () {
-        const nombreInput = document.getElementById('routine_name').value;
-        const items = listaMia.querySelectorAll('.collection-item');
-        const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    if (btnGuardar) {
+        btnGuardar.onclick = function () {
+            const nombreInput = document.getElementById('routine_name').value;
+            const items = listaMia.querySelectorAll('.collection-item');
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-        if (!nombreInput || items.length === 0) return M.toast({ html: 'Ponle un nombre y añade ejercicios' });
+            if (!nombreInput || items.length === 0) return M.toast({ html: 'Ponle un nombre y añade ejercicios' });
 
-        // Mapeo corregido para incluir rest_time y asegurar duration
-        const ejerciciosArr = Array.from(items).map(item => ({
-            exercise_id: item.dataset.id,
-            duration: parseInt(item.dataset.duration) || 7
-        }));
+            // Mapeo corregido para incluir rest_time y asegurar duration
+            const ejerciciosArr = Array.from(items).map(item => ({
+                exercise_id: item.dataset.id,
+                duration: parseInt(item.dataset.duration) || 7
+            }));
 
-        fetch('/api/routines', {
-            method: 'POST',
-            credentials: 'include', 
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': token
-            },
-            body: JSON.stringify({ name: nombreInput, exercises: ejerciciosArr })
-        })
-        .then(async res => {
-            if (res.ok) return res.json();
-            const errorData = await res.json();
-            throw new Error(errorData.message || 'Error al guardar');
-        })
-        .then(() => {
-            M.toast({ html: '¡Rutina guardada correctamente!' });
-            document.getElementById('routine_name').value = '';
-            listaMia.innerHTML = '<p class="center-align placeholder-text" style="padding-top: 50px;">Arrastra ejercicios aquí</p>';
-            recalcularTiempoTotal();
-            cargarRutinasGuardadas();
-        })
-        .catch(err => {
-            console.error("Error detallado:", err);
-            M.toast({ html: 'Error: ' + err.message });
-        });
-    };
-}
+            fetch('/api/routines', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token
+                },
+                credentials: 'include',
+                body: JSON.stringify({ name: nombreInput, exercises: ejerciciosArr })
+            })
+                .then(async res => {
+                    if (res.ok) return res.json();
+                    const errorData = await res.json();
+                    throw new Error(errorData.message || 'Error al guardar');
+                })
+                .then(() => {
+                    M.toast({ html: '¡Rutina guardada correctamente!' });
+                    document.getElementById('routine_name').value = '';
+                    listaMia.innerHTML = '<p class="center-align placeholder-text" style="padding-top: 50px;">Arrastra ejercicios aquí</p>';
+                    recalcularTiempoTotal();
+                    cargarRutinasGuardadas();
+                })
+                .catch(err => {
+                    console.error("Error detallado:", err);
+                    M.toast({ html: 'Error: ' + err.message });
+                });
+        };
+
+        // Función auxiliar para leer la cookie XSRF-TOKEN
+        function getCookie(name) {
+            let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) return decodeURIComponent(match[2]);
+            return null;
+        }
+    }
 
     // Ejecución inicial
     cargarMenuEjercicios();

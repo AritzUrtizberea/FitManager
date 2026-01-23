@@ -16,9 +16,10 @@ Route::get('/home', function () {
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
 Route::middleware('auth')->group(function () {
+    // Para ver la página
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Cámbiala a /profile-update para que sea única
-    Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
+    // Para guardar los datos (Cámbiala a /profile para que coincida con Nginx)
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 require __DIR__.'/auth.php';
