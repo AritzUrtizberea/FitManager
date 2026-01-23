@@ -66,9 +66,8 @@
                 <div class="grid grid-cols-2" style="display: grid !important; grid-template-columns: 1fr 1fr !important; column-gap: 20px !important;">
                     <div>
                         <x-input-label for="sex" :value="__('Sexo')" />
-                        <select name="sex" class="block mt-2 w-full border-gray-300 focus:border-[#185a94] rounded-[12px] h-[42px]">
-                            <option value="male">Hombre</option>
-                            <option value="female">Mujer</option>
+                        <select name="sex" class="block mt-2 w-full ...">
+                            <option value="Hombre">Hombre</option>  <option value="Mujer">Mujer</option>    
                         </select>
                     </div>
                     <div>
@@ -108,7 +107,7 @@
                 <div class="space-y-6" style="margin-top: 30px !important;">
                     <label class="flex items-center justify-between p-4 border rounded-[12px] cursor-pointer hover:border-[#185a94] transition-all shadow-sm">
                         <div class="flex items-center">
-                            <input type="radio" name="activity" value="sedentary" class="text-[#185a94] focus:ring-[#185a94]" required>
+                            <input type="radio" name="activity" value="baja" class="text-[#185a94] focus:ring-[#185a94]" required>
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Poco o ningún ejercicio</span>
                                 <span class="text-xs text-[#616f89] italic">Principalmente sentado (ej. oficina)</span>
@@ -119,7 +118,7 @@
 
                     <label class="flex items-center justify-between p-4 border rounded-[12px] cursor-pointer hover:border-[#185a94] transition-all shadow-sm">
                         <div class="flex items-center">
-                            <input type="radio" name="activity" value="light" class="text-[#185a94] focus:ring-[#185a94]">
+                            <input type="radio" name="activity" value="baja" class="text-[#185a94] focus:ring-[#185a94]">
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Ejercicio ligero</span>
                                 <span class="text-xs text-[#616f89] italic">1-3 días a la semana</span>
@@ -130,7 +129,7 @@
 
                     <label class="flex items-center justify-between p-4 border rounded-[12px] cursor-pointer hover:border-[#185a94] transition-all shadow-sm">
                         <div class="flex items-center">
-                            <input type="radio" name="activity" value="moderate" class="text-[#185a94] focus:ring-[#185a94]">
+                            <input type="radio" name="activity" value="moderada" class="text-[#185a94] focus:ring-[#185a94]">
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Moderado</span>
                                 <span class="text-xs text-[#616f89] italic">3-5 días a la semana</span>
@@ -141,7 +140,7 @@
 
                     <label class="flex items-center justify-between p-4 border rounded-[12px] cursor-pointer hover:border-[#185a94] transition-all shadow-sm">
                         <div class="flex items-center">
-                            <input type="radio" name="activity" value="heavy" class="text-[#185a94] focus:ring-[#185a94]">
+                            <input type="radio" name="activity" value="alta" class="text-[#185a94] focus:ring-[#185a94]">
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Fuerte</span>
                                 <span class="text-xs text-[#616f89] italic">6-7 días a la semana</span>

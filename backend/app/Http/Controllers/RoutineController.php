@@ -85,29 +85,32 @@ public function index() {
         ]);
     }
 
-    public function getRecommendations() {
-    $user = auth()->user();
-    $profile = $user->profile;
-
-    // 1. Pillamos TODOS los ejercicios para el buscador de "Mi Rutina"
+public function getRecommendations() {
+    // 1. Intentamos obtener el usuario de forma segura
+    $user = auth('sanctum')->user() ?? auth()->user();
+    
+    // 2. Pillamos TODOS los ejercicios para el buscador (Vital para que no salga vacío)
     $todosLosEjercicios = \App\Models\Exercise::all();
 
-    if (!$profile) {
+    // 3. Si no hay usuario o no hay perfil, devolvemos genéricos SIN EXPLOTAR
+    if (!$user || !$user->profile) {
         return response()->json([
-            'info' => 'Completa tu perfil para mejores recomendaciones.',
+            'info' => 'Inicia sesión y completa tu perfil para recomendaciones personalizadas.',
             'rutinas' => [
-                ['nombre' => 'Sugerencia A', 'ejercicios' => \App\Models\Exercise::inRandomOrder()->take(6)->get()],
-                ['nombre' => 'Sugerencia B', 'ejercicios' => \App\Models\Exercise::inRandomOrder()->take(6)->get()],
+                ['nombre' => 'Rutina 1: Explosiva', 'ejercicios' => \App\Models\Exercise::inRandomOrder()->take(6)->get()],
+                ['nombre' => 'Rutina 2: Resistencia', 'ejercicios' => \App\Models\Exercise::inRandomOrder()->take(6)->get()],
+                ['nombre' => 'Rutina 3: Fuerza', 'ejercicios' => \App\Models\Exercise::inRandomOrder()->take(6)->get()],
             ],
             'todos' => $todosLosEjercicios
         ]);
     }
 
-    // --- CÁLCULO DE CALORÍAS (Tu lógica actual) ---
-    $peso = $profile->weight;
-    $altura = $profile->height;
-    $sexo = $profile->sex;
-    $actividad = $profile->activity;
+    // --- LÓGICA DE CALORÍAS (Solo si hay perfil) ---
+    $profile = $user->profile;
+    $peso = $profile->weight ?? 70;
+    $altura = $profile->height ?? 170;
+    $sexo = $profile->sex ?? 'Masculino';
+    $actividad = $profile->activity ?? 'Poco o ningún ejercicio';
     $edad = 25; 
 
     if ($sexo === 'Masculino') {
@@ -126,8 +129,7 @@ public function index() {
 
     $mantenimiento = $tmb * ($factores[$actividad] ?? 1.2);
 
-    // --- GENERACIÓN DE 3 RUTINAS SEPARADAS ---
-    // Filtramos según el objetivo pero creamos 3 sets distintos
+    // --- GENERACIÓN DE RUTINAS ---
     $queryBase = \App\Models\Exercise::query();
     if ($mantenimiento > 2500) {
         $msg = "Gasto alto (" . round($mantenimiento) . " kcal).";
@@ -137,13 +139,13 @@ public function index() {
         $queryBase->where('description', 'like', '%bodyweight%')->orWhere('name', 'like', '%Salto%');
     }
 
-    // Si el filtro es muy seco, pillamos al azar
     $ejerciciosBase = $queryBase->inRandomOrder()->get();
+    
+    // Si la búsqueda da pocos resultados, rellenamos con aleatorios
     if ($ejerciciosBase->count() < 18) {
         $ejerciciosBase = \App\Models\Exercise::inRandomOrder()->take(30)->get();
     }
 
-    // Dividimos en 3 grupos de 6 ejercicios cada uno
     return response()->json([
         'info' => $msg,
         'rutinas' => [
@@ -151,34 +153,54 @@ public function index() {
             ['nombre' => 'Rutina 2: Resistencia', 'ejercicios' => $ejerciciosBase->slice(6, 6)->values()],
             ['nombre' => 'Rutina 3: Fuerza', 'ejercicios' => $ejerciciosBase->slice(12, 6)->values()],
         ],
-        'todos' => $todosLosEjercicios // Esto es para que en "Mi Rutina" puedas buscar CUALQUIERA
+        'todos' => $todosLosEjercicios
     ]);
 }
 
     // 3. GUARDAR RUTINA (Relacionando con tus datos)
     // En RoutineController.php
-    public function store(Request $request) {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'exercises' => 'required|array',
-        ]);
+public function store(Request $request) {
+    // 1. Verificación manual de seguridad
+    if (!auth()->check()) {
+        return response()->json(['message' => 'Tu sesión ha expirado. Por favor, inicia sesión de nuevo.'], 401);
+    }
 
-        $routine = Routine::create([
-            'name' => $request->name,
-            'user_id' => Auth::id() // Asegúrate de que el usuario esté logueado
-        ]);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'exercises' => 'required|array',
+    ]);
 
-        foreach ($request->exercises as $item) {
-            $exercise = Exercise::where('wger_id', $item['exercise_id'])->first();
-            if ($exercise) {
-                $routine->exercises()->attach($exercise->id, [
-                    'sets' => 3,
-                    'reps' => 10,
-                    'rest_time' => 60 // DEBES enviar esto para evitar error de DB
-                ]);
-            }
+    // 2. Crear la rutina vinculada al usuario logueado
+    $routine = Routine::create([
+        'name' => $request->name,
+        'user_id' => auth()->id() 
+    ]);
+
+    // 3. Vincular ejercicios
+    foreach ($request->exercises as $item) {
+        $exercise = Exercise::where('wger_id', $item['exercise_id'])->first();
+        if ($exercise) {
+            // Usamos un attach simple para asegurar que no falle por falta de columnas
+            $routine->exercises()->attach($exercise->id);
+        }
+    }
+
+    return response()->json(['message' => '¡Rutina guardada con éxito!'], 201);
+}
+
+    public function destroy($id)
+    {
+        // Buscamos la rutina asegurando que sea del usuario
+        $routine = Routine::where('user_id', Auth::id())->find($id);
+
+        if (!$routine) {
+            return response()->json(['message' => 'Rutina no encontrada'], 404);
         }
 
-        return response()->json(['message' => 'Rutina guardada con éxito'], 201);
+        // Eliminamos la relación en la tabla pivote manualmente por si no tienes el "cascade"
+        $routine->exercises()->detach();
+        $routine->delete();
+
+        return response()->json(['message' => 'Rutina eliminada correctamente'], 200);
     }
 }

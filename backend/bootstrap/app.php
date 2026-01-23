@@ -13,16 +13,18 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         
-        // 1. ESTO ES LO QUE QUITA EL ERROR 419 (Sin Tokens)
+        // 1. Permite que la API use cookies de sesión (ESTO ARREGLA EL 401)
+        $middleware->statefulApi(); 
+
+        // 2. Mantén esto para evitar el error 419 de momento
         $middleware->validateCsrfTokens(except: [
             'api/routines', 
-            'api/routines/*', // Por si acaso usas parámetros
+            'api/routines/*',
         ]);
 
-        // Tu configuración actual de redirección
         $middleware->redirectTo(
             guests: '/login',
-            users: '/home.html'
+            users: '/home'
         );
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -18,7 +18,7 @@ return new class extends Migration {
             // Datos específicos del ejercicio en ESA rutina
             $table->integer('sets')->default(3);
             $table->integer('reps')->nullable();
-            $table->integer('rest_time')->comment('En segundos');
+            $table->integer('rest_time')->nullable();
 
             $table->timestamps();
         });

@@ -3,44 +3,48 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    // GET: /api/profile
     public function show(Request $request)
-    {
-        // Obtenemos el usuario que está haciendo la petición
-        $user = $request->user(); 
-        
-        // Cargamos la relación 'profile' (edad, peso, etc.)
-        $user->load('profile');
+{
+    $user = $request->user()->load('profile');
+    return response()->json(['status' => 'success', 'user' => $user]);
+}
 
-        // Devolvemos JSON para que JS lo pinte
-        return response()->json([
+    // Muestra el formulario de edición (GET /profile/edit)
+    public function edit(Request $request): View
+    {
+        return view('profile.edit', [
             'status' => 'success',
-            'user' => $user, // Esto incluye nombre, email y el objeto profile dentro
+            'user' => $request->user(),
         ]);
     }
 
-    // PUT: /api/profile
+    // Procesa el formulario (PUT /profile/edit)
+    // ProfileController.php
     public function update(Request $request)
     {
+
         $user = $request->user();
-        
-        // Validamos solo los campos biométricos
+
+        // 1. Validación estricta
         $validated = $request->validate([
-            'weight' => 'numeric|min:20|max:300',
-            'height' => 'numeric|min:50|max:300',
-            'physical_activity' => 'string',
-            // ... otros campos
+            'phone'    => 'required|string',
+            'weight'   => 'required|numeric',
+            'height'   => 'required|integer',
+            'activity' => 'required|string',
+            'sex'      => 'required|string',
         ]);
 
-        // Actualizamos la tabla profiles
-        $user->profile()->update($validated);
+        // 2. Guardar o Crear (Store/Update combinados)
+        \App\Models\Profile::updateOrCreate(
+            ['user_id' => $user->id], // Lo busca por esto
+            $validated               // Guarda esto
+        );
 
-        return response()->json([
-            'message' => 'Perfil actualizado correctamente',
-            'profile' => $user->profile
-        ]);
+        return redirect()->back()->with('success', '¡Perfil guardado correctamente!');
     }
 }

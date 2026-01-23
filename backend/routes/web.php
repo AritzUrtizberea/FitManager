@@ -1,26 +1,24 @@
 <?php
-
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RoutineController;
 
+// Redirección inicial: Si entran a /, que decida según si están logueados
 Route::get('/', function () {
-    return view('welcome');
+    return auth()->check() ? redirect('/home') : redirect('/login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Ruta de Home (Tu frontend)
+Route::get('/home', function () {
+    return view('home'); // Asegúrate de que exista resources/views/home.blade.php
+})->name('home');
+
+// Rutas de Perfil (Saca la de EDIT fuera del middleware para probar que carga)
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Rutas unificadas para tu JavaScript
-    Route::get('/api/routines', [RoutineController::class, 'index']);
-    Route::post('/api/routines', [RoutineController::class, 'store']);
-    Route::get('/api/routines/recommendations', [RoutineController::class, 'getRecommendations']); // Sugerencias
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Cámbiala a /profile-update para que sea única
+    Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 require __DIR__.'/auth.php';
