@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrición</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <link rel="stylesheet" href="assets/css/nutricion.css">
+    <link rel="stylesheet" href="assets/css/chatbot.css">
+</head>
+
+<body class="bg-app">
+
+    <header class="app-header">
+        <h1 class="h1-title">Nutrición</h1>
+    </header>
+
+    <main class="main-container">
+
+        <section class="card hero-card">
+            <h2 class="h2-subtitle">Escáner Rápido</h2>
+
+            <div id="reader" class="scanner-viewport" style="display:none;"></div>
+
+            <div class="scanner-controls">
+                <button id="btn-scan" class="btn-primary-gradient large-btn">
+                    <i class="ph ph-camera"></i>
+                    <span>Escanear Alimento</span>
+                </button>
+
+                <div class="divider">
+                    <span>o escribe el código</span>
+                </div>
+
+                <div class="input-modern-group">
+                    <div class="input-wrapper">
+                        <i class="ph ph-barcode input-icon"></i>
+                        <input type="text" id="barcode-input" placeholder="Ej: 84100..." inputmode="numeric">
+                    </div>
+                    <button id="btn-ver" class="btn-ghost">Ver</button>
+                </div>
+            </div>
+        </section>
+
+        <button id="btn-crear-dieta" class="btn-secondary-action full-width shadow-soft">
+            <div class="icon-box">
+                <i class="ph ph-pencil-simple"></i>
+            </div>
+            <div class="btn-text">
+                <span class="btn-title">Diseñar / Modificar Dieta</span>
+                <span class="btn-subtitle">Planifica tu semana manualmente</span>
+            </div>
+            <i class="ph ph-caret-right arrow-icon"></i>
+        </button>
+
+        <section class="tu-semana">
+            <h2 class="h2-subtitle section-header">Tu Semana</h2>
+
+            <div class="card status-card border-lunes">
+                <div class="card-header">
+                    <strong>Lunes</strong>
+                    <span id="status-lunes" class="badge badge-pending">Incompleto</span>
+                </div>
+                <div id="lista-comida-lunes" class="card-body">Aún no has añadido nada.</div>
+            </div>
+
+            <div class="card status-card border-martes">
+                <div class="card-header">
+                    <strong>Martes</strong>
+                    <span id="status-martes" class="badge badge-pending">Incompleto</span>
+                </div>
+                <div id="lista-comida-martes" class="card-body">Aún no has añadido nada.</div>
+            </div>
+
+            <div class="card status-card border-miercoles">
+                <div class="card-header">
+                    <strong>Miércoles</strong>
+                    <span id="status-miercoles" class="badge badge-pending">Incompleto</span>
+                </div>
+                <div id="lista-comida-miercoles" class="card-body">Aún no has añadido nada.</div>
+            </div>
+
+            <div class="card status-card border-jueves">
+                <div class="card-header">
+                    <strong>Jueves</strong>
+                    <span id="status-jueves" class="badge badge-pending">Incompleto</span>
+                </div>
+                <div id="lista-comida-jueves" class="card-body">Aún no has añadido nada.</div>
+            </div>
+
+            <div class="card status-card border-viernes">
+                <div class="card-header">
+                    <strong>Viernes</strong>
+                    <span id="status-viernes" class="badge badge-pending">Incompleto</span>
+                </div>
+                <div id="lista-comida-viernes" class="card-body">Aún no has añadido nada.</div>
+            </div>
+
+            <div class="card status-card border-sabado">
+                <div class="card-header">
+                    <strong>Sábado</strong>
+                    <span id="status-sabado" class="badge badge-pending">Incompleto</span>
+                </div>
+                <div id="lista-comida-sabado" class="card-body">Aún no has añadido nada.</div>
+            </div>
+
+            <div class="card status-card border-domingo">
+                <div class="card-header">
+                    <strong>Domingo</strong>
+                    <span id="status-domingo" class="badge badge-pending">Incompleto</span>
+                </div>
+                <div id="lista-comida-domingo" class="card-body">Aún no has añadido nada.</div>
+            </div>
+
+        </section>
+    </main>
+
+   </div> <nav class="bottom-nav">
+        <a href="home.html" class="nav-item">
+            <i class="ph ph-house"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="nutricion.html" class="nav-item active">
+            <i class="ph ph-bowl-food"></i>
+            <span>Nutrición</span>
+        </a>
+        <a href="entreno.html" class="nav-item">
+            <i class="ph ph-barbell"></i>
+            <span>Entreno</span>
+        </a>
+        <a href="perfil.html" class="nav-item">
+            <i class="ph ph-user"></i>
+            <span>Perfil</span>
+        </a>
+    </nav>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    
+    <script src="assets/js/nutricion.js" defer></script>
+    
+    <script src="assets/js/chatbot.js"></script>
+</body>
+</html>

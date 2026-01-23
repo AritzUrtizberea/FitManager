@@ -1,0 +1,409 @@
+/* --- Variables & Reset --- */
+:root {
+    /* Paleta de colores refinada */
+    --primary-blue: #2563EB; /* Azul más vibrante */
+    --primary-gradient: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    --bg-app: #F3F4F6;
+    --card-bg: #FFFFFF;
+    --text-main: #1F2937;
+    --text-muted: #6B7280;
+    --border-light: #E5E7EB;
+    
+    /* Colores semánticos */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+
+    /* Estilos globales */
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-blue: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+    background-color: var(--bg-app);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    margin: 0;
+    
+    /* CAMBIOS IMPORTANTES AQUÍ: */
+    min-height: 100vh;      /* Asegura que ocupe toda la pantalla verticalmente */
+    position: relative;     /* Ayuda a posicionar elementos fijos */
+    
+    /* Tu padding para que no se corte el contenido al final */
+    padding-bottom: 80px; 
+    
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- Tipografía --- */
+.h1-title { font-size: 22px; font-weight: 700; color: var(--text-main); margin: 0; }
+.h2-subtitle { font-size: 18px; font-weight: 600; margin: 0 0 16px 0; color: var(--text-main); }
+
+/* --- Header --- */
+.app-header {
+    background: var(--card-bg);
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    justify-content: center;
+}
+
+/* --- Layout Principal --- */
+.main-container {
+    padding: 20px;
+    max-width: 600px; /* Para que se vea bien en desktop también */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --- Componentes: Cards --- */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.hero-card {
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+/* --- Escáner --- */
+.scanner-viewport {
+    width: 100%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.btn-primary-gradient {
+    background: var(--primary-gradient);
+    color: white;
+    width: 100%;
+    border: none;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: var(--shadow-blue);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.btn-primary-gradient:active { transform: scale(0.98); }
+.btn-primary-gradient i { font-size: 22px; }
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+.divider::before, .divider::after {
+    content: ''; flex: 1; border-bottom: 1px solid var(--border-light);
+}
+.divider span { padding: 0 10px; }
+
+/* --- Input Moderno --- */
+.input-modern-group {
+    display: flex;
+    gap: 10px;
+}
+
+.input-wrapper {
+    position: relative;
+    flex-grow: 1;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+#barcode-input {
+    width: 100%;
+    padding: 14px 14px 14px 44px; /* espacio para el icono */
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background: var(--bg-app);
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#barcode-input:focus {
+    border-color: var(--primary-blue);
+    background: white;
+}
+
+.btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text-main);
+    border-radius: var(--radius-md);
+    padding: 0 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn-ghost:hover { background: var(--bg-app); }
+
+/* --- Botón "Diseñar Dieta" (Estilo Botón Acción) --- */
+.btn-secondary-action {
+    background: white;
+    border: none;
+    padding: 16px 20px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s, box-shadow 0.2s;
+}
+.btn-secondary-action:active { transform: scale(0.98); }
+.shadow-soft { box-shadow: var(--shadow-md); }
+
+.icon-box {
+    width: 44px;
+    height: 44px;
+    background: #DCFCE7; /* Verde suave */
+    color: #16A34A;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.btn-text { flex-grow: 1; }
+.btn-title { display: block; font-weight: 700; font-size: 15px; color: var(--text-main); }
+.btn-subtitle { display: block; font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.arrow-icon { color: var(--text-muted); }
+
+/* --- Listado Semana (Status Cards) --- */
+.section-header { margin-top: 10px; padding-left: 4px; }
+
+.status-card {
+    padding: 16px;
+    margin-bottom: 12px;
+    border-left: 4px solid transparent; /* Base para el borde de color */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+}
+
+.card-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding-top: 8px;
+    border-top: 1px dashed var(--border-light);
+}
+
+/* Badges (Etiquetas de estado) */
+.badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.badge-pending { background: var(--bg-app); color: var(--text-muted); }
+.badge-complete { background: #DCFCE7; color: #16A34A; }
+
+/* Bordes de color por día */
+.border-lunes { border-left-color: #3B82F6; }
+.border-martes { border-left-color: #F97316; }
+.border-miercoles { border-left-color: #10B981; }
+.border-jueves { border-left-color: #8B5CF6; }
+.border-viernes { border-left-color: #EAB308; }
+.border-sabado { border-left-color: #EF4444; }
+.border-domingo { border-left-color: #6B7280; }
+
+/* --- Bottom Nav (Flotante) --- */
+/* --- Bottom Nav (Estilo Dock Anclado) --- */
+.bottom-nav {
+    position: fixed !important; /* Fuerza la posición fija */
+    bottom: 0 !important;       /* Fuerza pegarse al suelo */
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: #ffffff;
+    
+    /* Diseño Flex para los iconos */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+    /* Estilos visuales */
+    border-top: 1px solid #eee;
+    box-shadow: 0 -2px 15px rgba(0,0,0,0.05);
+    z-index: 2147483647; /* El número más alto posible en CSS para estar ENCIMA de todo */
+    
+    /* TRUCO TÉCNICO: Evita parpadeos y "saltos" al hacer scroll */
+    transform: translateZ(0); 
+    -webkit-transform: translateZ(0);
+
+    /* Ajuste para iPhone */
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(65px + env(safe-area-inset-bottom));
+}
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #9CA3AF;
+    font-size: 10px;
+    font-weight: 600;
+    position: relative;
+    width: 60px;
+    transition: color 0.3s;
+}
+
+.nav-item i { font-size: 24px; margin-bottom: 4px; transition: transform 0.2s; }
+
+.nav-item.active { color: var(--primary-blue); }
+.nav-item.active i { transform: translateY(-2px); }
+
+/* Indicador (punto) */
+.nav-indicator {
+    position: absolute;
+    top: -10px;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.nav-item.active .nav-indicator { opacity: 1; }
+
+/* --- Interacción en las tarjetas de día --- */
+.status-card {
+    cursor: pointer; /* Manita al pasar el ratón */
+    transition: transform 0.2s, box-shadow 0.2s, border-left-width 0.2s;
+    position: relative;
+    overflow: hidden; /* Para efectos de brillo si quisieras */
+}
+
+.status-card:hover {
+    transform: translateY(-3px); /* Se levanta un poco */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.status-card:active {
+    transform: scale(0.98); /* Efecto de presionar click */
+}
+
+/* --- Animación del Badge de Completado --- */
+@keyframes successPop {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.badge-anim {
+    animation: successPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Icono del Check dentro del badge */
+.check-icon {
+    font-size: 12px;
+    font-weight: bold;
+}
+.badge-pending:hover {
+    background-color: #e5e7eb; /* Un gris un poco más oscuro al pasar el ratón */
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 3px solid #3498db; /* Azul visible */
+    outline-offset: 2px;
+}
+
+.badge-complete {
+    background-color: #dbfce1; /* Fondo verde claro plano */
+    color: #27ae60;
+    border: 1px solid #27ae60; /* Borde fino para definirlo */
+    box-shadow: none !important; /* QUITAMOS sombras borrosas */
+    filter: none !important;     /* QUITAMOS filtros */
+    -webkit-font-smoothing: antialiased; /* Texto nítido */
+}
+
+/* Aseguramos que el foco del teclado se vea bien aquí también */
+.badge-complete:focus {
+    outline: 2px solid #27ae60;
+    outline-offset: 2px;
+}
+
+/* 1. Mejoras visuales en la Tarjeta */
+.status-card {
+    /* Mantenemos tu base, añadimos preparación para animación */
+    opacity: 0; /* Empiezan invisibles para que Anime.js las haga aparecer */
+    transform: translateY(20px); 
+    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Solo transiciones suaves para hover */
+}
+
+/* 2. Focus Visible (ACCESIBILIDAD MODERNA) */
+/* Esto reemplaza el borde azul feo por defecto por un anillo elegante */
+/* --- CORRECCIÓN DE FOCUS (Añadir al final del CSS) --- */
+
+.status-card:focus-visible,
+.badge:focus-visible {
+    outline: none;
+    /* Añadimos !important aquí para ganar a la clase .badge-complete */
+    box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--primary-blue) !important; 
+    z-index: 50;
+    border-radius: var(--radius-lg);
+}
+
+/* Ajuste específico para que el focus del badge sea redondo */
+.badge:focus-visible {
+    border-radius: 999px !important;
+}
+
+/* 3. Estilos específicos para animaciones */
+.badge {
+    transform-origin: center center; /* Para que rebote desde el centro */
+    will-change: transform;
+}
+
+/* Arreglo visual para cuando la tarjeta se clica con ratón */
+.status-card:active {
+    transform: scale(0.98) !important; /* !important para ganar a otras reglas */
+}
