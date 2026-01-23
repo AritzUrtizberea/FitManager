@@ -27,39 +27,40 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
+    // En RegisteredUserController.php
     public function store(Request $request): RedirectResponse
-{
-    // 1. Validación (Nombres internos en inglés)
-    $request->validate([
-        'name'      => 'required|string|max:255',
-        'surname'   => 'required|string|max:255',
-        'email'     => 'required|string|email|max:255|unique:users',
-        'password'  => ['required', 'confirmed'],
-        'phone'     => 'nullable|string',
-        'sex'       => 'required',
-        'weight'    => 'required|numeric',
-        'height'    => 'required|numeric',
-        'activity'  => 'required',
-    ]);
+    {
+        $request->validate([
+            'name'      => 'required|string|max:255',
+            'surname'   => 'required|string|max:255',
+            'email'     => 'required|string|email|max:255|unique:users',
+            'password'  => ['required', 'confirmed'],
+            'phone'     => 'nullable|string',
+            'sex'       => 'required',
+            'weight'    => 'required|numeric',
+            'height'    => 'required|numeric',
+            'activity'  => 'required',
+        ]);
 
-    // 2. Crear Usuario
-    $user = User::create([
-        'name'     => $request->name,
-        'surname'  => $request->surname,
-        'email'    => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+        $user = User::create([
+            'name'     => $request->name,
+            'surname'  => $request->surname,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-    // 3. Crear Perfil (Todo directo en inglés)
-    $user->profile()->create([
-        'phone'    => $request->phone,
-        'sex'      => $request->sex,
-        'weight'   => $request->weight,
-        'height'   => $request->height,
-        'activity' => $request->activity,
-    ]);
+        // USA ESTA FORMA QUE ES MÁS SEGURA:
+        $profile = new \App\Models\Profile();
+        $profile->user_id  = $user->id;
+        $profile->phone    = $request->phone;
+        $profile->sex      = $request->sex;
+        $profile->weight   = $request->weight;
+        $profile->height   = $request->height;
+        $profile->activity = $request->activity;
+        $profile->save(); // Forzamos el guardado físico
 
-    Auth::login($user);
-    return redirect('/home');
-}
-}
+        Auth::login($user);
+        return redirect('/home');
+    }
+    }

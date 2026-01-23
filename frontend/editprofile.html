@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="assets/css/edit.css">
 </head>
+
 <body>
 
     <main class="container fm-edit-container">
@@ -17,23 +19,24 @@
             <div class="edit-card-header">
                 Información Personal
             </div>
-            
+
             <div class="edit-card-content">
                 <form>
                     <div class="fm-input-wrapper-exact">
-                        <i class="ph ph-phone"></i>
-                        <input type="tel" value="+34 612 345 678" class="fm-input-field-exact">
+                        <i class="ph ph-phone" aria-hidden="true"></i>
+                        <input type="tel" id="input-telefono-completo" value="+34 612 345 678"
+                            class="fm-input-field-exact" aria-label="Número de teléfono completo">
                     </div>
 
                     <div class="row" style="margin-bottom: 0;">
                         <div class="col s6" style="padding-left: 0;">
-                            <label class="fm-label-exact">Teléfono</label>
-                            <input type="text" value="+34" class="fm-input-field-exact no-icon">
+                            <label class="fm-label-exact" for="input-prefijo">Teléfono</label>
+                            <input type="text" id="input-prefijo" value="+34" class="fm-input-field-exact no-icon">
                         </div>
                         <div class="col s6" style="padding-right: 0;">
-                            <label class="fm-label-exact">Peso</label>
+                            <label class="fm-label-exact" for="input-peso">Peso</label>
                             <div class="input-with-unit">
-                                <input type="number" value="75" class="fm-input-field-exact no-icon">
+                                <input type="number" id="input-peso" value="75" class="fm-input-field-exact no-icon">
                                 <span class="unit">kg</span>
                             </div>
                         </div>
@@ -41,37 +44,37 @@
 
                     <div class="row" style="margin-bottom: 0;">
                         <div class="col s12" style="padding: 0;">
-                            <label class="fm-label-exact">Altura</label>
+                            <label class="fm-label-exact" for="input-altura">Altura</label>
                             <div class="input-with-unit">
-                                <input type="number" value="180" class="fm-input-field-exact no-icon">
-                                <span class="unit-select">cm <i class="ph ph-caret-down"></i></span>
+                                <input type="number" id="input-altura" value="180" class="fm-input-field-exact no-icon">
+                                <span class="unit-select">cm <i class="ph ph-caret-down" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="row" style="margin-bottom: 0;">
                         <div class="col s12" style="padding: 0;">
-                            <label class="fm-label-exact">Actividad Física</label>
+                            <label class="fm-label-exact" for="select-actividad">Actividad Física</label>
                             <div class="input-with-unit">
-                                <select class="browser-default fm-input-field-exact no-icon">
+                                <select id="select-actividad" class="browser-default fm-input-field-exact no-icon">
                                     <option value="moderada">Moderada</option>
                                     <option value="baja">Baja</option>
                                     <option value="alta">Alta</option>
                                 </select>
-                                <span class="unit-select"><i class="ph ph-caret-down"></i></span>
+                                <span class="unit-select"><i class="ph ph-caret-down" aria-hidden="true"></i></span>
                             </div>
                         </div>
                     </div>
 
                     <label class="fm-label-exact">Sexo</label>
-                    <div class="gender-row">
+                    <div class="gender-row" role="radiogroup" aria-label="Selección de sexo">
                         <div class="gender-btn-group">
-                            <div class="g-btn active">Hombre</div>
-                            <div class="g-btn">Mujer</div>
+                            <div class="g-btn active" role="radio" aria-checked="true" tabindex="0">Hombre</div>
+                            <div class="g-btn" role="radio" aria-checked="false" tabindex="0">Mujer</div>
                         </div>
                         <div class="gender-icons">
-                            <i class="ph ph-gender-male"></i>
-                            <i class="ph ph-gender-female"></i>
+                            <i class="ph ph-gender-male" aria-hidden="true"></i>
+                            <i class="ph ph-gender-female" aria-hidden="true"></i>
                         </div>
                     </div>
 
@@ -83,12 +86,34 @@
         </div>
     </main>
 
-    <footer class="fm-bottom-nav white">
-        <div class="nav-item"><i class="ph ph-house"></i><span>Casa</span></div>
-        <div class="nav-item"><i class="ph ph-unite"></i><span>Nutricion</span></div>
-        <div class="nav-item"><i class="ph ph-barbell"></i><span>Entrnamiento</span></div>
-        <div class="nav-item active"><i class="ph-fill ph-user"></i><span>Perfil</span></div>
+    <footer class="fm-bottom-nav white z-depth-2"
+        style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0; background-color: white; border-top: 1px solid #f0f0f0;">
+
+        <a href="/home" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-house" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Inicio</span>
+        </a>
+
+        <a href="/nutrition" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Nutrición</span>
+        </a>
+
+        <a href="/training" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-barbell" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Entrenamiento</span>
+        </a>
+
+        <a href="/perfil" class="nav-item active"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
+            <i class="ph-fill ph-user" style="font-size: 24px;"></i>
+            <span style="font-size: 12px; font-weight: bold;">Perfil</span>
+        </a>
     </footer>
 
 </body>
+
 </html>
