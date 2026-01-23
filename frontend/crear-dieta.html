@@ -5,116 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diseñar Dieta - Nutrición</title>
+    
     <link rel="stylesheet" href="assets/css/nutricion.css">
+    
+    <link rel="stylesheet" href="assets/css/crear-dieta.css">
+    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <style>
-        .search-container {
-            margin-top: 20px;
-        }
-
-        .header-nav {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-right: 15px;
-            color: #333;
-        }
-
-        /* Barra flotante para el total */
-        #resumen-fijo {
-            position: fixed;
-            bottom: 80px;
-            left: 20px;
-            right: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
-            display: none;
-            /* Se activa al añadir el primer item */
-            z-index: 100;
-        }
-    </style>
-</head>
+    
+    </head>
 
 <body class="bg-gray-50">
 
-    <div class="app-container" style="padding-bottom: 150px;">
-       <header class="header-nav">
-    <button class="back-btn" onclick="window.location.href='nutricion.html'" aria-label="Volver a Nutrición">
-        <i class="ph ph-arrow-left"></i>
-    </button>
-    <h1 class="h1-title" style="margin:0;">Añadir Alimentos</h1>
-</header>
-
-<main class="main-container">
-    <div style="margin-bottom: 20px;">
-        <h1 class="h1-title" style="margin-bottom: 10px;">Añadir Alimentos</h1>
+    <div class="app-container crear-dieta-layout">
         
-        <div class="card shadow-wcag" style="border-left: 5px solid #3498db; padding: 15px;">
-            <label for="select-dia" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">
-                Día de la semana:
-            </label>
-            <select id="select-dia" class="input-field" style="width: 100%;">
-                <option value="lunes">Lunes</option>
-                <option value="martes">Martes</option>
-                <option value="miercoles">Miércoles</option>
-                <option value="jueves">Jueves</option>
-                <option value="viernes">Viernes</option>
-                <option value="sabado">Sábado</option>
-                <option value="domingo">Domingo</option>
-            </select>
-        </div>
-    </div>
+        <header class="header-nav">
+            <button class="back-btn" onclick="window.location.href='nutricion.html'" aria-label="Volver">
+                <i class="ph ph-arrow-left"></i>
+            </button>
+            <h1 class="h1-title">Añadir Alimentos</h1>
+        </header>
 
-    <section class="card shadow-wcag">
-        <h2 class="h2-subtitle">Buscar en Base de Datos</h2>
-        <div class="input-group">
-            <input type="text" id="laravel-search" class="input-field" placeholder="Ej: Arroz, Pollo..." autocomplete="off">
-            <button class="btn-primary-blue" aria-label="Buscar alimento"><i class="ph ph-magnifying-glass"></i></button>
-        </div>
-        <div id="laravel-results" style="margin-top: 15px;"></div>
-    </section>
+        <main style="padding: 20px;">
+            
+            <div class="card-modern card-accent-left">
+                <label for="select-dia" style="display: block; margin-bottom: 8px; font-weight: 700; color: #475569;">
+                    Día de la semana
+                </label>
+                <select id="select-dia" class="input-modern">
+                    <option value="lunes">Lunes</option>
+                    <option value="martes">Martes</option>
+                    <option value="miercoles">Miércoles</option>
+                    <option value="jueves">Jueves</option>
+                    <option value="viernes">Viernes</option>
+                    <option value="sabado">Sábado</option>
+                    <option value="domingo">Domingo</option>
+                </select>
+            </div>
 
-    <section class="card shadow-wcag" style="margin-top: 20px;">
-        <h2 class="h2-subtitle">Tu Lista Actual</h2>
-        <div id="lista-cesta" style="margin-top: 10px; color: #888; text-align: center;">
-            No has añadido nada aún.
-        </div>
-    </section>
-</main>
+            <section class="card-modern">
+                <h2 style="font-size: 1rem; font-weight: 700; color: #334155; margin-bottom: 15px;">Buscar Alimento</h2>
+                <div class="search-wrapper">
+                    <input type="text" id="laravel-search" class="input-modern" placeholder="Ej: Arroz, Pollo, Manzana..." autocomplete="off">
+                    <button class="btn-search" aria-label="Buscar">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </button>
+                </div>
+                <div id="laravel-results" style="margin-top: 15px;"></div>
+            </section>
+
+            <section class="card-modern" style="min-height: 200px;">
+                <h2 style="font-size: 1rem; font-weight: 700; color: #334155; margin-bottom: 15px;">Tu Lista</h2>
+                <div id="lista-cesta">
+                    <div style="padding: 40px 0; text-align:center; color: #94a3b8;">
+                        <i class="ph ph-basket" style="font-size: 2rem; opacity: 0.5;"></i>
+                        <p style="margin-top: 10px;">Tu cesta está vacía</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
 
         <div id="resumen-fijo">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <span style="font-size: 0.8rem; color: #888; display: block;">TOTAL DIETA</span>
-                    <strong style="font-size: 1.3rem; color: #2ecc71;"><span id="kcal-total">0</span> kcal</strong>
+                    <span class="total-label">Calorías Totales</span>
+                    <div class="total-value"><span id="kcal-total">0</span> <small style="font-size:0.8rem; font-weight:600;">kcal</small></div>
                 </div>
-                <button id="btn-finalizar" class="btn-primary-blue"
-                    style="width: auto; padding: 10px 20px; background-color: #3498db;">
-                    Terminar
+                <button id="btn-finalizar">
+                    Terminar <i class="ph ph-check" style="margin-left: 5px;"></i>
                 </button>
             </div>
         </div>
 
         <nav class="bottom-nav">
-            <a href="home.html" class="nav-item" aria-label="Ir a Inicio"><i class="ph ph-house"></i></a>
-            <a href="nutricion.html" class="nav-item active" aria-label="Ir a Nutrición (página actual)" aria-current="page"><i class="ph ph-carrot"></i></a>
-            <a href="#" class="nav-item" aria-label="Escanear código QR"><i class="ph ph-qr-code"></i></a>
-            <a href="perfil.html" class="nav-item" aria-label="Ir a mi Perfil"><i class="ph ph-user"></i></a>
+            <a href="home.html" class="nav-item"><i class="ph ph-house"></i></a>
+            <a href="nutricion.html" class="nav-item active"><i class="ph ph-carrot"></i></a>
+            <a href="#" class="nav-item"><i class="ph ph-qr-code"></i></a>
+            <a href="perfil.html" class="nav-item"><i class="ph ph-user"></i></a>
         </nav>
     </div>
 
-    <script src="assets/js/main.js?v=4"></script>
+    <script src="assets/js/main.js"></script>
     <script src="assets/js/crear-dieta.js"></script>
 </body>
-
 </html>
