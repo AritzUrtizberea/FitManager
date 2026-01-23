@@ -58,7 +58,7 @@ function initWeeklyPlan() {
                     duration: 150,
                     easing: 'easeOutQuad',
                     complete: () => {
-                        window.location.href = `crear-dieta.html?dia=${dia}`;
+                        window.location.href = `crear-dieta?dia=${dia}`;
                     }
                 });
             };
@@ -176,7 +176,7 @@ function initScannerLogic() {
 
 function initNavigationButtons() {
     const btnCrear = document.getElementById('btn-crear-dieta');
-    if (btnCrear) btnCrear.onclick = () => window.location.href = 'crear-dieta.html';
+    if (btnCrear) btnCrear.onclick = () => window.location.href = 'crear-dieta';
 }
 
 async function goToProduct(code) {
@@ -185,7 +185,7 @@ async function goToProduct(code) {
         const data = await response.json();
         if (data.status === 1) {
             localStorage.setItem('producto_actual', JSON.stringify(data.product));
-            window.location.href = 'info-producto.html';
+            window.location.href = 'info-producto';
         } else { alert("Producto no encontrado."); }
     } catch (e) { console.error(e); }
 }

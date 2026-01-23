@@ -38,13 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. REPARACIÓN DEL BOTÓN "CREAR / MODIFICAR DIETA" ---
     // Busca en tu HTML qué ID tiene este botón. Normalmente es uno de estos:
     const btnIrADieta = document.getElementById('btn-crear-dieta') || 
-                        document.querySelector('a[href="crear-dieta.html"]');
+                        document.querySelector('a[href="crear-dieta"]');
 
     if (btnIrADieta) {
         btnIrADieta.addEventListener('click', (e) => {
             // Si es un <a> normal, esto no hace falta, pero si es un <button>:
             e.preventDefault(); 
-            window.location.href = 'crear-dieta.html';
+            window.location.href = 'crear-dieta';
         });
     }
 });
@@ -57,7 +57,7 @@ async function goToProduct(code) {
         const data = await response.json();
         if (data.status === 1) {
             localStorage.setItem('producto_actual', JSON.stringify(data.product));
-            window.location.href = 'info-producto.html';
+            window.location.href = 'info-producto';
         } else {
             alert("❌ Producto no encontrado.");
         }

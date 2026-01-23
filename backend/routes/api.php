@@ -34,6 +34,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/home', [HomeController::class, 'index']);
     Route::get('/products/search', [ProductController::class, 'search']);
     
-    Route::apiResource('products', ProductController::class)->except(['store', 'update', 'destroy']);
+    Route::apiResource('products', ProductController::class)->except(['update', 'destroy']);
     Route::apiResource('diets', DietController::class);
 });
