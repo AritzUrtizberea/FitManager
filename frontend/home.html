@@ -19,7 +19,9 @@
     </header>
 
     <main class="container fm-container">
-        <h1 class="welcome-title">Bienvenido, Ethan!</h1>
+    <h1 class="welcome-title">
+        Bienvenido, <span id="home-username">Usuario</span>!
+    </h1>
 
         <div class="row fm-dashboard-grid">
             <div class="col s12 l7">
@@ -97,6 +99,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="js/script.js"></script>
     <script src="assets/js/chatbot.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const response = await fetch('/api/user', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            // Si no está logueado, lo mandamos al login
+            if (response.status === 401) {
+                window.location.href = '/login';
+                return;
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+                
+                // Buscamos el hueco del nombre y lo rellenamos
+                const nameLabel = document.getElementById('home-username');
+                if (nameLabel) {
+                    nameLabel.textContent = data.name;
+                }
+            }
+        } catch (error) {
+            console.error('Error cargando usuario:', error);
+        }
+    });
+</script>
 </body>
 
 </html>

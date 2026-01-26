@@ -36,4 +36,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     
     Route::apiResource('products', ProductController::class)->except(['update', 'destroy']);
     Route::apiResource('diets', DietController::class);
+
+    Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    // Aquí está la magia: ->load('profile') carga los datos de la otra tabla
+    return $request->user()->load('profile');
+});
 });

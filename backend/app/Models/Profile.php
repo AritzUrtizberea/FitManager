@@ -13,6 +13,7 @@ class Profile extends Model
     'weight',
     'height',
     'activity',
+    'streak', // <--- AÑADE ESTO
 ];
 
 // Relación inversa (opcional pero recomendada)
