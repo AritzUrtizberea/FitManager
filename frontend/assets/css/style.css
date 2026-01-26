@@ -278,3 +278,18 @@ body {
         font-size: 32px;
     }
 }
+
+/* --- Animación del Menú Hamburguesa --- */
+
+/* Cuando el menú está activo, transformamos las líneas */
+.menu-icon.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+}
+
+.menu-icon.active span:nth-child(2) {
+    opacity: 0; /* La línea del medio desaparece */
+}
+
+.menu-icon.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6px);
+}

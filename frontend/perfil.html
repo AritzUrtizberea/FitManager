@@ -57,12 +57,60 @@
                     <span>Privacidad</span>
                     <i class="ph ph-caret-right"></i>
                 </div>
-                <div class="settings-item waves-effect">
-                    <span>Cerrar Sesion</span>
-                    <i class="ph ph-caret-right"></i>
-                </div>
-            </div>
+               <button type="button" id="triggerLogout" class="btn-logout-clean" style="width: 100%; border: none; background: white; cursor: pointer; padding: 0;">
+    <div style="display: flex; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid #eee;">
+        <span style="color: #d32f2f; font-weight: bold;">Cerrar Sesión</span>
+        <i class="ph ph-caret-right" style="color: #d32f2f;"></i>
+    </div>
+</button>
+
+<div id="modalLogout" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 30px; border-radius: 15px; width: 80%; max-width: 320px; text-align: center;">
+        <h3 style="margin-top:0;">¿Cerrar Sesión?</h3>
+        <p style="color: #666;">¿Estás seguro de que quieres salir?</p>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button id="cancelarLogout" style="flex: 1; padding: 12px; border: 1px solid #ddd; background: none; border-radius: 8px; cursor: pointer;">CANCELAR</button>
+            <button id="confirmarLogout" style="flex: 1; padding: 12px; background: #d32f2f; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">SÍ, SALIR</button>
         </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const trigger = document.getElementById('triggerLogout');
+    const modal = document.getElementById('modalLogout');
+    const btnCancel = document.getElementById('cancelarLogout');
+    const btnConfirm = document.getElementById('confirmarLogout');
+
+    // 1. Abrir Modal
+    if (trigger) {
+        trigger.onclick = function() {
+            modal.style.display = 'flex';
+        };
+    }
+
+    // 2. Cerrar Modal
+    if (btnCancel) {
+        btnCancel.onclick = function() {
+            modal.style.display = 'none';
+        };
+    }
+
+    // 3. Confirmar y enviar a Nginx -> Laravel
+    if (btnConfirm) {
+        btnConfirm.onclick = function() {
+            // Creamos un formulario invisible al vuelo
+            // Esto simula lo que hacía Blade, pero con JS puro
+            const form = document.createElement('form');
+            form.method = 'POST';
+            // IMPORTANTE: Esta ruta debe coincidir con tu Nginx
+            form.action = '/api/logout'; 
+            document.body.appendChild(form);
+            form.submit(); 
+        };
+    }
+});
+</script>
     </main>
 
     <footer class="fm-bottom-nav white z-depth-2"
@@ -92,7 +140,7 @@
             <span style="font-size: 12px; font-weight: bold;">Perfil</span>
         </a>
     </footer>
-<script src="assets/js/chatbot.js"></script>
+    <script src="assets/js/chatbot.js"></script>
 </body>
 
 </html>

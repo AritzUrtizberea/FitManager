@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 // Redirección inicial: Si entran a /, que decida según si están logueados
 Route::get('/', function () {
@@ -20,5 +21,9 @@ Route::middleware('auth')->group(function () {
     // Cámbiala a /profile-update para que sea única
     Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
 });
+
+// Esta es la ruta que llama el formulario {{ route('logout') }}
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
 
 require __DIR__.'/auth.php';
