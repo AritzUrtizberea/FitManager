@@ -69,41 +69,27 @@
                 </div>
             </div>
         </section>
-
-        <section class="reviews">
+        <section id="reviews-section">
             <div class="container">
-                <h2>Reseñas</h2>
-                <div class="reviews-grid">
-                    <div class="review-item">
-                        <div class="review-header">
-                            <strong>Isabella Rossi</strong>
-                            <span class="date">Hace 2 semanas</span>
-                        </div>
-                        <div class="stars">★★★★★</div>
-                        <p>FitManager ha sido un cambio de juego en mi viaje de fitness. La interfaz es intuitiva y el
-                            seguimiento de nutrición es muy fácil de usar.</p>
-                        <div class="review-footer">
-                            <span><i class="fa-regular fa-thumbs-up"></i> 12</span>
-                            <span><i class="fa-regular fa-thumbs-down"></i> 2</span> 
-                        </div>
-                    </div>
+                <h2 style="text-align: center;">Lo que dicen nuestros atletas</h2>
+            </div>
 
-                    <div class="review-item">
-                        <div class="review-header">
-                            <strong>Mateo Bianchi</strong>
-                            <span class="date">Hace 1 mes</span>
-                        </div>
-                        <div class="stars">★★★★★</div>
-                        <p>Los planes de entrenamiento personalizados son excelentes. He visto resultados significativos
-                            en solo unas pocas semanas.</p>
-                        <div class="review-footer">
-                            <span><i class="fa-regular fa-thumbs-up"></i> 15</span>
-                            <span><i class="fa-regular fa-thumbs-down"></i> 1</span>
-                        </div>
+            <div class="carousel-wrapper">
+                <div id="contenedor-reseñas">
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <script src="js/reviews.js"></script>
+        <script>
+            // Ejecutar la carga cuando abra la página
+            document.addEventListener('DOMContentLoaded', cargarReseñas);
+        </script>
     </main>
 
 </body>

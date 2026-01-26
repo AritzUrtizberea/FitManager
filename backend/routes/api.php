@@ -8,6 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DietController;
 use App\Http\Controllers\RoutineController;
+use App\Http\Controllers\Api\ReviewController;
+
+Route::get('/reviews', [ReviewController::class, 'index']);
 
 // 1. RUTAS PÚBLICAS (Para que el JS cargue los datos)
 Route::post('/register', [AuthController::class, 'register']);
@@ -18,12 +21,16 @@ Route::get('/ingest-exercises', [RoutineController::class, 'ingestExercises']);
 Route::get('/routines/recommendations', [RoutineController::class, 'getRecommendations']);
 Route::get('/routines', [RoutineController::class, 'index']); 
 
+
+
 // 2. RUTAS PROTEGIDAS (Sanctum)
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
     
+    Route::post('/reviews', [ReviewController::class, 'store']);
+
     // Guardar y Borrar
     Route::post('/routines', [RoutineController::class, 'store']);
     Route::delete('/routines/{id}', [RoutineController::class, 'destroy']);
