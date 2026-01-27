@@ -69,9 +69,9 @@
                 </div>
             </div>
         </section>
-
-        <section class="reviews">
+        <section id="reviews-section">
             <div class="container">
+<<<<<<< HEAD
                 <h2>Reseñas</h2>
                 <div class="reviews-grid">
                     <div class="review-item">
@@ -87,23 +87,27 @@
                             <span><i class="fa-regular fa-thumbs-down"></i> 2</span>
                         </div>
                     </div>
+=======
+                <h2 style="text-align: center;">Lo que dicen nuestros atletas</h2>
+            </div>
+>>>>>>> 4565a9366dbb8154befca7ec872aa87c18dd8fb8
 
-                    <div class="review-item">
-                        <div class="review-header">
-                            <strong>Mateo Bianchi</strong>
-                            <span class="date">Hace 1 mes</span>
-                        </div>
-                        <div class="stars">★★★★★</div>
-                        <p>Los planes de entrenamiento personalizados son excelentes. He visto resultados significativos
-                            en solo unas pocas semanas.</p>
-                        <div class="review-footer">
-                            <span><i class="fa-regular fa-thumbs-up"></i> 15</span>
-                            <span><i class="fa-regular fa-thumbs-down"></i> 1</span>
-                        </div>
+            <div class="carousel-wrapper">
+                <div id="contenedor-reseñas">
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <script src="js/reviews.js"></script>
+        <script>
+            // Ejecutar la carga cuando abra la página
+            document.addEventListener('DOMContentLoaded', cargarReseñas);
+        </script>
     </main>
 <script>
         const menuToggle = document.getElementById('menuToggle');
