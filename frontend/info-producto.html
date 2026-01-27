@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Producto</title>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="assets/css/nutricion.css"> <link rel="stylesheet" href="assets/css/info-producto.css"> </head>
+<body>
+
+    <header class="header-nav">
+        <button onclick="window.history.back()" 
+        style="background:none; border:none; padding:0; cursor:pointer"
+        aria-label="Volver a la página anterior">
+            <i class="ph ph-caret-left" style="font-size: 1.5rem; color: #333;"></i>
+        </button>
+        <span style="font-weight: 600; font-size: 1.1rem;">Detalles</span>
+    </header>
+
+    <div class="hero-section">
+        <div class="product-image-wrapper">
+            <img id="prod-img" src="" alt="Producto">
+        </div>
+
+        <div class="badges-row" id="badges-container">
+            <span id="nutriscore-badge" class="badge-score bg-gray">--</span>
+            <span id="nova-badge" class="badge-score bg-gray" style="background:#555;">NOVA ?</span>
+        </div>
+
+        <div class="title-section" style="margin-top: 15px;">
+            <h2 id="prod-nombre">Cargando...</h2>
+            <p id="prod-marca">...</p>
+        </div>
+    </div>
+
+    <div class="macro-highlight">
+        <div>
+            <span style="display:block; font-size:0.9rem; opacity:0.9;">Energía</span>
+            <span style="font-size:2rem; font-weight:800;" id="prod-kcal">0</span>
+            <span style="font-size:1rem;">kcal</span>
+        </div>
+        <i class="ph-fill ph-fire" style="font-size: 3rem; opacity: 0.5;"></i>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Proteínas</span>
+            <span class="stat-value" id="prod-prot">0</span><span class="stat-unit">g</span>
+            <div style="height:4px; width:100%; background:#f0f0f0; margin-top:5px; border-radius:2px;">
+                <div style="height:100%; width: 20%; background: #4dabf7; border-radius:2px;"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Carbohidratos</span>
+            <span class="stat-value" id="prod-carb">0</span><span class="stat-unit">g</span>
+             <div style="height:4px; width:100%; background:#f0f0f0; margin-top:5px; border-radius:2px;">
+                <div style="height:100%; width: 40%; background: #ffd43b; border-radius:2px;"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Grasas</span>
+            <span class="stat-value" id="prod-gras">0</span><span class="stat-unit">g</span>
+             <div style="height:4px; width:100%; background:#f0f0f0; margin-top:5px; border-radius:2px;">
+                <div style="height:100%; width: 15%; background: #ff8787; border-radius:2px;"></div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Fibra</span>
+            <span class="stat-value" id="prod-fibra">0</span><span class="stat-unit">g</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Azúcares</span>
+            <span class="stat-value" id="prod-azucar">0</span><span class="stat-unit">g</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Sal</span>
+            <span class="stat-value" id="prod-sal">0</span><span class="stat-unit">g</span>
+        </div>
+    </div>
+
+    <div class="bottom-action-bar">
+        <button class="btn-add">
+            <i class="ph-bold ph-plus-circle" style="font-size:1.2rem;"></i>
+            Añadir a Mis Productos
+        </button>
+    </div>
+
+    <script src="assets/js/info-producto.js" defer></script>
+</body>
+</html>

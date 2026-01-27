@@ -1,0 +1,1 @@
+<img src="{{ asset('Fotos/Logo_FitManager.png') }}" alt="Logo FitManager" class="w-auto h-20">

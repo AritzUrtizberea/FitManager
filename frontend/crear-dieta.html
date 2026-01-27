@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseñar Dieta - Nutrición</title>
+    
+    <link rel="stylesheet" href="assets/css/nutricion.css">
+    
+    <link rel="stylesheet" href="assets/css/crear-dieta.css">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    </head>
+
+<body class="bg-gray-50">
+
+    <div class="app-container crear-dieta-layout">
+        
+        <header class="header-nav">
+            <button class="back-btn" onclick="window.location.href='nutrition'" aria-label="Volver">
+                <i class="ph ph-arrow-left"></i>
+            </button>
+            <h1 class="h1-title">Añadir Alimentos</h1>
+        </header>
+
+        <main style="padding: 20px;">
+            
+            <div class="card-modern card-accent-left">
+                <label for="select-dia" style="display: block; margin-bottom: 8px; font-weight: 700; color: #475569;">
+                    Día de la semana
+                </label>
+                <select id="select-dia" class="input-modern">
+                    <option value="lunes">Lunes</option>
+                    <option value="martes">Martes</option>
+                    <option value="miercoles">Miércoles</option>
+                    <option value="jueves">Jueves</option>
+                    <option value="viernes">Viernes</option>
+                    <option value="sabado">Sábado</option>
+                    <option value="domingo">Domingo</option>
+                </select>
+            </div>
+
+            <section class="card-modern">
+                <h2 style="font-size: 1rem; font-weight: 700; color: #334155; margin-bottom: 15px;">Buscar Alimento</h2>
+                <div class="search-wrapper">
+                    <input type="text" id="laravel-search" class="input-modern" placeholder="Ej: Arroz, Pollo, Manzana..." autocomplete="off">
+                    <button class="btn-search" aria-label="Buscar">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </button>
+                </div>
+                <div id="laravel-results" style="margin-top: 15px;"></div>
+            </section>
+
+            <section class="card-modern" style="min-height: 200px;">
+                <h2 style="font-size: 1rem; font-weight: 700; color: #334155; margin-bottom: 15px;">Tu Lista</h2>
+                <div id="lista-cesta">
+                    <div style="padding: 40px 0; text-align:center; color: #94a3b8;">
+                        <i class="ph ph-basket" style="font-size: 2rem; opacity: 0.5;"></i>
+                        <p style="margin-top: 10px;">Tu cesta está vacía</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <div id="resumen-fijo">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span class="total-label">Calorías Totales</span>
+                    <div class="total-value"><span id="kcal-total">0</span> <small style="font-size:0.8rem; font-weight:600;">kcal</small></div>
+                </div>
+                <button id="btn-finalizar">
+                    Terminar <i class="ph ph-check" style="margin-left: 5px;"></i>
+                </button>
+            </div>
+        </div>
+
+        <footer class="fm-bottom-nav white z-depth-2"
+        style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0; background-color: white; border-top: 1px solid #f0f0f0;">
+
+        <a href="/home" class="nav-item active"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
+            <i class="ph-fill ph-house" style="font-size: 24px;"></i>
+            <span style="font-size: 12px; font-weight: bold;">Inicio</span>
+        </a>
+
+        <a href="/nutrition" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Nutrición</span>
+        </a>
+
+        <a href="/training" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-barbell" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Entrenamiento</span>
+        </a>
+
+        <a href="/perfil" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-user" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Perfil</span>
+        </a>
+    </footer>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/crear-dieta.js"></script>
+</body>
+</html>

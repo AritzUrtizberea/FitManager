@@ -1,0 +1,179 @@
+/* =========================================
+   ESTILOS PARA: CREAR DIETA (ORGANIC MODERN)
+   ARCHIVO: assets/css/crear-dieta.css
+   ========================================= */
+
+/* 1. Fondo y Espaciado General */
+.bg-gray-50 {
+    background-color: #f8fafc; /* Gris muy suave/azulado */
+}
+
+/* Ajuste específico para esta página para dejar hueco al resumen flotante */
+.app-container.crear-dieta-layout {
+    padding-bottom: 200px !important; 
+}
+
+/* 2. Header Limpio */
+.header-nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+.back-btn {
+    background: #f0fdf4; /* Verde muy claro */
+    border: none;
+    color: #2d6a4f; /* Verde oscuro */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.back-btn:active { transform: scale(0.9); }
+.h1-title { margin: 0; font-size: 1.2rem; color: #1e293b; }
+
+/* 3. Tarjetas (Cards) Modernas */
+.card-modern {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    margin-bottom: 20px;
+}
+
+/* Borde decorativo verde */
+.card-accent-left {
+    border-left: 5px solid #2d6a4f; 
+}
+
+/* 4. Inputs y Selects */
+.input-modern {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background-color: #f8fafc;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.input-modern:focus {
+    background: white;
+    border-color: #2d6a4f;
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
+}
+
+/* 5. Buscador */
+.search-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-search {
+    background: #2d6a4f;
+    color: white;
+    border: none;
+    width: 50px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 6. Barra Resumen Flotante (FIX) */
+#resumen-fijo {
+    position: fixed;
+    bottom: 85px; /* Justo encima del menú inferior */
+    left: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 15px 20px;
+    border-radius: 20px;
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+    z-index: 900;
+    display: none; /* El JS lo muestra cuando hay items */
+}
+
+.total-label { 
+    font-size: 0.75rem; 
+    text-transform: uppercase; 
+    color: #64748b; 
+    font-weight: 700; 
+    letter-spacing: 0.5px; 
+}
+
+.total-value { 
+    font-size: 1.5rem; 
+    font-weight: 800; 
+    color: #2d6a4f; 
+}
+
+/* Botón Terminar */
+#btn-finalizar {
+    background: #2d6a4f;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25);
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+}
+
+/* 7. Overrides para elementos generados por JS */
+/* Usamos !important para sobrescribir los estilos inline que pone el script */
+
+/* Resultados de búsqueda */
+#laravel-results > div {
+    padding: 15px 0 !important;
+    border-bottom: 1px dashed #e2e8f0 !important;
+}
+
+/* Botón Añadir (+) */
+.btn-add-item {
+    background-color: #dcfce7 !important; /* Fondo verde claro */
+    color: #166534 !important; /* Icono verde oscuro */
+    border-radius: 50% !important;
+    width: 35px !important;
+    height: 35px !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Items de la cesta */
+.item-cesta {
+    padding: 15px 0 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+.item-cesta strong { color: #334155 !important; font-weight: 600; }
+.item-cesta span { color: #64748b !important; }
+
+/* Botón papelera */
+.btn-borrar-item {
+    color: #ef4444 !important;
+    background: #fef2f2 !important;
+    border-radius: 10px !important;
+    padding: 8px !important;
+    transition: transform 0.2s;
+    border: none !important;
+}
+.btn-borrar-item:hover { transform: scale(1.1); }

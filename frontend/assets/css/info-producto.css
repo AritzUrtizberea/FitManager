@@ -1,0 +1,160 @@
+/* 1. Variables y Configuración Base */
+:root {
+    --primary: #7ab346;
+    --surface: #ffffff;
+    --background: #f4f6f8;
+    --text-dark: #1a1a1a;
+    --text-light: #737373;
+}
+
+body {
+    background-color: var(--background);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding-bottom: 100px; /* Espacio para el botón flotante */
+    color: var(--text-dark);
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 2. Header de Navegación */
+.header-nav {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* 3. Sección Principal (Hero) */
+.hero-section {
+    background: var(--surface);
+    padding: 20px;
+    text-align: center;
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    margin-bottom: 20px;
+}
+
+/* ESTA ES LA PARTE QUE FALTABA PARA QUE LA IMAGEN NO SALGA GIGANTE */
+.product-image-wrapper {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 15px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#prod-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* 4. Badges (Nutriscore / Nova) */
+.badges-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.badge-score {
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.title-section h2 { margin: 10px 0 5px; font-size: 1.4rem; line-height: 1.2; }
+.title-section p { margin: 0; color: var(--text-light); font-size: 0.95rem; }
+
+/* 5. Tarjeta de Calorías Destacada */
+.macro-highlight {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5253 100%);
+    color: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(238, 82, 83, 0.25);
+}
+
+/* 6. Grid de Estadísticas (Macros) */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 20px;
+}
+
+.stat-card {
+    background: var(--surface);
+    padding: 15px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    transition: transform 0.2s;
+}
+
+.stat-card:active { transform: scale(0.98); }
+
+.stat-label { font-size: 0.8rem; color: var(--text-light); margin-bottom: 5px; display: block; }
+.stat-value { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); }
+.stat-unit { font-size: 0.8rem; color: var(--text-light); font-weight: normal;}
+
+/* 7. Barra de Acción Inferior (Botón) */
+.bottom-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--surface);
+    padding: 15px 20px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    z-index: 200;
+}
+
+.btn-add {
+    width: 100%;
+    background: linear-gradient(90deg, #7ab346 0%, #5d8f33 100%);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(122, 179, 70, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-add:active { transform: scale(0.96); }
+
+/* 8. Colores Dinámicos Nutriscore */
+.bg-a { background-color: #038141; }
+.bg-b { background-color: #85BB2F; }
+.bg-c { background-color: #FECB02; }
+.bg-d { background-color: #EE8100; }
+.bg-e { background-color: #E63E11; }
+.bg-gray { background-color: #ccc; }

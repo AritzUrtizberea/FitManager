@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitManager - Rutinas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/routines.css">
+    
+</head>
+
+<body>
+    <div class="container" style="margin-top: 20px; width: 95%;">
+        <div class="row main-row">
+            <div class="col s12 m6">
+                <div class="card-panel shadow-none" style="background: #f9f9f9;">
+                    <h5 class="blue-text"><i class="ph ph-magnifying-glass"></i> Buscador Global</h5>
+                    <div class="input-field">
+                        <input type="text" id="buscador-total"
+                            placeholder="Escribe para buscar (ej: Press, Sentadilla...)">
+                    </div>
+                    <div id="resultados-busqueda" class="collection"></div>
+
+                    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ddd;">
+
+                    <h5 class="green-text"><i class="ph ph-sparkle"></i> Sugerencias para ti</h5>
+                    <div id="lista-ejercicios">
+                        <div class="fm-loader-container">
+                            <div class="fm-dot"></div>
+                            <div class="fm-dot"></div>
+                            <div class="fm-dot"></div>
+                        </div>
+                        <p class="loader-text">Cargando rutinas inteligentes</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 m6">
+                <div class="card-panel" style="position: sticky; top: 20px; border: 2px solid #26a69a;">
+                    <h5><i class="ph ph-barbell"></i> Mi Rutina Personalizada</h5>
+
+                    <p class="grey-text" style="margin-top: -10px; margin-bottom: 20px;">
+                        Tiempo total estimado: <b id="tiempo-total" class="blue-text">0</b> min
+                    </p>
+
+                    <div class="input-field">
+                        <input id="routine_name" type="text" class="validate">
+                        <label for="routine_name">Nombre de la Rutina (ej: Lunes Pecho)</label>
+                    </div>
+
+                    <div id="rutina-personalizada" class="collection" role="list"
+                        aria-label="Lista de ejercicios seleccionados"
+                        style="min-height: 200px; background: #fafafa; border: 2px dashed #ccc;">
+                        <p class="center-align placeholder-text" style="padding-top: 50px;">
+                            Usa el botón de "Añadir ejercicios" para incluirlos en tu lista.
+                        </p>
+                    </div>
+
+                    <button class="btn-flat blue-text waves-effect modal-trigger" href="#modal-ejercicios"
+                        aria-label="Abrir ventana para seleccionar ejercicios rápidamente">
+                        <i class="ph ph-plus-circle left" aria-hidden="true"></i> Añadir ejercicios (Rápido)
+                    </button>
+
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-large waves-effect waves-light w-100" id="save-routine"
+                            style="width: 100%;">
+                            Guardar Rutina <i class="ph ph-floppy-disk"></i>
+                        </button>
+                    </div>
+
+                    <div id="mis-rutinas-guardadas" style="margin-top: 40px;">
+                        <h5><i class="ph ph-folder-star"></i> Mis Rutinas Guardadas</h5>
+                        <div id="lista-rutinas-db" class="collection"></div>
+                    </div>
+
+                    <div class="container fm-back-container" style="margin-top: 20px;">
+                        <a href="/training" class="waves-effect waves-blue fm-btn-back">
+                            <i class="ph-bold ph-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-ejercicios" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4 style="font-size: 1.4rem; font-weight: bold;">Añadir Ejercicios</h4>
+            <p class="grey-text">Selecciona los que quieras añadir a tu rutina:</p>
+
+            <div id="contenedor-multiselect"></div>
+        </div>
+
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
+            <a href="#!" id="btn-añadir-seleccionados" class="modal-close waves-effect waves-green btn blue">
+                Añadir Seleccionados
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="js/apiEjercicios.js"></script>
+</body>
+
+</html>

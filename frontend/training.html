@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitManager - Entrenamiento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="assets/css/training.css">
+    <link rel="stylesheet" href="assets/css/chatbot.css">
+</head>
+
+<body>
+
+    <header class="fm-header-entrenamiento">
+        <div class="header-flex">
+            <img src="assets/img/Logo_FitManager.png" alt="FitManager Logo" class="fm-logo-header">
+            <i class="ph ph-gear-six gear-icon"></i>
+        </div>
+    </header>
+
+    <main class="container fm-container-slim">
+        <h5 class="section-main-title">Tu Progreso Semanal</h5>
+
+        <div class="progress-card">
+            <div class="progress-info">
+                <span class="days-active-label">Días Activos</span>
+                <h2 class="days-count">3</h2>
+                <span class="weekly-stats">Esta semana <span class="green-text-fm">+10%</span></span>
+            </div>
+
+            <div class="weekly-chart">
+                <div class="day-row"><span class="day-name">Mon</span>
+                    <div class="bar-bg">
+                        <div class="bar-fill blue" style="--w: 80%; --d: 1s;"></div>
+                    </div>
+                </div>
+                <div class="day-row"><span class="day-name">Tue</span>
+                    <div class="bar-bg">
+                        <div class="bar-fill blue" style="--w: 95%; --d: 1.2s;"></div>
+                    </div>
+                </div>
+                <div class="day-row"><span class="day-name">Wed</span>
+                    <div class="bar-bg">
+                        <div class="bar-fill green" style="--w: 100%; --d: 0.8s;"></div>
+                    </div>
+                </div>
+                <div class="day-row"><span class="day-name">Thu</span>
+                    <div class="bar-bg">
+                        <div class="bar-fill empty" style="--w: 40%; --d: 1.4s;"></div>
+                    </div>
+                </div>
+                <div class="day-row"><span class="day-name">Fri</span>
+                    <div class="bar-bg">
+                        <div class="bar-fill empty" style="--w: 20%; --d: 1.6s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="routines.html">
+            <button class="btn-flat fm-btn-settings waves-effect">
+                <i class="ph-bold ph-gear-six"></i> Configurar Plan de Entrenamiento
+            </button>
+        </a>
+
+        <h5 class="section-main-title">Recomendado</h5>
+
+        <div class="card fm-recom-card-pro">
+            <div class="card-image">
+                <img alt="Full Body Challenge"
+                    src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1000">
+                <span class="card-badge">Nuevo</span>
+            </div>
+            <div class="card-content center-align">
+                <span class="recom-title">Full Body Challenge</span>
+                <p class="recom-desc">Rutina de alta intensidad para quemar grasa y tonificar.</p>
+                <div class="recom-meta">
+                    <span><i class="ph ph-clock"></i> 45 min</span>
+                    <span><i class="ph ph-fire"></i> Medio</span>
+                </div>
+
+                <a href="routines.html">
+                    <button class="btn fm-btn-start-center waves-effect waves-light">
+                        EMPEZAR AHORA
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <h5 class="section-main-title">Explorar Objetivos</h5>
+        <div class="row objective-grid">
+            <div class="col s6">
+                <div class="obj-card-pro">
+                    <div class="img-wrapper">
+                        <img alt="Perder Peso"
+                            src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=500">
+                    </div>
+                    <span class="obj-label">Perder Peso</span>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="obj-card-pro">
+                    <div class="img-wrapper">
+                        <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=500"
+                            alt="Ganar Músculo">
+                    </div>
+                    <span class="obj-label">Ganar Músculo</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="center-align">
+        <a href="routines.html">
+            <button class="btn waves-effect waves-light fm-btn-quickstart">
+                <i class="ph-fill ph-play"></i> Quick Start
+            </button>
+        </a>
+    </div>
+    </main>
+
+    <footer class="fm-bottom-nav white z-depth-2"
+        style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0; background-color: white; border-top: 1px solid #f0f0f0;">
+
+        <a href="/home" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-house" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Inicio</span>
+        </a>
+
+        <a href="/nutrition" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Nutrición</span>
+        </a>
+
+        <a href="/training" class="nav-item active"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
+            <i class="ph-fill ph-barbell" style="font-size: 24px;"></i>
+            <span style="font-size: 12px; font-weight: bold;">Entrenamiento</span>
+        </a>
+
+        <a href="/perfil" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-user" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Perfil</span>
+        </a>
+    </footer>
+<script src="assets/js/chatbot.js"></script>
+</body>
+
+</html>

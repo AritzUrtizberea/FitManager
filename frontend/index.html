@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitManager - Landing Page</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">
+            <img src="assets/img/Logo_FitManager.png" alt="Logo FitManager" class="logo-img">
+        </div>
+
+        <nav class="desktop-nav">
+            <a href="/login" class="btn-nav-outline">Iniciar Sesión</a>
+            <a href="/register" class="btn-nav-desktop">Registrarse</a>
+        </nav>
+
+        <div class="menu-icon" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <div class="nav-overlay" id="navOverlay">
+        <div class="overlay-content">
+
+            <div class="nav-footer">
+                <img src="Fotos/Logo_FitManager.png" alt="FitManager Logo" class="logo-img">
+            </div>
+            <hr class="divider">
+            <div class="nav-buttons">
+                <button class="btn-nav">INICIAR SESIÓN</button>
+                <button class="btn-nav">REGISTRARSE</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Transforma tu cuerpo, gestiona tu vida</h1>
+                <button class="btn-primary">Empieza Gratis</button>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Características Clave</h2>
+                <p class="subtitle">Descubre cómo FitManager puede ayudarte a alcanzar tus metas de fitness.</p>
+
+                <div class="features-grid">
+                    <div class="card">
+                        <i class="fa-solid fa-apple-whole icon"></i>
+                        <h3>Seguimiento de Nutrición</h3>
+                        <p>Controla tus calorías y macronutrientes con facilidad.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fa-solid fa-dumbbell icon"></i>
+                        <h3>Planes de Entrenamiento Personalizados</h3>
+                        <p>Entrenamientos adaptados a tus objetivos y nivel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="reviews-section">
+            <div class="container">
+                <h2 style="text-align: center;">Lo que dicen nuestros atletas</h2>
+            </div>
+
+            <div class="carousel-wrapper">
+                <div id="contenedor-reseñas">
+                    <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="js/reviews.js"></script>
+        <script>
+            // Ejecutar la carga cuando abra la página
+            document.addEventListener('DOMContentLoaded', cargarReseñas);
+        </script>
+    </main>
+
+</body>
+
+</html>

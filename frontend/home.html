@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitManager Dashboard - Final</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/chatbot.css">
+</head>
+
+<body>
+
+    <header class="white z-depth-1 fm-header">
+        <img src="assets/img/Logo_FitManager.png" alt="FitManager" class="fm-logo">
+    </header>
+
+    <main class="container fm-container">
+        <h1 class="welcome-title">Bienvenido, Ethan!</h1>
+
+        <div class="row fm-dashboard-grid">
+            <div class="col s12 l7">
+                <button class="btn waves-effect waves-light fm-btn-blue-slim">
+                    HOY TOCA ENTRENAR PIERNA - ¡VAMOS A ELLO!
+                </button>
+
+                <div class="card fm-card z-depth-1">
+                    <div class="card-content center-align">
+                        <span class="card-title fm-card-title">Objetivo Semanal de Entrenamiento</span>
+
+                        <div class="fm-progress-wrapper">
+
+                            <svg viewBox="0 0 100 100" class="fm-progress-svg">
+                                <circle cx="50" cy="50" r="45" class="bg"></circle>
+                                <circle cx="50" cy="50" r="45" class="bar" id="progress-bar"></circle>
+                            </svg>
+                            <div class="fm-progress-text">
+                                <span class="number">3/4</span>
+                                <span class="label">Días completados</span>
+                            </div>
+                        </div>
+
+                        <button class="btn waves-effect waves-light fm-btn-secondary">
+                            Ver Plan de Entrenamiento
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 l5">
+                <div class="fm-nutrition-banner">
+                    <div class="banner-main-row">
+                        <i class="ph-bold ph-fork-knife icon-med"></i>
+                        <p class="banner-text">No olvides preocuparte por tu alimentación también</p>
+                    </div>
+                    <div class="banner-action">
+                        <button class="btn waves-effect waves-light fm-btn-analyze">
+                            Analizar Alimento
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fm-bottom-nav white z-depth-2"
+        style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0; background-color: white; border-top: 1px solid #f0f0f0;">
+
+        <a href="/home" class="nav-item active"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
+            <i class="ph-fill ph-house" style="font-size: 24px;"></i>
+            <span style="font-size: 12px; font-weight: bold;">Inicio</span>
+        </a>
+
+        <a href="/nutrition" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Nutrición</span>
+        </a>
+
+        <a href="/training" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-barbell" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Entrenamiento</span>
+        </a>
+
+        <a href="/perfil" class="nav-item"
+            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+            <i class="ph-bold ph-user" style="font-size: 24px;"></i>
+            <span style="font-size: 12px;">Perfil</span>
+        </a>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="assets/js/chatbot.js"></script>
+</body>
+
+</html>
