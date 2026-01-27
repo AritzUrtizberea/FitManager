@@ -1,30 +1,36 @@
 <?php
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
 
-// Redirección inicial: Si entran a /, que decida según si están logueados
 Route::get('/', function () {
+    // Si ya entró, al home; si no, al login
     return auth()->check() ? redirect('/home') : redirect('/login');
 });
 
-// Ruta de Home (Tu frontend)
 Route::get('/home', function () {
-    return view('home'); // Asegúrate de que exista resources/views/home.blade.php
+    return view('home'); 
 })->name('home');
 
-// Rutas de Perfil (Saca la de EDIT fuera del middleware para probar que carga)
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-
 Route::middleware('auth')->group(function () {
-    // Para ver la página
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Para guardar los datos (Cámbiala a /profile para que coincida con Nginx)
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Esta es la ruta que llama el formulario {{ route('logout') }}
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
+// --- ZONA ADMIN ---
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Ruta del Dashboard
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard'); 
+    })->name('dashboard'); // El nombre completo será 'admin.dashboard'
+
+    Route::resource('products', AdminProductController::class);
+    Route::resource('exercises', AdminExerciseController::class);
+});
 
 require __DIR__.'/auth.php';

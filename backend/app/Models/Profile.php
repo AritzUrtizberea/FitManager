@@ -16,6 +16,9 @@ class Profile extends Model
     'streak', // <--- AÑADE ESTO
 ];
 
+protected $attributes = [
+        'streak' => 0,
+    ];
 // Relación inversa (opcional pero recomendada)
 public function user()
 {

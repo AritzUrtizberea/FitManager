@@ -9,7 +9,7 @@ class Exercise extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'wger_id'];
+    protected $fillable = ['name', 'description', 'wger_id', 'muscle_group'];
 
     // Relación con rutinas (Muchos a Muchos)
     public function routines()
