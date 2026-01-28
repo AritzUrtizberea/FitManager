@@ -381,15 +381,26 @@ document.addEventListener('DOMContentLoaded', function () {
                         html += `</div>`;
                         listaRecomendados.innerHTML += html;
                     });
+<<<<<<< HEAD
                     document.querySelectorAll('.sortable-list').forEach(el => new Sortable(el, { group: { name: 'fit', pull: 'clone', put: false }, animation: 150, handle: '.handle' }));
                 }
 
+=======
+
+                    document.querySelectorAll('.sortable-list').forEach(el => {
+                        new Sortable(el, { group: { name: 'fit', pull: 'clone', put: false }, animation: 150, handle: '.handle' });
+                    });
+                }
+
+                // Lógica del Buscador
+>>>>>>> 5b73b3423500c534d27e9a0c1dbff7c24628e996
                 if (buscador && data.todos) {
                     const renderBusqueda = (ejercicios) => {
                         listaResultadosBusqueda.innerHTML = '';
                         ejercicios.forEach(ex => {
                             const dur = calcularDuracionEstimada(ex.name);
                             listaResultadosBusqueda.innerHTML += `
+<<<<<<< HEAD
                             <div class="collection-item" tabindex="0" role="button" aria-label="Añadir ${ex.name}"
                                  data-id="${ex.wger_id || ex.id}" data-name="${ex.name}" data-duration="${dur}">
                                 <span class="handle"><i class="ph ph-dots-six-vertical"></i> <b>${ex.name}</b></span>
@@ -399,6 +410,16 @@ document.addEventListener('DOMContentLoaded', function () {
                         });
                         new Sortable(listaResultadosBusqueda, { group: { name: 'fit', pull: 'clone', put: false }, animation: 150, handle: '.handle' });
                     };
+=======
+                        <div class="collection-item" data-id="${ex.wger_id || ex.id}" data-name="${ex.name}" data-duration="${dur}">
+                            <span class="handle"><i class="ph ph-dots-six-vertical"></i> <b>${ex.name}</b></span>
+                            <i class="ph ph-plus right blue-text" tabindex = 0></i>
+                        </div>`;
+                        });
+                        new Sortable(listaResultadosBusqueda, { group: { name: 'fit', pull: 'clone', put: false }, animation: 150, handle: '.handle' });
+                    };
+
+>>>>>>> 5b73b3423500c534d27e9a0c1dbff7c24628e996
                     renderBusqueda(data.todos.slice(0, 5));
                     buscador.addEventListener('input', (e) => {
                         const term = e.target.value.toLowerCase();
@@ -409,14 +430,72 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+<<<<<<< HEAD
+=======
+    // --- 5. ZONA DE DESTINO (MI RUTINA) ---
+
+    function formatearItemRutina(item) {
+        const placeholder = listaMia.querySelector('.placeholder-text');
+        if (placeholder) placeholder.remove();
+
+        const nombreEx = item.dataset.name || item.innerText.trim();
+        const dur = item.dataset.duration || calcularDuracionEstimada(nombreEx);
+
+        // Aseguramos que el item mantenga su data-duration
+        item.dataset.duration = dur;
+
+        item.innerHTML = `
+        <div style="padding: 12px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="handle" style="cursor: grab; display: flex; align-items: center; gap: 10px;">
+                <i class="ph ph-dots-six-vertical grey-text"></i>
+                <div>
+                    <b>${nombreEx}</b><br>
+                    <small class="blue-text">${dur} minutos estim.</small>
+                </div>
+            </div>
+            <i class="ph ph-trash red-text btn-delete" style="cursor:pointer; font-size: 1.3rem;"></i>
+        </div>`;
+
+        item.querySelector('.btn-delete').onclick = (e) => {
+            item.remove();
+            recalcularTiempoTotal();
+            if (listaMia.querySelectorAll('.collection-item').length === 0) {
+                listaMia.innerHTML = '<p class="center-align placeholder-text" style="padding-top: 50px;">Arrastra ejercicios aquí</p>';
+            }
+        };
+        recalcularTiempoTotal();
+    }
+
+    if (listaMia) {
+        new Sortable(listaMia, {
+            group: 'fit',
+            animation: 150,
+            handle: '.handle',
+            onAdd: function (evt) {
+                formatearItemRutina(evt.item);
+            },
+            onUpdate: function () {
+                // Si solo cambian el orden, no afecta al tiempo, pero podrías guardarlo
+            }
+        });
+    }
+
+    // --- 6. MODAL MULTI-SELECCIÓN ---
+
+>>>>>>> 5b73b3423500c534d27e9a0c1dbff7c24628e996
     function llenarModalSeleccion() {
         contenedorMultiselect.innerHTML = '';
         const ejercicios = document.querySelectorAll('#lista-ejercicios [data-id], #resultados-busqueda [data-id]');
         const unicos = new Set();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5b73b3423500c534d27e9a0c1dbff7c24628e996
         ejercicios.forEach(ej => {
             const id = ej.dataset.id;
             const nombre = ej.dataset.name;
             const dur = ej.dataset.duration;
+<<<<<<< HEAD
             if (id && !unicos.has(id)) {
                 unicos.add(id);
                 const div = document.createElement('div');
@@ -436,10 +515,28 @@ document.addEventListener('DOMContentLoaded', function () {
                     div.style.background = isSel ? '#e3f2fd' : 'white';
                     div.querySelector('.check-icon').classList.toggle('hide');
                     div.setAttribute('aria-checked', isSel);
+=======
+
+            if (id && !unicos.has(id)) {
+                unicos.add(id);
+                const div = document.createElement('div');
+                div.className = 'selectable-item';
+                div.dataset.id = id;
+                div.dataset.name = nombre;
+                div.dataset.duration = dur;
+                div.innerHTML = `
+                    <span>${nombre} <br><small class="grey-text">${dur} min</small></span>
+                    <i class="material-icons blue-text hide">check_circle</i>
+                `;
+                div.onclick = function () {
+                    this.classList.toggle('selected');
+                    this.querySelector('i').classList.toggle('hide');
+>>>>>>> 5b73b3423500c534d27e9a0c1dbff7c24628e996
                 };
                 contenedorMultiselect.appendChild(div);
             }
         });
+<<<<<<< HEAD
         
         // Poner foco en el primer elemento al abrir
         setTimeout(() => {
@@ -519,6 +616,89 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+=======
+    }
+
+    // Abrir modal y llenarlo
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.modal-trigger')) {
+            llenarModalSeleccion();
+        }
+    });
+
+    if (btnAñadir) {
+        btnAñadir.onclick = function () {
+            const seleccionados = contenedorMultiselect.querySelectorAll('.selected');
+            seleccionados.forEach(sel => {
+                const nuevo = document.createElement('div');
+                nuevo.className = 'collection-item';
+                nuevo.dataset.id = sel.dataset.id;
+                nuevo.dataset.name = sel.dataset.name;
+                nuevo.dataset.duration = sel.dataset.duration;
+                listaMia.appendChild(nuevo);
+                formatearItemRutina(nuevo);
+            });
+            M.toast({ html: 'Ejercicios añadidos' });
+        };
+    }
+
+    // --- 7. GUARDAR EN BD ---
+
+    // --- 7. GUARDAR EN BD ---
+    if (btnGuardar) {
+        btnGuardar.onclick = function () {
+            const nombreInput = document.getElementById('routine_name').value;
+            const items = listaMia.querySelectorAll('.collection-item');
+            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            if (!nombreInput || items.length === 0) return M.toast({ html: 'Ponle un nombre y añade ejercicios' });
+
+            // Mapeo corregido para incluir rest_time y asegurar duration
+            const ejerciciosArr = Array.from(items).map(item => ({
+                exercise_id: item.dataset.id,
+                duration: parseInt(item.dataset.duration) || 7
+            }));
+
+            fetch('/api/routines', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': token
+                },
+                credentials: 'include',
+                body: JSON.stringify({ name: nombreInput, exercises: ejerciciosArr })
+            })
+                .then(async res => {
+                    if (res.ok) return res.json();
+                    const errorData = await res.json();
+                    throw new Error(errorData.message || 'Error al guardar');
+                })
+                .then(() => {
+                    M.toast({ html: '¡Rutina guardada correctamente!' });
+                    document.getElementById('routine_name').value = '';
+                    listaMia.innerHTML = '<p class="center-align placeholder-text" style="padding-top: 50px;">Arrastra ejercicios aquí</p>';
+                    recalcularTiempoTotal();
+                    cargarRutinasGuardadas();
+                })
+                .catch(err => {
+                    console.error("Error detallado:", err);
+                    M.toast({ html: 'Error: ' + err.message });
+                });
+        };
+
+        // Función auxiliar para leer la cookie XSRF-TOKEN
+        function getCookie(name) {
+            let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) return decodeURIComponent(match[2]);
+            return null;
+        }
+    }
+
+    // Ejecución inicial
+>>>>>>> 5b73b3423500c534d27e9a0c1dbff7c24628e996
     cargarMenuEjercicios();
     cargarRutinasGuardadas();
 });
