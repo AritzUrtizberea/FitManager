@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('wger_id')->unique(); // Para no duplicar si vuelves a importar
+            $table->integer('wger_id')->unique()->nullable(); // Para no duplicar si vuelves a importar
             $table->timestamps();
         });
     }

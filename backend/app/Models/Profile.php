@@ -13,8 +13,12 @@ class Profile extends Model
     'weight',
     'height',
     'activity',
+    'streak', // <--- AÑADE ESTO
 ];
 
+protected $attributes = [
+        'streak' => 0,
+    ];
 // Relación inversa (opcional pero recomendada)
 public function user()
 {

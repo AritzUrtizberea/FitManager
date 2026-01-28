@@ -21,24 +21,24 @@
     </header>
 
     <main class="container fm-main-p">
-        <h1 class="user-name center-align">Ethan Carter</h1>
+        <h1 id="profile-name" class="user-name center-align">Cargando...</h1>
 
         <div class="row stats-container">
             <div class="col s4">
                 <div class="stat-box box-blue">
-                    <span class="val">75 kg</span>
+                    <span class="val"><span id="profile-weight">--</span> kg</span>
                     <span class="lab">Peso actual</span>
                 </div>
             </div>
             <div class="col s4">
                 <div class="stat-box box-green">
-                    <span class="val">180 cm</span>
+                    <span class="val"><span id="profile-height">--</span> cm</span>
                     <span class="lab">Altura</span>
                 </div>
             </div>
             <div class="col s4">
                 <div class="stat-box box-dark">
-                    <span class="val">15 dias</span>
+                    <span class="val"><span id="profile-streak">0</span> dias</span>
                     <span class="lab">Racha de dias</span>
                 </div>
             </div>
@@ -53,16 +53,121 @@
                         <i class="ph ph-caret-right"></i>
                     </div>
                 </a>
-                <div class="settings-item waves-effect">
-                    <span>Privacidad</span>
-                    <i class="ph ph-caret-right"></i>
+                <a href="/privacidad" style="text-decoration: none; color: inherit;">
+                    <div class="profile-menu-item"
+                        style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; cursor: pointer;">
+                        <span style="font-size: 16px;">Privacidad</span>
+                        <i class="fa-solid fa-chevron-right" style="color: #ccc;"></i>
+                    </div>
+                </a>
+                <button type="button" id="triggerLogout" class="btn-logout-clean"
+                    style="width: 100%; border: none; background: white; cursor: pointer; padding: 0;">
+                    <div
+                        style="display: flex; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid #eee;">
+                        <span style="color: #d32f2f; font-weight: bold;">Cerrar Sesión</span>
+                        <i class="ph ph-caret-right" style="color: #d32f2f;"></i>
+                    </div>
+                </button>
+
+                <div id="modalLogout"
+                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
+                    <div
+                        style="background: white; padding: 30px; border-radius: 15px; width: 80%; max-width: 320px; text-align: center;">
+                        <h3 style="margin-top:0;">¿Cerrar Sesión?</h3>
+                        <p style="color: #666;">¿Estás seguro de que quieres salir?</p>
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button id="cancelarLogout"
+                                style="flex: 1; padding: 12px; border: 1px solid #ddd; background: none; border-radius: 8px; cursor: pointer;">CANCELAR</button>
+                            <button id="confirmarLogout"
+                                style="flex: 1; padding: 12px; background: #d32f2f; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">SÍ,
+                                SALIR</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="settings-item waves-effect">
-                    <span>Cerrar Sesion</span>
-                    <i class="ph ph-caret-right"></i>
-                </div>
-            </div>
-        </div>
+
+                <script>
+                    // LOGICA DE LOGOUT
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const trigger = document.getElementById('triggerLogout');
+                        const modal = document.getElementById('modalLogout');
+                        const btnCancel = document.getElementById('cancelarLogout');
+                        const btnConfirm = document.getElementById('confirmarLogout');
+
+                        // 1. Abrir Modal
+                        if (trigger) {
+                            trigger.onclick = function () {
+                                modal.style.display = 'flex';
+                            };
+                        }
+
+                        // 2. Cerrar Modal
+                        if (btnCancel) {
+                            btnCancel.onclick = function () {
+                                modal.style.display = 'none';
+                            };
+                        }
+
+                        // 3. Confirmar y enviar a Nginx -> Laravel
+                        if (btnConfirm) {
+                            btnConfirm.onclick = function () {
+                                const form = document.createElement('form');
+                                form.method = 'POST';
+                                form.action = '/api/logout';
+                                document.body.appendChild(form);
+                                form.submit();
+                            };
+                        }
+                    });
+
+                    // LOGICA DE CARGA DE PERFIL
+                    document.addEventListener('DOMContentLoaded', async () => {
+                        try {
+                            // Petición a la API
+                            const response = await fetch('/api/user', {
+                                method: 'GET',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json',
+                                }
+                            });
+
+                            // Si no está logueado, redirigir
+                            if (response.status === 401) {
+                                window.location.href = '/login';
+                                return;
+                            }
+
+                            if (response.ok) {
+                                const data = await response.json();
+
+                                // 1. DATOS DEL USUARIO (Tabla users)
+                                const nameElement = document.getElementById('profile-name');
+                                if (nameElement) {
+                                    nameElement.textContent = data.name;
+                                }
+
+                                // 2. DATOS DEL PERFIL (Tabla profiles)
+                                const profile = data.profile; // Objeto anidado
+
+                                if (profile) {
+                                    // Usamos document.getElementById con los nuevos IDs que hemos puesto arriba
+                                    const elWeight = document.getElementById('profile-weight');
+                                    const elHeight = document.getElementById('profile-height');
+                                    const elStreak = document.getElementById('profile-streak');
+
+                                    if(elWeight) elWeight.textContent = profile.weight || '--';
+                                    if(elHeight) elHeight.textContent = profile.height || '--';
+                                    if(elStreak) elStreak.textContent = profile.streak || '0';
+                                } else {
+                                    console.log('El usuario no tiene perfil asociado aún');
+                                }
+                            }
+
+                        } catch (error) {
+                            console.error('Error cargando perfil:', error);
+                        }
+                    });
+                </script>
     </main>
 
     <footer class="fm-bottom-nav white z-depth-2"
@@ -92,7 +197,7 @@
             <span style="font-size: 12px; font-weight: bold;">Perfil</span>
         </a>
     </footer>
-<script src="assets/js/chatbot.js"></script>
+    <script src="assets/js/chatbot.js"></script>
 </body>
 
 </html>

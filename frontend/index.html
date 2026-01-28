@@ -36,8 +36,8 @@
             </div>
             <hr class="divider">
             <div class="nav-buttons">
-                <button class="btn-nav">INICIAR SESIÓN</button>
-                <button class="btn-nav">REGISTRARSE</button>
+                <a href="/login" class="btn-nav" style="text-decoration: none; text-align: center;">INICIAR SESIÓN</a>
+                <a href="/register" class="btn-nav" style="text-decoration: none; text-align: center;">REGISTRARSE</a>
             </div>
         </div>
     </div>
@@ -91,7 +91,20 @@
             document.addEventListener('DOMContentLoaded', cargarReseñas);
         </script>
     </main>
+<script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navOverlay = document.getElementById('navOverlay');
 
+        menuToggle.addEventListener('click', () => {
+            // 1. Desliza el menú (añadiendo la clase .active del CSS que ya tienes)
+            navOverlay.classList.toggle('active');
+            
+            // 2. Anima el icono de hamburguesa (para convertirlo en una X)
+            menuToggle.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
 </body>
 
 </html>

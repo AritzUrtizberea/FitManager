@@ -157,3 +157,127 @@ body { background-color: var(--fm-bg); font-family: 'Inter', sans-serif; margin:
 .fm-bottom-nav { position: fixed; bottom: 0; width: 100%; height: 70px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
 .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--fm-muted); font-size: 10px; }
 .nav-item.active { color: var(--fm-blue); font-weight: 700; }
+
+/* Esto crea un margen invisible arriba del botón cuando navegas hacia él */
+#btn-scan {
+    scroll-margin-top: 120px; /* Ajusta este número según la altura de tu header */
+}
+
+/* --- ACCESIBILIDAD PARA TECLADO (TAB) --- */
+
+/* Esto aplica a los botones que convertiste en enlaces */
+a.btn:focus-visible, 
+button:focus-visible {
+    /* Crea un borde externo muy visible */
+    outline: 3px solid #1a73e8; /* Azul brillante (puedes cambiar el color) */
+    outline-offset: 4px;        /* Lo separa un poco del botón para que se vea mejor */
+    
+    /* Opcional: Cambiar ligeramente el fondo para reforzar */
+    filter: brightness(1.1);    /* Hace el botón un poquito más brillante */
+}
+
+/* Ajuste específico para el botón de "Ver Plan" si es blanco */
+a.fm-btn-secondary:focus-visible {
+    outline: 3px solid #333;    /* Borde oscuro para que contraste con el blanco */
+    background-color: #f0f0f0;  /* Fondo grisáceo al enfocar */
+}
+/* --- CORRECCIÓN DE FOCO (Para que no se pongan blancos) --- */
+
+/* 1. Para el botón de "Ver Plan de Entrenamiento" (Secundario/Teal) */
+a.fm-btn-secondary:focus-visible {
+    background-color: #26a69a !important; /* Mantiene el color verde azulado original */
+    color: white !important;              /* Mantiene el texto blanco */
+    outline: 4px solid #000000;           /* Borde NEGRO grueso */
+    outline-offset: 2px;                  /* Separado del botón */
+    box-shadow: none !important;          /* Quita sombras raras de Materialize */
+}
+
+/* 2. Para el botón de "Analizar Alimento" (Azul oscuro) */
+a.fm-btn-analyze:focus-visible {
+    background-color: #1565c0 !important; /* Mantiene el azul original */
+    color: white !important;              /* Mantiene el texto blanco */
+    outline: 4px solid #ffab40;           /* Borde NARANJA (contrasta muy bien con el azul) */
+    outline-offset: 2px;
+}
+
+/* 3. Para el botón grande de arriba "HOY TOCA ENTRENAR..." */
+.fm-btn-blue-slim:focus-visible {
+    background-color: #1565c0 !important; 
+    color: white !important;
+    outline: 4px solid #000000;
+    outline-offset: 2px;
+}
+
+/* --- 1. ESTILOS PARA QUE EL BOTÓN PAREZCA TEXTO NORMAL --- */
+button.settings-item-clean {
+    width: 100%;
+    background-color: transparent; /* Fondo transparente */
+    border: none;                  /* Sin borde */
+    padding: 0;                    /* Reseteamos padding externo */
+    text-align: left;              /* Texto a la izquierda */
+    cursor: pointer;
+    display: block;                /* Ocupa todo el ancho */
+}
+
+/* Mantenemos el diseño interno de tus items */
+.settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;    /* Ajusta este padding si ves que queda muy pegado */
+    color: #333;
+    border-bottom: 1px solid #f0f0f0; /* La línea gris de separación */
+}
+
+/* Foco accesible (Tab) */
+button.settings-item-clean:focus-visible .settings-item,
+a:focus-visible .settings-item {
+    background-color: #f5f5f5;
+    outline: 2px solid #1a73e8; /* Borde azul al navegar con teclado */
+    padding-left: 10px; /* Un pequeño salto visual al enfocar */
+}
+
+/* --- 2. ESTILOS DEL POPUP (MODAL) --- */
+.modal-overlay-custom {
+    position: fixed;       /* Fijo en la pantalla */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+    display: none;         /* ¡IMPORTANTE! Oculto por defecto */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;         /* Siempre encima de todo */
+    backdrop-filter: blur(2px); /* Efecto borroso bonito de fondo */
+}
+
+/* Clase para mostrarlo */
+.modal-overlay-custom.active {
+    display: flex !important;
+}
+
+.modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.modal-actions button {
+    flex: 1; /* Los botones ocupan el mismo ancho */
+}

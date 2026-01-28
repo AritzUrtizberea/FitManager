@@ -1,4 +1,4 @@
-/* chatbot.js - Lógica mejorada */
+/* chatbot.js - Lógica Accesible */
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -22,14 +22,17 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     ];
 
-    // 2. CREAR EL HTML DEL CHAT
+    // 2. CREAR EL HTML DEL CHAT (¡Aquí agregamos el botón de cerrar!)
     const chatHTML = `
         <button class="chatbot-toggler">
             <span>💬</span>
         </button>
         <div class="chatbot">
-            <header>
+            <header style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
                 <h2 style="margin-left: 10px;">Asistente Virtual</h2>
+                <button class="close-btn" aria-label="Cerrar chat" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.5rem;">
+                    ✖
+                </button>
             </header>
             <ul class="chatbox" id="chatbox">
                 <li class="chat incoming">
@@ -37,18 +40,28 @@ document.addEventListener("DOMContentLoaded", function() {
                 </li>
             </ul>
             <div class="chat-input" id="faq-options">
-                </div>
+            </div>
         </div>
     `;
 
     document.body.insertAdjacentHTML("beforeend", chatHTML);
 
-    // 3. VARIABLES Y FUNCIONES
+    // 3. VARIABLES
     const chatbotToggler = document.querySelector(".chatbot-toggler");
+    const closeBtn = document.querySelector(".close-btn"); // <--- Nueva variable
     const faqContainer = document.getElementById("faq-options");
     const chatbox = document.getElementById("chatbox");
 
-    // Función para crear botones
+    // 4. FUNCIONES
+
+    // Función para cerrar el chat (Reutilizable)
+    const cerrarChat = () => {
+        document.body.classList.remove("show-chatbot");
+        // Resetear el icono del botón flotante a "burbuja"
+        chatbotToggler.querySelector("span").innerText = "💬";
+    };
+
+    // Función para crear botones de preguntas
     function cargarBotones() {
         faqContainer.innerHTML = ""; 
         preguntas.forEach(item => {
@@ -66,34 +79,35 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Función principal de interacción
     function gestionarClick(preguntaTexto, respuestaTexto) {
-        // 1. Añadir mensaje del USUARIO (Derecha)
+        // Mensaje USUARIO
         const liUser = document.createElement("li");
         liUser.classList.add("chat", "outgoing");
         liUser.innerHTML = `<p>${preguntaTexto}</p>`;
         chatbox.appendChild(liUser);
-
-        // Scroll al fondo
         chatbox.scrollTop = chatbox.scrollHeight;
 
-        // 2. Simular un pequeño retraso para que parezca que "piensa"
+        // Simular respuesta BOT
         setTimeout(() => {
-            // Añadir mensaje del BOT (Izquierda)
             const liBot = document.createElement("li");
             liBot.classList.add("chat", "incoming");
             liBot.innerHTML = `<p>${respuestaTexto}</p>`;
             chatbox.appendChild(liBot);
-            
-            // Scroll al fondo de nuevo
             chatbox.scrollTop = chatbox.scrollHeight;
         }, 600);
     }
 
-    // Abrir / Cerrar
+    // EVENT LISTENERS
+
+    // 1. Botón flotante (Abrir/Cerrar)
     chatbotToggler.addEventListener("click", () => {
         document.body.classList.toggle("show-chatbot");
         const icon = chatbotToggler.querySelector("span");
+        // Cambiar icono dependiendo si está abierto o cerrado
         icon.innerText = document.body.classList.contains("show-chatbot") ? "✖" : "💬";
     });
+
+    // 2. Botón interno "X" (Cerrar) - ¡ESTO ARREGLA TU PROBLEMA!
+    closeBtn.addEventListener("click", cerrarChat);
 
     // Iniciar
     cargarBotones();

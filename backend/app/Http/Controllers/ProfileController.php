@@ -45,6 +45,6 @@ class ProfileController extends Controller
             $validated               // Guarda esto
         );
 
-        return redirect()->back()->with('success', '¡Perfil guardado correctamente!');
+        return redirect('/perfil')->with('success', '¡Perfil guardado correctamente!');
     }
 }
