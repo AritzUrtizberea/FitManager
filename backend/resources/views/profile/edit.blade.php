@@ -22,13 +22,14 @@
             </div>
 
             <div class="edit-card-content">
-                <form action="{{ route('profile.update') }}" method="POST">
-                @csrf
-                @method('PUT')
+                <form method="post" action="{{ route('profile.update') }}">
+                    @csrf
+                    @method('put') 
 
                 <div class="fm-input-wrapper-exact">
                     <i class="ph ph-phone"></i>
-                    <input type="tel" name="phone" value="{{ auth()->user()->profile->phone ?? '' }}" class="fm-input-field-exact">
+                    <input type="tel" name="phone" value="{{ auth()->user()->profile->phone ?? '' }}"
+                        class="fm-input-field-exact">
                 </div>
 
                 <div class="row" style="margin-bottom: 0;">
@@ -39,7 +40,8 @@
                     <div class="col s6" style="padding-right: 0;">
                         <label class="fm-label-exact">Peso</label>
                         <div class="input-with-unit">
-                            <input type="number" name="weight" value="{{ auth()->user()->profile->weight ?? '' }}" class="fm-input-field-exact no-icon">
+                            <input type="number" name="weight" value="{{ auth()->user()->profile->weight ?? '' }}"
+                                class="fm-input-field-exact no-icon">
                             <span class="unit">kg</span>
                         </div>
                     </div>
@@ -49,7 +51,8 @@
                     <div class="col s12" style="padding: 0;">
                         <label class="fm-label-exact">Altura</label>
                         <div class="input-with-unit">
-                            <input type="number" name="height" value="{{ auth()->user()->profile->height ?? '' }}" class="fm-input-field-exact no-icon">
+                            <input type="number" name="height" value="{{ auth()->user()->profile->height ?? '' }}"
+                                class="fm-input-field-exact no-icon">
                             <span class="unit-select">cm</span>
                         </div>
                     </div>
@@ -72,43 +75,45 @@
 
                 <label class="fm-label-exact">Sexo</label>
                 <div class="gender-btn-group">
-                    <div class="g-btn {{ (auth()->user()->profile->sex ?? 'Hombre') == 'Hombre' ? 'active' : '' }}" onclick="updateSex('Hombre', this)">Hombre</div>
-                    <div class="g-btn {{ (auth()->user()->profile->sex ?? '') == 'Mujer' ? 'active' : '' }}" onclick="updateSex('Mujer', this)">Mujer</div>
+                    <div class="g-btn {{ (auth()->user()->profile->sex ?? 'Hombre') == 'Hombre' ? 'active' : '' }}"
+                        onclick="updateSex('Hombre', this)">Hombre</div>
+                    <div class="g-btn {{ (auth()->user()->profile->sex ?? '') == 'Mujer' ? 'active' : '' }}"
+                        onclick="updateSex('Mujer', this)">Mujer</div>
                 </div>
 
                 <button type="submit" class="btn waves-effect waves-light fm-btn-green-exact">
                     Guardar Cambios
                 </button>
-            </form>
+                </form>
 
-            @if(session('success'))
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    M.toast({
-                        html: '<span><i class="ph-bold ph-check-circle" style="vertical-align: middle; margin-right: 8px;"></i> {{ session("success") }}</span>',
-                        classes: 'rounded green darken-1',
-                        displayLength: 4000
-                    });
-                });
-            </script>
-            @endif
+                @if(session('success'))
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            M.toast({
+                                html: '<span><i class="ph-bold ph-check-circle" style="vertical-align: middle; margin-right: 8px;"></i> {{ session("success") }}</span>',
+                                classes: 'rounded green darken-1',
+                                displayLength: 4000
+                            });
+                        });
+                    </script>
+                @endif
 
-            <script>
-                function updateSex(sexo, el) {
-                    // 1. Buscamos el input oculto que tiene el name="sex"
-                    const sexInput = document.getElementById('sex-input');
-                    
-                    // 2. IMPORTANTE: Asignamos el nuevo valor
-                    sexInput.value = sexo; 
-                    
-                    // 3. Cambiamos la clase visual
-                    document.querySelectorAll('.g-btn').forEach(btn => btn.classList.remove('active'));
-                    el.classList.add('active');
-                    
-                    // Prueba esto: abre la consola (F12) y pulsa el botón, debería salir el mensaje
-                    console.log("Dato preparado para enviar:", sexInput.value);
-                }
-            </script>
+                <script>
+                    function updateSex(sexo, el) {
+                        // 1. Buscamos el input oculto que tiene el name="sex"
+                        const sexInput = document.getElementById('sex-input');
+
+                        // 2. IMPORTANTE: Asignamos el nuevo valor
+                        sexInput.value = sexo;
+
+                        // 3. Cambiamos la clase visual
+                        document.querySelectorAll('.g-btn').forEach(btn => btn.classList.remove('active'));
+                        el.classList.add('active');
+
+                        // Prueba esto: abre la consola (F12) y pulsa el botón, debería salir el mensaje
+                        console.log("Dato preparado para enviar:", sexInput.value);
+                    }
+                </script>
             </div>
         </div>
     </main>
