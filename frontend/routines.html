@@ -18,17 +18,19 @@
         <div class="row main-row">
             <div class="col s12 m6">
                 <div class="card-panel shadow-none" style="background: #f9f9f9;">
-                    <h5 class="blue-text"><i class="ph ph-magnifying-glass"></i> Buscador Global</h5>
+                    <h5 class="blue-text"><i class="ph ph-magnifying-glass" aria-hidden="true"></i> Buscador Global</h5>
+                    
                     <div class="input-field">
-                        <input type="text" id="buscador-total"
-                            placeholder="Escribe para buscar (ej: Press, Sentadilla...)">
+                        <label for="buscador-total" class="active">Buscar ejercicio (ej: Press, Sentadilla...)</label>
+                        <input type="text" id="buscador-total" aria-label="Escribe para buscar ejercicios">
                     </div>
-                    <div id="resultados-busqueda" class="collection"></div>
+
+                    <div id="resultados-busqueda" class="collection" role="list" aria-live="polite"></div>
 
                     <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ddd;">
 
-                    <h5 class="green-text"><i class="ph ph-sparkle"></i> Sugerencias para ti</h5>
-                    <div id="lista-ejercicios">
+                    <h5 class="green-text"><i class="ph ph-sparkle" aria-hidden="true"></i> Sugerencias para ti</h5>
+                    <div id="lista-ejercicios" role="list" aria-label="Ejercicios sugeridos">
                         <div class="fm-loader-container">
                             <div class="fm-dot"></div>
                             <div class="fm-dot"></div>
@@ -41,7 +43,7 @@
 
             <div class="col s12 m6">
                 <div class="card-panel" style="position: sticky; top: 20px; border: 2px solid #26a69a;">
-                    <h5><i class="ph ph-barbell"></i> Mi Rutina Personalizada</h5>
+                    <h5><i class="ph ph-barbell" aria-hidden="true"></i> Mi Rutina Personalizada</h5>
 
                     <p class="grey-text" style="margin-top: -10px; margin-bottom: 20px;">
                         Tiempo total estimado: <b id="tiempo-total" class="blue-text">0</b> min
@@ -52,34 +54,33 @@
                         <label for="routine_name">Nombre de la Rutina (ej: Lunes Pecho)</label>
                     </div>
 
-                    <div id="rutina-personalizada" class="collection" role="list"
-                        aria-label="Lista de ejercicios seleccionados"
+                    <div id="rutina-personalizada" class="collection" role="list" tabindex="0"
+                        aria-label="Lista de ejercicios seleccionados. Arrastra aquí o usa el botón añadir."
                         style="min-height: 200px; background: #fafafa; border: 2px dashed #ccc;">
                         <p class="center-align placeholder-text" style="padding-top: 50px;">
-                            Usa el botón de "Añadir ejercicios" para incluirlos en tu lista.
+                            Usa el botón de "Añadir ejercicios" o busca a la izquierda.
                         </p>
                     </div>
 
-                    <button class="btn-flat blue-text waves-effect modal-trigger" href="#modal-ejercicios"
-                        aria-label="Abrir ventana para seleccionar ejercicios rápidamente">
+                    <button class="btn-flat blue-text waves-effect modal-trigger w-100" data-target="modal-ejercicios"
+                        aria-label="Abrir ventana para seleccionar ejercicios rápidamente" id="trigger-añadir">
                         <i class="ph ph-plus-circle left" aria-hidden="true"></i> Añadir ejercicios (Rápido)
                     </button>
 
                     <div style="margin-top: 20px;">
-                        <button class="btn btn-large waves-effect waves-light w-100" id="save-routine"
-                            style="width: 100%;">
-                            Guardar Rutina <i class="ph ph-floppy-disk"></i>
+                        <button class="btn btn-large waves-effect waves-light w-100" id="save-routine" aria-label="Guardar rutina en base de datos">
+                            Guardar Rutina <i class="ph ph-floppy-disk" aria-hidden="true"></i>
                         </button>
                     </div>
 
                     <div id="mis-rutinas-guardadas" style="margin-top: 40px;">
-                        <h5><i class="ph ph-folder-star"></i> Mis Rutinas Guardadas</h5>
-                        <div id="lista-rutinas-db" class="collection"></div>
+                        <h5><i class="ph ph-folder-star" aria-hidden="true"></i> Mis Rutinas Guardadas</h5>
+                        <div id="lista-rutinas-db" class="collection" role="list"></div>
                     </div>
 
                     <div class="container fm-back-container" style="margin-top: 20px;">
-                        <a href="/training" class="waves-effect waves-blue fm-btn-back">
-                            <i class="ph-bold ph-arrow-left"></i> Volver
+                        <a href="/training" class="btn white black-text" id="btn-volver">
+                            <i class="ph ph-arrow-left"></i> Volver
                         </a>
                     </div>
                 </div>
@@ -91,15 +92,13 @@
         <div class="modal-content">
             <h4 style="font-size: 1.4rem; font-weight: bold;">Añadir Ejercicios</h4>
             <p class="grey-text">Selecciona los que quieras añadir a tu rutina:</p>
-
-            <div id="contenedor-multiselect"></div>
+            <div id="contenedor-multiselect" role="group" aria-label="Selector múltiple de ejercicios"></div>
         </div>
-
         <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cancelar</a>
-            <a href="#!" id="btn-añadir-seleccionados" class="modal-close waves-effect waves-green btn blue">
+            <button class="modal-close waves-effect waves-red btn-flat">Cancelar</button>
+            <button id="btn-añadir-seleccionados" class="modal-close waves-effect waves-green btn blue">
                 Añadir Seleccionados
-            </a>
+            </button>
         </div>
     </div>
 

@@ -122,6 +122,27 @@ h5 i { font-size: 24px; color: inherit; }
     padding: 15px !important;
 }
 
+.collection-item:focus {
+        background-color: #e3f2fd !important; /* Fondo Azul Claro */
+        border-left: 6px solid #2196f3 !important; /* Borde Izquierdo Grueso */
+        transform: translateX(5px); /* Se desplaza un poco a la derecha */
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+
+    /* Ajuste para que el icono + no robe el foco visualmente si ya lo tiene la fila */
+    .collection-item:focus i {
+        color: #1565c0 !important; /* Icono más oscuro */
+        font-weight: bold;
+    }
+
+.collection-item:focus, .selectable-item:focus {
+        background-color: #e3f2fd !important; /* Azul clarito */
+        border-left: 6px solid #2196f3 !important; /* Borde grueso */
+        outline: none;
+        transform: translateX(5px); /* Pequeño desplazamiento */
+    }
+
 .placeholder-text {
     color: var(--fm-muted) !important;
     font-style: normal !important;
@@ -254,6 +275,17 @@ h5 i { font-size: 24px; color: inherit; }
 .fm-btn-back span {
     font-size: 14px;
     letter-spacing: 0.3px;
+}
+
+button:focus, .btn:focus, a:focus {
+    background-color: #1565c0 !important; /* Azul más oscuro */
+    color: white !important;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.5) !important; /* Anillo azul brillante alrededor */
+    transform: scale(1.02); /* Se hace un poquito más grande */
+    transition: all 0.2s;
+    z-index: 20;
+    border-radius: 4px;
 }
 
 /* --- 12. AJUSTES PARA MÓVIL (Selección en vez de Drag) --- */

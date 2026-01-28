@@ -174,3 +174,10 @@ body {
 /* --- FOOTER ADAPTADO --- */
 .fm-bottom-nav .nav-item { transition: all 0.2s ease; }
 .fm-bottom-nav .nav-item:active { transform: scale(0.9); }
+
+/* Cuando el enlace tiene el foco con el teclado */
+a:focus button {
+    outline: 3px solid #1a73e8; /* Borde azul claro */
+    transform: scale(1.02);     /* Crece un poquito */
+    transition: all 0.2s ease;
+}
