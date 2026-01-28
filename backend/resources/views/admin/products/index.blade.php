@@ -2,107 +2,93 @@
 
 @section('content')
 
-<div class="flex justify-between items-center mb-6 p-5 bg-white rounded-xl shadow-sm border border-gray-100">
-    
-    <div>
-        <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <span class="text-indigo-600 bg-indigo-50 p-2 rounded-lg">
-                <i class="fas fa-box-open"></i>
-            </span>
-            Gestión de Productos
-        </h1>
-        <p class="text-gray-500 text-sm mt-2 ml-1">
-            Administra el catálogo y las calorías.
-        </p>
+<div class="container-fluid p-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4 p-4 bg-white rounded-3 shadow-sm border">
+        <div>
+            <h1 class="h3 fw-bold text-dark d-flex align-items-center gap-2 mb-0">
+                <span class="bg-success bg-opacity-10 text-success p-2 rounded">
+                    <i class="fas fa-box-open"></i>
+                </span>
+                Gestión de Productos
+            </h1>
+            <p class="text-muted small mb-0 mt-1 ms-1">
+                Administra el catálogo y las calorías.
+            </p>
+        </div>
+
+        <a href="{{ route('admin.products.create') }}" class="btn btn-success d-flex align-items-center gap-2 px-3 py-2 fw-semibold">
+            <div class="bg-white bg-opacity-25 rounded-circle p-1 d-flex justify-content-center align-items-center" style="width: 20px; height: 20px;">
+                <i class="fas fa-plus" style="font-size: 10px;"></i>
+            </div>
+            <span>Nuevo Producto</span>
+        </a>
     </div>
 
-    <a href="{{ route('admin.products.create') }}" 
-       class="group flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-200 transform hover:-translate-y-0.5"
-       style="background-color: #059669; color: #ffffff; text-decoration: none;"> <div class="bg-emerald-500 p-1 rounded-full group-hover:bg-emerald-600 transition">
-           <i class="fas fa-plus text-xs"></i>
-       </div>
-       <span>Nuevo Producto</span>
-    </a>
+    <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light border-bottom">
+                        <tr>
+                            <th class="ps-4 py-3 text-secondary text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">ID</th>
+                            <th class="py-3 text-secondary text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Nombre</th>
+                            <th class="py-3 text-secondary text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Calorías</th>
+                            <th class="pe-4 py-3 text-end text-secondary text-uppercase fw-bold" style="font-size: 0.75rem; letter-spacing: 0.5px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($products as $product)
+                        <tr>
+                            <td class="ps-4 fw-bold text-secondary text-monospace">
+                                #{{ $product->id }}
+                            </td>
+                            
+                            <td class="fw-bold text-dark">
+                                {{ $product->name }}
+                            </td>
 
-</div>
+                            <td>
+                                <span class="badge bg-warning bg-opacity-10 text-dark border border-warning border-opacity-25 rounded-pill px-3 py-2 fw-normal">
+                                    <i class="fas fa-fire-alt me-1 text-danger"></i>
+                                    {{ $product->kcal ?? 0 }} kcal
+                                </span>
+                            </td>
 
-<div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-    
-    <div class="overflow-x-auto">
-        <table class="min-w-full leading-normal">
-            <thead class="bg-gray-100 border-b-2 border-gray-200">
-                <tr>
-                    <th class="px-5 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider w-20">
-                        ID
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
-                        Nombre
-                    </th>
-                    <th class="px-5 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
-                        Calorías
-                    </th>
-                    <th class="px-5 py-3 text-right text-xs font-bold text-gray-600 uppercase tracking-wider">
-                        Acciones
-                    </th>
-                </tr>
-            </thead>
+                            <td class="pe-4 text-end">
+                                <div class="d-flex justify-content-end gap-2">
+                                    <a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-outline-primary btn-sm border-0 bg-primary bg-opacity-10 text-primary" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
 
-            <tbody class="divide-y divide-gray-200">
-                @forelse($products as $product)
-                <tr class="hover:bg-gray-50 transition duration-150">
-                    
-                    <td class="px-5 py-4 text-sm text-gray-500 font-mono">
-                        #{{ $product->id }}
-                    </td>
-                    
-                    <td class="px-5 py-4 text-sm font-medium text-gray-900">
-                        {{ $product->name }}
-                    </td>
+                                    <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar {{ $product->name }}?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-sm border-0 bg-danger bg-opacity-10 text-danger" title="Eliminar">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center py-5">
+                                <div class="d-flex flex-column align-items-center text-muted">
+                                    <i class="fas fa-box-open fa-3x mb-3 opacity-25"></i>
+                                    <p class="mb-0 fs-5">No hay productos registrados todavía.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                    <td class="px-5 py-4 text-sm">
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
-                            <i class="fas fa-fire-alt mr-1"></i>
-                            {{ $product->calories ?? 0 }} kcal
-                        </span>
-                    </td>
-
-                    <td class="px-5 py-4 text-sm text-right whitespace-nowrap">
-                        <div class="flex justify-end gap-3">
-                            <a href="{{ route('admin.products.edit', $product->id) }}" 
-                               class="text-blue-600 hover:text-blue-900 p-2 hover:bg-blue-50 rounded transition" 
-                               title="Editar">
-                                <i class="fas fa-edit"></i>
-                            </a>
-
-                            <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" 
-                                        class="text-red-600 hover:text-red-900 p-2 hover:bg-red-50 rounded transition"
-                                        title="Eliminar"
-                                        onclick="return confirm('¿Estás seguro de eliminar {{ $product->name }}?')">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="px-5 py-10 text-center text-gray-500">
-                        <div class="flex flex-col items-center justify-center">
-                            <i class="fas fa-box-open text-4xl mb-3 text-gray-300"></i>
-                            <p class="text-lg">No hay productos registrados todavía.</p>
-                        </div>
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-
-    <div class="px-5 py-4 bg-white border-t border-gray-200">
-        {{ $products->links() }}
+        <div class="card-footer bg-white border-top p-3 d-flex justify-content-center">
+            {{ $products->links() }}
+        </div>
     </div>
 </div>
 

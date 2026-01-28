@@ -2,91 +2,82 @@
 
 @section('content')
 
-<div class="flex justify-between items-center mb-6 p-5 bg-white rounded-xl shadow-sm border border-gray-100">
-    
-    <div>
-        <h1 class="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <span class="text-indigo-600 bg-indigo-50 p-2 rounded-lg">
-                <i class="fas fa-dumbbell"></i>
-            </span>
-            Gestión de Ejercicios
-        </h1>
-        <p class="text-gray-500 text-sm mt-2 ml-1">
-            Administra la biblioteca de entrenamientos.
-        </p>
+<div class="container-fluid p-5">
+
+    <div class="mb-4">
+        <h2 class="fw-bold text-dark">
+            <i class="fas fa-dumbbell me-2"></i>Gestión de Ejercicios
+        </h2>
+        <p class="text-muted">Administra la biblioteca de entrenamientos.</p>
     </div>
 
-    <a href="{{ route('admin.exercises.create') }}" 
-       class="group flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-200 transform hover:-translate-y-0.5"
-       style="background-color: #059669; color: #ffffff; text-decoration: none;">
-       
-       <div class="bg-emerald-500 p-1 rounded-full group-hover:bg-emerald-600 transition">
-           <i class="fas fa-plus text-xs"></i>
-       </div>
-       <span>Nuevo Ejercicio</span>
-    </a>
+    <div class="mb-4">
+        <a href="{{ route('admin.exercises.create') }}" class="btn btn-success px-4 py-2">
+            <i class="fas fa-plus me-2"></i>Nuevo Ejercicio
+        </a>
+    </div>
 
-</div>
+    <div class="card border-0 shadow-sm rounded-3">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-white border-bottom">
+                    <tr>
+                        <th class="ps-4 py-3 text-secondary text-uppercase" style="font-size: 0.85rem;">ID</th>
+                        <th class="py-3 text-secondary text-uppercase" style="font-size: 0.85rem;">Nombre</th>
+                        <th class="py-3 text-secondary text-uppercase" style="font-size: 0.85rem;">Grupo Muscular</th>
+                        <th class="pe-4 py-3 text-secondary text-uppercase text-end" style="font-size: 0.85rem;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($exercises as $exercise)
+                    <tr>
+                        <td class="ps-4 fw-bold text-muted">
+                            #{{ $exercise->id }}
+                        </td>
 
-<div class="bg-white rounded-lg shadow-md overflow-hidden p-4">
-    
-    <div class="overflow-x-auto">
-        <table class="min-w-full leading-normal">
-            <thead>
-                <tr>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Nombre
-                    </th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Grupo Muscular
-                    </th>
-                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Acciones
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($exercises as $exercise)
-                <tr>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap font-medium">
+                        <td class="fw-500">
                             {{ $exercise->name }}
-                        </p>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <span class="relative inline-block px-3 py-1 font-semibold text-blue-900 leading-tight">
-                            <span aria-hidden class="absolute inset-0 bg-blue-200 opacity-50 rounded-full"></span>
-                            <span class="relative">{{ $exercise->muscle_group ?? 'General' }}</span>
-                        </span>
-                    </td>
-                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                        <a href="{{ route('admin.exercises.edit', $exercise->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">
-                            <i class="fas fa-edit"></i> Editar
-                        </a>
-                        
-                        <form action="{{ route('admin.exercises.destroy', $exercise->id) }}" method="POST" class="inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('¿Seguro que quieres borrar este ejercicio?')">
-                                <i class="fas fa-trash"></i> Borrar
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="3" class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center text-gray-500">
-                        No hay ejercicios registrados todavía.
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                        </td>
+
+                        <td>
+                            <span class="badge bg-info bg-opacity-10 text-primary border border-info border-opacity-25 rounded-pill px-3 py-2">
+                                {{ $exercise->muscle_group ?? 'General' }}
+                            </span>
+                        </td>
+
+                        <td class="pe-4 text-end">
+                            <div class="d-inline-flex gap-2">
+                                <a href="{{ route('admin.exercises.edit', $exercise->id) }}" class="btn btn-outline-primary btn-sm d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;" title="Editar">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </a>
+
+                                <form action="{{ route('admin.exercises.destroy', $exercise->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este ejercicio?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-dark btn-sm d-flex align-items-center justify-content-center" style="width: 35px; height: 35px;" title="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="4" class="text-center py-5 text-muted">
+                            <i class="fas fa-dumbbell fa-3x mb-3 text-secondary opacity-50"></i>
+                            <p class="mb-0">No hay ejercicios registrados.</p>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="mt-4 px-4">
+    <div class="mt-4 d-flex justify-content-center">
         {{ $exercises->links() }}
     </div>
+
 </div>
 
 @endsection

@@ -1,0 +1,161 @@
+/* --- ESTILOS PANEL ADMIN --- */
+
+/* Contenedor principal tipo Tarjeta */
+.admin-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+    overflow: hidden; /* Para que la cabecera no se salga */
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Cabecera del Panel (Título + Buscador + Botón) */
+.admin-header {
+    padding: 25px 30px;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.header-title h4 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.header-title p {
+    margin: 5px 0 0 0;
+    color: #95a5a6;
+    font-size: 14px;
+}
+
+/* Buscador mejorado */
+.search-box {
+    position: relative;
+    max-width: 300px;
+    width: 100%;
+}
+
+.search-box input {
+    border-radius: 20px !important;
+    background: #f8f9fa !important;
+    border: 1px solid #eef0f2 !important;
+    padding-left: 40px !important;
+    height: 40px !important;
+    box-sizing: border-box;
+}
+
+.search-box input:focus {
+    background: #fff !important;
+    border-color: #1a73e8 !important;
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1) !important;
+}
+
+.search-box i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b0bec5;
+}
+
+/* Tabla Estilizada */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table thead {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #eee;
+}
+
+.custom-table th {
+    padding: 16px 24px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #5f6368;
+    letter-spacing: 0.5px;
+}
+
+.custom-table td {
+    padding: 16px 24px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    font-size: 15px;
+}
+
+.custom-table tr:hover {
+    background-color: #fafafa;
+}
+
+/* Badge para Grupo Muscular */
+.muscle-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #e3f2fd; /* Fondo azul suave */
+    color: #1565c0; /* Texto azul fuerte */
+    text-transform: capitalize;
+}
+
+/* Botones de Acción (Iconos) */
+.action-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 4px;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-edit { background: #fff8e1; color: #fbc02d; }
+.btn-edit:hover { background: #ffecb3; }
+
+.btn-delete { background: #ffebee; color: #ef5350; }
+.btn-delete:hover { background: #ffcdd2; }
+
+/* --- ESTRUCTURA DEL LAYOUT (SIDEBAR FIJO) --- */
+
+/* Ajuste principal: Mover el contenido a la derecha para dejar sitio al menú */
+header, main, footer {
+    padding-left: 300px; /* Ancho del menú lateral */
+}
+
+/* El menú lateral (asegurar que es fijo y tiene el ancho correcto) */
+.sidenav-fixed {
+    width: 300px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    overflow-y: auto;
+    background-color: #263238; /* Color oscuro que vi en tu foto */
+}
+
+/* --- RESPONSIVE (Móviles) --- */
+/* En pantallas pequeñas, quitamos el hueco porque el menú se oculta */
+@media only screen and (max-width : 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
+    
+    .sidenav-fixed {
+        transform: translateX(-105%); /* Ocultar menú por defecto en móvil */
+    }
+}

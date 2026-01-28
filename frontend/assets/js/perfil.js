@@ -1,65 +1,106 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- 1. REFERENCIAS AL DOM ---
+    const els = {
+        modal: document.getElementById('modalLogout'),
+        btnTrigger: document.getElementById('triggerLogout'),
+        btnCancel: document.getElementById('cancelarLogout'),
+        btnConfirm: document.getElementById('confirmarLogout'),
+        
+        // Elementos donde cargaremos datos
+        name: document.getElementById('profile-name'),
+        weight: document.getElementById('profile-weight'),
+        height: document.getElementById('profile-height'),
+        streak: document.getElementById('profile-streak')
+    };
 
-    // Referencias a los elementos
-    const btnLogout = document.getElementById("btn-logout-trigger");
-    const modal = document.getElementById("modal-logout");
-    const btnCancel = document.getElementById("btn-cancel");
-    const btnConfirm = document.getElementById("btn-confirm-logout");
+    // --- 2. HTML DEL LOADER ---
+    // Creamos dos versiones: normal y mini
+    const getLoaderHTML = (isMini = false) => {
+        const miniClass = isMini ? 'mini' : '';
+        return `
+            <div class="fm-loader-container ${miniClass}">
+                <div class="fm-dot"></div>
+                <div class="fm-dot"></div>
+                <div class="fm-dot"></div>
+            </div>
+        `;
+    };
 
-    // 1. ABRIR EL MODAL
-    if (btnLogout) {
-        btnLogout.addEventListener("click", function(e) {
-            e.preventDefault(); // Prevenir cualquier comportamiento raro
-            modal.classList.add("active");
-            // Accesibilidad: Mover el foco al botón de cancelar para evitar accidentes
-            btnCancel.focus();
-        });
-    }
+    // --- 3. FUNCIONES ---
 
-    // 2. CERRAR EL MODAL (CANCELAR)
-    if (btnCancel) {
-        btnCancel.addEventListener("click", function() {
-            modal.classList.remove("active");
-            // Devolver foco al botón original
-            btnLogout.focus();
-        });
-    }
+    // Mostrar loaders en todos los campos antes de cargar
+    const showLoaders = () => {
+        if(els.name) els.name.innerHTML = getLoaderHTML(false); // Loader normal
+        if(els.weight) els.weight.innerHTML = getLoaderHTML(true); // Loader mini
+        if(els.height) els.height.innerHTML = getLoaderHTML(true); // Loader mini
+        if(els.streak) els.streak.innerHTML = getLoaderHTML(true); // Loader mini
+    };
 
-    // 3. CONFIRMAR SALIDA (IR A LANDING)
-    if (btnConfirm) {
-        btnConfirm.addEventListener("click", function() {
-            console.log("Cerrando sesión...");
-            
-            // AQUÍ PONES LA URL DE TU LANDING PAGE
-            window.location.href = "/landing.html"; 
-        });
-    }
+    const loadUserData = async () => {
+        // 1. Mostrar animación inmediatamente
+        showLoaders();
 
-    // Cerrar si clickan fuera del cuadro blanco
-    window.addEventListener("click", function(e) {
-        if (e.target === modal) {
-            modal.classList.remove("active");
+        try {
+            // Simulamos un pequeño retraso para que se aprecie la animación (opcional, puedes quitarlo)
+            // await new Promise(r => setTimeout(r, 800)); 
+
+            const response = await fetch('/api/user', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.status === 401) {
+                window.location.href = '/login';
+                return;
+            }
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // 2. Reemplazar animación con datos reales
+                // Usamos textContent para limpiar el HTML del loader
+                if (els.name) els.name.textContent = data.name || 'Usuario';
+                
+                if (data.profile) {
+                    if (els.weight) els.weight.textContent = data.profile.weight || '--';
+                    if (els.height) els.height.textContent = data.profile.height || '--';
+                    
+                    // Lógica para la Racha (Streak)
+                    // Si no tienes la racha funcional, mostrará 0
+                    if (els.streak) els.streak.textContent = data.profile.streak || '0';
+                }
+            }
+        } catch (error) {
+            console.error('Error cargando datos:', error);
+            // En caso de error, quitamos el loader y ponemos guiones
+            if (els.name) els.name.textContent = 'Error';
+            if (els.weight) els.weight.textContent = '--';
         }
-    });
-});
+    };
 
-document.addEventListener("DOMContentLoaded", function() {
-    const trigger = document.getElementById('triggerLogout');
-    const modal = document.getElementById('modalLogout');
-
-    // 1. Abrir el pop-up
-    trigger.onclick = () => modal.style.display = 'flex';
-
-    // 2. Al confirmar, redirigimos a la ruta del BACKEND
-    document.getElementById('confirmarLogout').onclick = function() {
-        // Redirigimos a la ruta que Nginx mandará al back
-        // Usamos un formulario dinámico para que sea una petición POST (requerido por Laravel)
+    // Lógica del Modal (igual que antes)
+    const showModal = () => { if(els.modal) els.modal.style.display = 'flex'; };
+    const hideModal = () => { if(els.modal) els.modal.style.display = 'none'; };
+    const performLogout = () => {
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = '/api/logout'; // Esta ruta la configuramos ahora en Nginx
+        form.action = '/api/logout';
         document.body.appendChild(form);
         form.submit();
     };
 
-    document.getElementById('cancelarLogout').onclick = () => modal.style.display = 'none';
+    // --- 4. EVENT LISTENERS ---
+    if (els.btnTrigger) els.btnTrigger.addEventListener('click', showModal);
+    if (els.btnCancel) els.btnCancel.addEventListener('click', hideModal);
+    if (els.btnConfirm) els.btnConfirm.addEventListener('click', performLogout);
+    if (els.modal) els.modal.addEventListener('click', (e) => {
+        if (e.target === els.modal) hideModal();
+    });
+
+    // --- 5. INICIALIZAR ---
+    loadUserData();
 });

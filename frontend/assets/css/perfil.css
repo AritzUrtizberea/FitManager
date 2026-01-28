@@ -1,114 +1,238 @@
-/* --- CONFIGURACIÓN DE FORMULARIO --- */
-
-.fm-container-slim {
-    max-width: 500px !important;
-    padding-top: 20px;
-    margin-bottom: 120px;
+/* --- ESTRUCTURA & FONDO --- */
+body {
+    background-color: #f4f6f8;
+    color: #333;
+    /* Fuente heredada de materialize o tu configuración global */
 }
 
-/* El "Card" que envuelve el formulario */
-.form-card {
-    background: #ffffff;
-    padding: 10px;
-}
-
-.fm-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #444;
-    margin-bottom: 8px;
-    display: block;
-}
-
-/* Contenedor del Input con Icono */
-.fm-input-group { margin-bottom: 25px; }
-
-.fm-input-wrapper {
+/* --- HEADER PERFIL --- */
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0 30px 0;
+    background: white;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    margin-bottom: 25px;
     position: relative;
+}
+
+.nav-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.avatar-placeholder {
+    width: 90px;
+    height: 90px;
+    background: #e3f2fd;
+    color: #1a73e8;
+    border-radius: 50%;
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 40px;
+    margin-top: 20px;
 }
 
-.fm-input-wrapper i {
-    position: absolute;
-    left: 15px;
-    font-size: 20px;
-    color: var(--fm-blue);
+.user-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: #333;
+    margin: 0;
+    text-transform: capitalize;
 }
 
-/* Input Estilo Moderno */
-.fm-input-field {
-    width: 100% !important;
-    height: 54px !important;
-    background-color: #f8f9fa !important;
-    border: 1px solid #eee !important;
-    border-radius: 14px !important;
-    padding: 0 15px 0 45px !important;
-    font-size: 16px !important;
-    color: #333 !important;
-    box-sizing: border-box !important;
-    transition: all 0.2s ease;
+.user-badge {
+    font-size: 13px;
+    color: #777;
+    background: #f0f0f0;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
 }
 
-.fm-input-field:focus {
-    background-color: #fff !important;
-    border-color: var(--fm-blue) !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    outline: none;
+/* --- ESTADÍSTICAS --- */
+.stats-container {
+    margin-top: 0 !important;
+    padding: 0 15px;
 }
 
-/* Selector de Género Segmentado */
-.gender-selector {
-    display: flex;
-    background: #f8f9fa;
-    border-radius: 12px;
-    padding: 4px;
-    border: 1px solid #eee;
-}
-
-.gender-option {
-    flex: 1;
+.stat-box {
+    background: white;
+    border-radius: 16px;
+    padding: 15px 10px;
     text-align: center;
-    padding: 10px;
-    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    height: 100%;
+}
+
+.stat-icon { font-size: 24px; margin-bottom: 8px; }
+.c-blue { color: #1a73e8; }
+.c-green { color: #71a43d; }
+.c-orange { color: #ff9800; }
+
+.stat-val { display: block; font-size: 18px; font-weight: 800; color: #333; }
+.stat-lab { display: block; font-size: 11px; color: #888; text-transform: uppercase; font-weight: 700; margin-top: 4px; }
+
+/* --- LISTA DE MENÚ --- */
+.menu-section-title {
+    padding: 0 20px;
     font-size: 14px;
     color: #888;
+    font-weight: 700;
+    margin-top: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 15px 100px 15px; /* Margen para footer */
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    overflow: hidden;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid #f4f4f4;
+    color: #333;
+    text-decoration: none;
     cursor: pointer;
-    border-radius: 10px;
-    transition: 0.3s;
-}
-
-.gender-option.active {
-    background: var(--fm-blue);
-    color: white;
-}
-
-/* Botón Guardar (Verde según la imagen) */
-.fm-btn-save {
-    background-color: var(--fm-green) !important;
     width: 100%;
-    height: 54px !important;
-    line-height: 54px !important;
-    border-radius: 14px !important;
-    text-transform: none !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
-    box-shadow: 0 4px 15px rgba(113, 164, 61, 0.3) !important;
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 16px;
+    text-align: left;
+    transition: background-color 0.2s;
 }
 
-.fm-cancel-text {
-    margin-top: 15px;
-    color: #999;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 14px;
+.menu-item:last-child { border-bottom: none; }
+.menu-item:hover, .menu-item:focus { background-color: #fafafa; outline: none; }
+
+.menu-left { display: flex; align-items: center; gap: 15px; }
+.menu-icon { font-size: 22px; color: #555; }
+.menu-text { font-weight: 500; }
+.menu-chevron { color: #ccc; font-size: 18px; }
+
+/* Items específicos */
+.menu-item.logout { color: #d32f2f; }
+.menu-item.logout .menu-icon { color: #d32f2f; }
+
+/* --- MODAL --- */
+.modal-overlay {
+    display: none; /* Controlado por JS */
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 9999;
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(2px);
 }
 
-/* --- RESPONSIVE TABLET/PC --- */
-@media only screen and (min-width: 601px) {
-    .form-card {
-        padding: 40px;
-        border-radius: 24px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+.modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    width: 85%; max-width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.modal-icon-container {
+    width: 50px; height: 50px;
+    background: #ffebee; color: #d32f2f;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 15px auto;
+}
+
+.modal-title { margin: 0 0 10px 0; font-size: 18px; font-weight: 700; color: #333; }
+.modal-text { color: #666; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
+
+.modal-actions { display: flex; gap: 12px; }
+
+.btn-modal-cancel {
+    flex: 1; padding: 12px;
+    border: 1px solid #ddd; background: white;
+    border-radius: 12px; cursor: pointer;
+    color: #555; font-weight: 600;
+}
+
+.btn-modal-confirm {
+    flex: 1; padding: 12px;
+    background: #d32f2f; color: white;
+    border: none; border-radius: 12px;
+    font-weight: 600; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
+}
+
+/* Utils */
+.hidden { display: none !important; }
+
+/* --- ANIMACIÓN DE CARGA (LOADER) --- */
+
+/* Contenedor principal del loader */
+.fm-loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px; /* Un poco más junto */
+    width: 100%;
+    min-height: 30px; /* Altura mínima para que no salte el contenido */
+}
+
+/* Puntos animados */
+.fm-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #1a73e8; /* Tu color azul (o var(--fm-blue)) */
+    border-radius: 50%;
+    display: inline-block;
+    animation: fm-bounce 1.4s infinite ease-in-out both;
+}
+
+/* Retrasos para el efecto de ola */
+.fm-dot:nth-child(1) { animation-delay: -0.32s; }
+.fm-dot:nth-child(2) { animation-delay: -0.16s; }
+
+/* Animación */
+@keyframes fm-bounce {
+    0%, 80%, 100% { 
+        transform: scale(0);
+        opacity: 0.3;
+    } 
+    40% { 
+        transform: scale(1.0);
+        opacity: 1;
     }
+}
+
+/* --- VARIANTE MINI (Para Peso, Altura y Racha) --- */
+/* Esta clase ajusta el loader para que quepa en las cajas pequeñas */
+.fm-loader-container.mini {
+    margin-top: 0;
+    min-height: 20px;
+    gap: 4px;
+}
+
+.fm-loader-container.mini .fm-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #1a73e8; /* O usa un gris #999 si prefieres algo sutil */
 }

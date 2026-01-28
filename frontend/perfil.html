@@ -5,199 +5,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitManager - Perfil</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
     <link rel="stylesheet" href="assets/css/configuration.css">
     <link rel="stylesheet" href="assets/css/chatbot.css">
+
+    <link rel="stylesheet" href="assets/css/perfil.css">
 </head>
 
 <body>
 
-    <header class="fm-header-p">
-        <div class="header-flex">
-            <img src="assets/img/Logo_FitManager.png" alt="Logo FitManager" class="fm-logo-p">
-            <i class="ph ph-gear-six gear-icon"></i>
-        </div>
-    </header>
+    <main>
+        <section class="profile-header">
+            <div class="nav-header">
+                <i class="ph ph-gear-six" style="font-size: 24px; color: #333;"></i>
+            </div>
 
-    <main class="container fm-main-p">
-        <h1 id="profile-name" class="user-name center-align">Cargando...</h1>
+            <div class="avatar-placeholder">
+                <i class="ph-fill ph-user"></i>
+            </div>
+            
+            <h1 id="profile-name" class="user-name">Cargando...</h1>
+            <span class="user-badge">Miembro FitManager</span>
+        </section>
 
         <div class="row stats-container">
             <div class="col s4">
-                <div class="stat-box box-blue">
-                    <span class="val"><span id="profile-weight">--</span> kg</span>
-                    <span class="lab">Peso actual</span>
+                <div class="stat-box">
+                    <i class="ph-duotone ph-scales stat-icon c-blue"></i>
+                    <span class="stat-val" id="profile-weight">--</span>
+                    <span class="stat-lab">Peso (kg)</span>
                 </div>
             </div>
             <div class="col s4">
-                <div class="stat-box box-green">
-                    <span class="val"><span id="profile-height">--</span> cm</span>
-                    <span class="lab">Altura</span>
+                <div class="stat-box">
+                    <i class="ph-duotone ph-ruler stat-icon c-green"></i>
+                    <span class="stat-val" id="profile-height">--</span>
+                    <span class="stat-lab">Altura (cm)</span>
                 </div>
             </div>
             <div class="col s4">
-                <div class="stat-box box-dark">
-                    <span class="val"><span id="profile-streak">0</span> dias</span>
-                    <span class="lab">Racha de dias</span>
+                <div class="stat-box">
+                    <i class="ph-duotone ph-fire stat-icon c-orange"></i>
+                    <span class="stat-val" id="profile-streak">0</span>
+                    <span class="stat-lab">Racha</span>
                 </div>
             </div>
         </div>
 
-        <div class="settings-section">
-            <h6 class="section-title">Usuario</h6>
-            <div class="settings-list">
-                <a href="/profile/edit" style="color: inherit; text-decoration: none;">
-                    <div class="settings-item waves-effect">
-                        <span>Editar Perfil</span>
-                        <i class="ph ph-caret-right"></i>
+        <h6 class="menu-section-title">Cuenta</h6>
+        
+        <ul class="menu-list">
+            
+            <li>
+                <a href="/profile/edit" class="menu-item">
+                    <div class="menu-left">
+                        <i class="ph ph-pencil-simple menu-icon"></i>
+                        <span class="menu-text">Editar Perfil</span>
                     </div>
+                    <i class="ph ph-caret-right menu-chevron"></i>
                 </a>
-                <a href="/privacidad" style="text-decoration: none; color: inherit;">
-                    <div class="profile-menu-item"
-                        style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; cursor: pointer;">
-                        <span style="font-size: 16px;">Privacidad</span>
-                        <i class="fa-solid fa-chevron-right" style="color: #ccc;"></i>
-                    </div>
-                </a>
-                <button type="button" id="triggerLogout" class="btn-logout-clean"
-                    style="width: 100%; border: none; background: white; cursor: pointer; padding: 0;">
-                    <div
-                        style="display: flex; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid #eee;">
-                        <span style="color: #d32f2f; font-weight: bold;">Cerrar Sesión</span>
-                        <i class="ph ph-caret-right" style="color: #d32f2f;"></i>
-                    </div>
-                </button>
+            </li>
 
-                <div id="modalLogout"
-                    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center;">
-                    <div
-                        style="background: white; padding: 30px; border-radius: 15px; width: 80%; max-width: 320px; text-align: center;">
-                        <h3 style="margin-top:0;">¿Cerrar Sesión?</h3>
-                        <p style="color: #666;">¿Estás seguro de que quieres salir?</p>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <button id="cancelarLogout"
-                                style="flex: 1; padding: 12px; border: 1px solid #ddd; background: none; border-radius: 8px; cursor: pointer;">CANCELAR</button>
-                            <button id="confirmarLogout"
-                                style="flex: 1; padding: 12px; background: #d32f2f; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">SÍ,
-                                SALIR</button>
-                        </div>
+            <li>
+                <a href="/reviews" class="menu-item">
+                    <div class="menu-left">
+                        <i class="ph ph-star menu-icon" style="color: #fbc02d;"></i>
+                        <span class="menu-text">Mis Reseñas</span>
                     </div>
+                    <i class="ph ph-caret-right menu-chevron"></i>
+                </a>
+            </li>
+
+            <li>
+                <a href="/privacidad" class="menu-item">
+                    <div class="menu-left">
+                        <i class="ph ph-shield-check menu-icon"></i>
+                        <span class="menu-text">Privacidad</span>
+                    </div>
+                    <i class="ph ph-caret-right menu-chevron"></i>
+                </a>
+            </li>
+
+            <li>
+                <button type="button" id="triggerLogout" class="menu-item logout">
+                    <div class="menu-left">
+                        <i class="ph ph-sign-out menu-icon"></i>
+                        <span class="menu-text">Cerrar Sesión</span>
+                    </div>
+                    </button>
+            </li>
+        </ul>
+
+        <div id="modalLogout" class="modal-overlay">
+            <div class="modal-box">
+                <div class="modal-icon-container">
+                    <i class="ph-fill ph-sign-out" style="font-size: 24px;"></i>
                 </div>
+                <h3 class="modal-title">¿Cerrar Sesión?</h3>
+                <p class="modal-text">¿Estás seguro de que quieres salir de tu cuenta?</p>
+                
+                <div class="modal-actions">
+                    <button id="cancelarLogout" class="btn-modal-cancel">Cancelar</button>
+                    <button id="confirmarLogout" class="btn-modal-confirm">Salir</button>
+                </div>
+            </div>
+        </div>
 
-                <script>
-                    // LOGICA DE LOGOUT
-                    document.addEventListener("DOMContentLoaded", function () {
-                        const trigger = document.getElementById('triggerLogout');
-                        const modal = document.getElementById('modalLogout');
-                        const btnCancel = document.getElementById('cancelarLogout');
-                        const btnConfirm = document.getElementById('confirmarLogout');
-
-                        // 1. Abrir Modal
-                        if (trigger) {
-                            trigger.onclick = function () {
-                                modal.style.display = 'flex';
-                            };
-                        }
-
-                        // 2. Cerrar Modal
-                        if (btnCancel) {
-                            btnCancel.onclick = function () {
-                                modal.style.display = 'none';
-                            };
-                        }
-
-                        // 3. Confirmar y enviar a Nginx -> Laravel
-                        if (btnConfirm) {
-                            btnConfirm.onclick = function () {
-                                const form = document.createElement('form');
-                                form.method = 'POST';
-                                form.action = '/api/logout';
-                                document.body.appendChild(form);
-                                form.submit();
-                            };
-                        }
-                    });
-
-                    // LOGICA DE CARGA DE PERFIL
-                    document.addEventListener('DOMContentLoaded', async () => {
-                        try {
-                            // Petición a la API
-                            const response = await fetch('/api/user', {
-                                method: 'GET',
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json',
-                                }
-                            });
-
-                            // Si no está logueado, redirigir
-                            if (response.status === 401) {
-                                window.location.href = '/login';
-                                return;
-                            }
-
-                            if (response.ok) {
-                                const data = await response.json();
-
-                                // 1. DATOS DEL USUARIO (Tabla users)
-                                const nameElement = document.getElementById('profile-name');
-                                if (nameElement) {
-                                    nameElement.textContent = data.name;
-                                }
-
-                                // 2. DATOS DEL PERFIL (Tabla profiles)
-                                const profile = data.profile; // Objeto anidado
-
-                                if (profile) {
-                                    // Usamos document.getElementById con los nuevos IDs que hemos puesto arriba
-                                    const elWeight = document.getElementById('profile-weight');
-                                    const elHeight = document.getElementById('profile-height');
-                                    const elStreak = document.getElementById('profile-streak');
-
-                                    if(elWeight) elWeight.textContent = profile.weight || '--';
-                                    if(elHeight) elHeight.textContent = profile.height || '--';
-                                    if(elStreak) elStreak.textContent = profile.streak || '0';
-                                } else {
-                                    console.log('El usuario no tiene perfil asociado aún');
-                                }
-                            }
-
-                        } catch (error) {
-                            console.error('Error cargando perfil:', error);
-                        }
-                    });
-                </script>
     </main>
 
     <footer class="fm-bottom-nav white z-depth-2"
         style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0; background-color: white; border-top: 1px solid #f0f0f0;">
 
-        <a href="/home" class="nav-item"
-            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+        <a href="/home" class="nav-item" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
             <i class="ph-bold ph-house" style="font-size: 24px;"></i>
             <span style="font-size: 12px;">Inicio</span>
         </a>
 
-        <a href="/nutrition" class="nav-item"
-            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+        <a href="/nutrition" class="nav-item" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
             <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
             <span style="font-size: 12px;">Nutrición</span>
         </a>
 
-        <a href="/training" class="nav-item"
-            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
+        <a href="/training" class="nav-item" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
             <i class="ph-bold ph-barbell" style="font-size: 24px;"></i>
             <span style="font-size: 12px;">Entrenamiento</span>
         </a>
 
-        <a href="/perfil" class="nav-item active"
-            style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
+        <a href="/perfil" class="nav-item active" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
             <i class="ph-fill ph-user" style="font-size: 24px;"></i>
             <span style="font-size: 12px; font-weight: bold;">Perfil</span>
         </a>
     </footer>
-    <script src="assets/js/chatbot.js"></script>
-</body>
 
+    <script src="assets/js/chatbot.js"></script>
+    
+    <script src="assets/js/perfil.js"></script>
+</body>
 </html>
