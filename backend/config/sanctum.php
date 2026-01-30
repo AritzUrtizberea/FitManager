@@ -15,12 +15,22 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
-        '%s%s',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
-        Sanctum::currentApplicationUrlWithPort(),
-        // Sanctum::currentRequestHost(),
-    ))),
+   'stateful' => array_filter(array_merge(
+        // 1. Lee lo que haya en el .env por si acaso pones algo manual
+        explode(',', env('SANCTUM_STATEFUL_DOMAINS', '')),
+        [
+            'localhost',
+            'localhost:3000',
+            '127.0.0.1',
+            '127.0.0.1:8000',
+            '::1',
+            // 2. Lee la URL configurada en tu APP_URL
+            env('APP_URL') ? parse_url(env('APP_URL'), PHP_URL_HOST) : null,
+            // 3. ESTA ES LA CLAVE: Acepta dinámicamente la IP/Dominio actual desde donde entras
+            $_SERVER['HTTP_HOST'] ?? null,
+        ]
+    )),
+
 
     /*
     |--------------------------------------------------------------------------

@@ -33,8 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function initWeeklyPlan() {
     try {
+        // 1. Detectamos automáticamente la IP/Dominio actual
+        // Si entras por 10.10.18.181, esto valdrá "http://10.10.18.181"
+        // Si entras por localhost, esto valdrá "http://localhost"
+        const baseUrl = window.location.origin;
+
+        // 2. Construimos la URL usando esa variable
         // IMPORTANTE: Añadimos credentials: 'include' para que funcione Auth::user()
-        const response = await fetch('http://localhost/api/weekly-plans', {
+        const response = await fetch(`${baseUrl}/api/weekly-plans`, {
             headers: {
                 'Accept': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
