@@ -23,26 +23,26 @@
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div style="margin-bottom: 15px;">
-                    <label>Calorías (kcal)</label>
-                    <input type="number" name="calories" class="browser-default" style="width: 100%; padding: 8px;"
-                        required>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>Proteínas (g)</label>
-                    <input type="number" step="0.1" name="protein" class="browser-default"
-                        style="width: 100%; padding: 8px;">
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>Carbohidratos (g)</label>
-                    <input type="number" step="0.1" name="carbohydrates" class="browser-default"
-                        style="width: 100%; padding: 8px;">
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label>Grasas (g)</label>
-                    <input type="number" step="0.1" name="fats" class="browser-default" style="width: 100%; padding: 8px;">
-                </div>
-            </div>
+    <div style="margin-bottom: 15px;">
+        <label>Calorías (kcal)</label>
+        <input type="number" name="kcal" class="browser-default" style="width: 100%; padding: 8px;" required>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label>Proteínas (g)</label>
+        <input type="number" step="0.1" name="proteins" class="browser-default" style="width: 100%; padding: 8px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label>Carbohidratos (g)</label>
+        <input type="number" step="0.1" name="carbs" class="browser-default" style="width: 100%; padding: 8px;">
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label>Grasas (g)</label>
+        <input type="number" step="0.1" name="fats" class="browser-default" style="width: 100%; padding: 8px;">
+    </div>
+</div>
 
             <button type="submit"
                 style="background: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">
