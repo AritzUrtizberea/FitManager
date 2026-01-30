@@ -407,3 +407,12 @@ body {
 .status-card:active {
     transform: scale(0.98) !important; /* !important para ganar a otras reglas */
 }
+
+.status-card:hover {
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+}
+
+.status-btn:hover i {
+    transform: scale(1.1); /* Efecto zoom en el botón de check */
+}

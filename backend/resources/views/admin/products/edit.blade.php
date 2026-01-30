@@ -14,7 +14,7 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
             <div style="margin-bottom: 15px;">
                 <label>Calorías</label>
-                <input type="number" name="calories" value="{{ $product->calories }}" class="browser-default" style="width: 100%; padding: 8px;" required>
+                <input type="number" name="calories" value="{{ $product->kcal }}" class="browser-default" style="width: 100%; padding: 8px;" required>
             </div>
             <div style="margin-bottom: 15px;">
                 <label>Proteínas</label>

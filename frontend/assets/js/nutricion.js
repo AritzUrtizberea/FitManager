@@ -27,129 +27,181 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function initWeeklyPlan() {
-    const diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+// ==========================================
+// NUEVA LÓGICA CONECTADA A BASE DE DATOS
+// ==========================================
 
-    diasSemana.forEach(dia => {
-        // 1. GESTIÓN DE NOMBRES
-        let sufijoDia = dia;
-        if (dia === 'miercoles') sufijoDia = 'miércoles';
-        if (dia === 'sabado')    sufijoDia = 'sábado';
-
-        // 2. REFERENCIAS DOM
-        const cardUI = document.querySelector(`.border-${dia}`) || document.querySelector(`.border-${sufijoDia}`);
-        const statusUI = document.getElementById(`status-${dia}`) || document.getElementById(`status-${sufijoDia}`);
-        const listaUI = document.getElementById(`lista-comida-${dia}`) || document.getElementById(`lista-comida-${sufijoDia}`);
+async function initWeeklyPlan() {
+    try {
+        // IMPORTANTE: Añadimos credentials: 'include' para que funcione Auth::user()
+        const response = await fetch('http://localhost/api/weekly-plans', {
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
         
-        const dataJson = localStorage.getItem(`dieta_${dia}`);
-
-        // --- A. CONFIGURACIÓN TARJETA ---
-        if (cardUI) {
-            // Accesibilidad intacta
-            cardUI.setAttribute('tabindex', '0'); 
-            cardUI.style.cursor = 'pointer';
-
-            // Función de navegación con ANIMACIÓN DE SALIDA
-            const irALaDieta = () => {
-                // Animación: La tarjeta se encoge un poco antes de irse
-                anime({
-                    targets: cardUI,
-                    scale: 0.95,
-                    duration: 150,
-                    easing: 'easeOutQuad',
-                    complete: () => {
-                        window.location.href = `crear-dieta?dia=${dia}`;
-                    }
-                });
-            };
-
-            // Evento Click
-            cardUI.onclick = (e) => {
-                if (statusUI && statusUI.contains(e.target)) return;
-                irALaDieta();
-            };
-
-            // Evento Teclado
-            cardUI.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    if (document.activeElement === statusUI) return; 
-                    e.preventDefault();
-                    irALaDieta();
-                }
-            });
+        if (!response.ok) {
+            if(response.status === 401) throw new Error("No has iniciado sesión.");
+            throw new Error(`Error del servidor: ${response.status}`);
         }
 
-        // --- B. SI HAY DATOS ---
-        if (dataJson) {
-            const dieta = JSON.parse(dataJson);
+        const data = await response.json();
 
-            // Resumen visual
-            if (listaUI && dieta.items && dieta.items.length > 0) {
-                const nombres = dieta.items.slice(0, 2).map(p => p.name || "Producto").join(', ');
-                listaUI.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="color:#555; font-size: 0.9rem;">🍴 ${nombres}...</span>
-                        <span style="font-weight:700; color:#2ecc71;">${Math.round(dieta.total)} kcal</span>
-                    </div>`;
-            }
+        if (!Array.isArray(data)) return;
 
-            // --- C. LÓGICA DEL BADGE (Estado) ---
-            if (statusUI) {
-                statusUI.setAttribute('tabindex', '0');
-                statusUI.style.cursor = 'pointer';
-                
-                // Función pintar
-                const actualizarVisual = (animar = false) => {
-                    if (dieta.completado) {
-                        statusUI.className = 'badge badge-complete'; // Usamos tus clases CSS
-                        statusUI.style.backgroundColor = '#d1fae5';
-                        statusUI.style.color = '#065f46';
-                        statusUI.innerHTML = '<i class="ph ph-check-circle"></i> Completo';
-                    } else {
-                        statusUI.className = 'badge badge-pending';
-                        statusUI.style.backgroundColor = '#fffbeb';
-                        statusUI.style.color = '#92400e';
-                        statusUI.innerHTML = '<i class="ph ph-hourglass"></i> Pendiente';
-                    }
+        const diasOrden = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+        data.sort((a, b) => diasOrden.indexOf(a.day) - diasOrden.indexOf(b.day));
 
-                    // ANIMACIÓN "POP" (Solo si se activa por interacción)
-                    if (animar) {
-                        anime({
-                            targets: statusUI,
-                            scale: [0.5, 1], // Rebote elástico fuerte
-                            duration: 800,
-                            easing: 'easeOutElastic(1, .5)'
-                        });
-                    }
-                };
-                
-                // Carga inicial (sin animación)
-                actualizarVisual(false);
+        // Ahora esta función YA EXISTE:
+        renderPlan(data);
 
-                // Función cambio
-                const toggleEstado = (e) => {
-                    e.stopPropagation(); 
-                    if(e.type === 'keydown') e.preventDefault();
-
-                    dieta.completado = !dieta.completado;
-                    localStorage.setItem(`dieta_${dia}`, JSON.stringify(dieta));
-                    
-                    // Actualizamos CON animación
-                    actualizarVisual(true); 
-                };
-
-                statusUI.onclick = toggleEstado;
-                statusUI.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') toggleEstado(e);
-                });
-            }
-        } else {
-            if (listaUI) listaUI.textContent = "Sin planificar";
-            if (statusUI) statusUI.style.display = 'none';
+    } catch (error) {
+        console.error("Error:", error);
+        const container = document.getElementById('weekly-plan-container');
+        if (container) {
+            container.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
         }
-    });
+    }
 }
 
+// Esta función transforma los datos del JSON en código HTML
+function renderPlan(plans) {
+    const container = document.getElementById('weekly-plan-container');
+    if (!container) return;
+
+    container.innerHTML = ''; 
+
+    plans.forEach(plan => {
+        const isCompleted = plan.status === 'completed';
+        
+        // Estilos
+        const bgStyle = isCompleted ? 'background-color: #ecfdf5;' : 'background-color: #ffffff;';
+        const borderStyle = isCompleted ? 'border-left: 5px solid #10b981;' : 'border-left: 5px solid #f59e0b;';
+        const iconColor = isCompleted ? '#10b981' : '#e5e7eb'; 
+        const iconClass = isCompleted ? 'ph-fill ph-check-circle' : 'ph-bold ph-circle';
+        const extraClass = isCompleted ? 'completed-mode' : '';
+
+        // Resumen
+        let summaryHtml = '';
+        if (!plan.meals_summary || plan.meals_summary === 'Planificar comidas...') {
+            summaryHtml = '<span style="color: #9ca3af; font-style: italic; font-size: 0.9rem;">Toque para planificar...</span>';
+        } else {
+            summaryHtml = `<span style="color: #4b5563; font-size: 0.95rem;">${plan.meals_summary}</span>`;
+        }
+
+        // AQUÍ ESTÁ EL CAMBIO: Añadido onkeydown
+        const cardHtml = `
+            <div class="status-card ${extraClass}" 
+                 data-id="${plan.id}"
+                 role="button" 
+                 tabindex="0" 
+                 onclick="navigateToDay('${plan.day}')"
+                 onkeydown="if(event.key === 'Enter') navigateToDay('${plan.day}')"
+                 style="${bgStyle} ${borderStyle} cursor: pointer; position: relative; margin-bottom: 1rem; padding: 16px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+                
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    
+                    <div style="flex: 1; padding-right: 15px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 6px;">
+                            <h3 style="margin: 0; font-size: 1.1rem; font-weight: 700; color: #374151; margin-right: 10px;">${plan.day}</h3>
+                            <span class="kcal-badge" style="font-size: 0.75rem; font-weight: 600; color: #6b7280; background: rgba(0,0,0,0.05); padding: 2px 6px; border-radius: 4px;">
+                                ${plan.calories} kcal
+                            </span>
+                        </div>
+                        <p style="margin: 0; line-height: 1.4;">${summaryHtml}</p>
+                    </div>
+
+                    <button onclick="togglePlanStatus(event, ${plan.id})" 
+                            class="status-btn"
+                            style="background: none; border: none; cursor: pointer; padding: 5px; margin-top: -5px; margin-right: -5px; z-index: 10;">
+                        <i class="${iconClass}" style="font-size: 28px; color: ${iconColor}; transition: transform 0.2s;"></i>
+                    </button>
+                
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', cardHtml);
+    });
+    
+    if (typeof anime !== 'undefined') {
+        anime({ targets: '.status-card', opacity: [0, 1], translateY: [10, 0], delay: anime.stagger(50) });
+    }
+}
+
+
+function navigateToDay(day) {
+    console.log("Navegando al día:", day);
+    window.location.href = `/crear-dieta?day=${encodeURIComponent(day)}`;
+}
+
+// ==========================================
+// 2. FUNCIÓN PARA LEER EL TOKEN DE LA COOKIE
+// ==========================================
+function getCookie(name) {
+    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return decodeURIComponent(match[2]);
+    return null;
+}
+// ==========================================
+// FUNCIÓN INTERACCIÓN (LÓGICA + API)
+// ==========================================
+async function togglePlanStatus(event, id) {
+    // 1. IMPORTANTE: Matar el evento aquí mismo
+    // Esto evita que el clic "suba" al div grande y te redirija
+    if (event) {
+        event.preventDefault(); // Evita comportamientos por defecto
+        event.stopPropagation(); // Evita que llegue al padre (div grande)
+        event.stopImmediatePropagation(); // Asegura que nada más lo escuche
+    }
+
+    const btn = event.currentTarget;
+    const card = btn.closest('.status-card');
+    const icon = btn.querySelector('i');
+
+    // 2. Detectar estado actual
+    const isCurrentlyCompleted = card.classList.contains('completed-mode');
+    const newStatus = isCurrentlyCompleted ? 'pending' : 'completed';
+
+    // 3. CAMBIO VISUAL (Optimista)
+    if (newStatus === 'completed') {
+        card.classList.add('completed-mode');
+        icon.className = 'ph-fill ph-check-circle';
+        icon.style.color = '#10b981';
+        card.style.backgroundColor = '#ecfdf5';
+        card.style.borderLeft = '5px solid #10b981';
+        // Animación pequeña
+        if (typeof anime !== 'undefined') anime({ targets: icon, scale: [0.8, 1.2, 1], duration: 400 });
+    } else {
+        card.classList.remove('completed-mode');
+        icon.className = 'ph-bold ph-circle';
+        icon.style.color = '#e5e7eb';
+        card.style.backgroundColor = '#ffffff';
+        card.style.borderLeft = '5px solid #f59e0b';
+    }
+
+    // 4. GUARDAR EN DB
+    const xsrfToken = getCookie('XSRF-TOKEN');
+    try {
+        const response = await fetch(`/api/weekly-plans/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-XSRF-TOKEN': xsrfToken 
+            },
+            body: JSON.stringify({ status: newStatus })
+        });
+
+        if (!response.ok) {
+             console.error("Error guardando estado");
+             // Opcional: deshacer cambios visuales si falla
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
 // ... RESTO DE FUNCIONES IGUALES ...
 function initScannerLogic() {
     const btnVer = document.getElementById('btn-ver'); 
@@ -189,3 +241,4 @@ async function goToProduct(code) {
         } else { alert("Producto no encontrado."); }
     } catch (e) { console.error(e); }
 }
+
