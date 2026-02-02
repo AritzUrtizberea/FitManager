@@ -21,11 +21,13 @@
                 Iniciar Sesión
             </x-primary-button>
 
-            @if (Route::has('password.request'))
-                <a class="underline text-[14px] text-[#616f89] hover:text-[#111318] mb-4" href="{{ route('password.request') }}">
-                    ¿Olvidaste tu contraseña?
+            <div class="mt-6 text-center border-t border-gray-100 pt-4">
+                <span class="text-sm text-gray-600">¿No tienes cuenta?</span>
+                <a href="{{ route('register') }}" class="ml-1 text-sm text-indigo-600 hover:text-indigo-900 font-bold hover:underline">
+                    Regístrate aquí
                 </a>
-            @endif
+            </div>
+
         </div>
     </form>
 </x-guest-layout>

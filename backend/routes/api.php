@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DietController;
 use App\Http\Controllers\RoutineController;
-use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +18,6 @@ use App\Http\Controllers\Api\ReviewController;
 
 // Reseñas (Solo leer)
 Route::get('/reviews', [ReviewController::class, 'index']);
-
-// Autenticación para Apps externas (si usas Token)
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
 
 // Ingesta y Recomendaciones (Datos generales)
 Route::get('/ingest-exercises', [RoutineController::class, 'ingestExercises']);
