@@ -1,54 +1,78 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RoutineController; // <--- IMPORTANTE: Añadido
-use App\Http\Controllers\Api\ReviewController; // <--- IMPORTANTE: Añadido
 use Illuminate\Support\Facades\Route;
+
+// --- CONTROLADORES ---
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoutineController;
+// OJO: Asegúrate de que tu ReviewController está en la carpeta 'app/Http/Controllers'.
+// Si está en 'app/Http/Controllers/Api', deja la línea como la tenías antes.
+use App\Http\Controllers\ReviewController; 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
 
+/*
+|--------------------------------------------------------------------------
+| RUTAS PÚBLICAS
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
-    // Si ya entró, al home; si no, al login
     return auth()->check() ? redirect('/home') : redirect('/login');
 });
 
-Route::get('/home', function () {
-    return view('home'); 
-})->name('home');
 
 
-// --- ZONA ADMIN ---
+/*
+|--------------------------------------------------------------------------
+| ZONA ADMIN
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    
-    // Ruta del Dashboard
     Route::get('/dashboard', function () {
         return view('admin.dashboard'); 
-    })->name('dashboard'); // El nombre completo será 'admin.dashboard'
+    })->name('dashboard');
 
     Route::resource('products', AdminProductController::class);
     Route::resource('exercises', AdminExerciseController::class);
 });
-// --- RUTAS QUE REQUIEREN LOGIN ---
+
+/*
+|--------------------------------------------------------------------------
+| RUTAS DE USUARIO (Auth)
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth')->group(function () {
     
-    // Perfil de Usuario
+    Route::get('/home', function () {
+    return view('home'); 
+    })->name('home');
+
+    // --- PERFIL ---
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // =================================================================
-    //  RUTAS "API" INTERNAS (Movidias aquí para usar la sesión)
-    // =================================================================
+    // --- RESEÑAS (Híbrido: Blade para crear, JS para leer) ---
+    // 1. GET: Muestra la vista con el formulario y el contenedor vacío para el JS
+    // IMPORTANTE: Ahora la URL es '/reviews' a secas.
+
+    
+    // 2. POST: Recibe el formulario de Blade y guarda la reseña
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/reviews', [ReviewController::class, 'create'])->name('reviews.index'); 
+
+    // --- API INTERNA (Usada por el JS de Rutinas) ---
+    // Estas rutas no devuelven vistas, devuelven datos JSON o hacen acciones
     Route::prefix('api')->group(function () {
         
-        // 1. RUTINAS (Ahora Auth::id() funcionará correctamente)
-        Route::get('/routines', [RoutineController::class, 'index']); // Leer mis rutinas
-        Route::post('/routines', [RoutineController::class, 'store']); // Guardar rutina
-        Route::delete('/routines/{id}', [RoutineController::class, 'destroy']); // Borrar rutina
-
-        // 2. RESEÑAS (Guardar)
-        Route::post('/reviews', [ReviewController::class, 'store']);
+        // Rutinas
+        Route::get('/routines', [RoutineController::class, 'index']); 
+        Route::post('/routines', [RoutineController::class, 'store']); 
+        Route::delete('/routines/{id}', [RoutineController::class, 'destroy']); 
+        
+        // (He quitado el POST de reviews de aquí porque ya lo tenemos arriba para usar con Blade)
     });
 
 });

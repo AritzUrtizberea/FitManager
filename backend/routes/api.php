@@ -21,10 +21,6 @@ use App\Http\Controllers\NutritionController;
 // Reseñas (Solo leer)
 Route::get('/reviews', [ReviewController::class, 'index']);
 
-// Autenticación para Apps externas (si usas Token)
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-
 // Ingesta y Recomendaciones (Datos generales)
 Route::get('/ingest-exercises', [RoutineController::class, 'ingestExercises']);
 Route::get('/routines/recommendations', [RoutineController::class, 'getRecommendations']);
