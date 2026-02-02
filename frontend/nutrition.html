@@ -58,65 +58,19 @@
         </button>
 
         <section class="tu-semana">
-            <h2 class="h2-subtitle section-header">Tu Semana</h2>
+    <h2 class="h2-subtitle section-header">Tu Semana</h2>
 
-            <div class="card status-card border-lunes">
-                <div class="card-header">
-                    <strong>Lunes</strong>
-                    <span id="status-lunes" class="badge badge-pending">Incompleto</span>
-                </div>
-                <div id="lista-comida-lunes" class="card-body">Aún no has añadido nada.</div>
-            </div>
+    <div id="weekly-plan-container">
+        <div style="text-align:center; padding: 20px; color: #666;">
+            <i class="ph ph-spinner" style="font-size: 24px; animation: spin 1s linear infinite;"></i>
+            <p style="font-size: 12px; margin-top: 10px;">Cargando tu dieta...</p>
+        </div>
+    </div>
+</section>
 
-            <div class="card status-card border-martes">
-                <div class="card-header">
-                    <strong>Martes</strong>
-                    <span id="status-martes" class="badge badge-pending">Incompleto</span>
-                </div>
-                <div id="lista-comida-martes" class="card-body">Aún no has añadido nada.</div>
-            </div>
-
-            <div class="card status-card border-miercoles">
-                <div class="card-header">
-                    <strong>Miércoles</strong>
-                    <span id="status-miercoles" class="badge badge-pending">Incompleto</span>
-                </div>
-                <div id="lista-comida-miercoles" class="card-body">Aún no has añadido nada.</div>
-            </div>
-
-            <div class="card status-card border-jueves">
-                <div class="card-header">
-                    <strong>Jueves</strong>
-                    <span id="status-jueves" class="badge badge-pending">Incompleto</span>
-                </div>
-                <div id="lista-comida-jueves" class="card-body">Aún no has añadido nada.</div>
-            </div>
-
-            <div class="card status-card border-viernes">
-                <div class="card-header">
-                    <strong>Viernes</strong>
-                    <span id="status-viernes" class="badge badge-pending">Incompleto</span>
-                </div>
-                <div id="lista-comida-viernes" class="card-body">Aún no has añadido nada.</div>
-            </div>
-
-            <div class="card status-card border-sabado">
-                <div class="card-header">
-                    <strong>Sábado</strong>
-                    <span id="status-sabado" class="badge badge-pending">Incompleto</span>
-                </div>
-                <div id="lista-comida-sabado" class="card-body">Aún no has añadido nada.</div>
-            </div>
-
-            <div class="card status-card border-domingo">
-                <div class="card-header">
-                    <strong>Domingo</strong>
-                    <span id="status-domingo" class="badge badge-pending">Incompleto</span>
-                </div>
-                <div id="lista-comida-domingo" class="card-body">Aún no has añadido nada.</div>
-            </div>
-
-        </section>
+<style>
+@keyframes spin { 100% { transform: rotate(360deg); } }
+</style>
     </main>
 
    <footer class="fm-bottom-nav white z-depth-2"

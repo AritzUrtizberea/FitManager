@@ -27,7 +27,7 @@ async function cargarReseñas() {
             const fecha = new Date(r.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
 
             reseñasHTML += `
-                <div class="review-card">c
+                <div class="review-card">
                     <div class="review-stars">${estrellas}</div>
                     <p class="review-text">"${r.comment}"</p>
                     <div class="review-user-info">

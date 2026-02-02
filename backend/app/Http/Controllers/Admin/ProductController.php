@@ -68,9 +68,12 @@ class ProductController extends Controller
     {
         // 1. Validamos
         $request->validate([
-            'name' => 'required|string|max:255',
-            'calories' => 'required|integer',
-        ]);
+        'name' => 'required|string|max:255',
+        'kcal' => 'required|integer',       // <--- Cambiado de 'calories' a 'kcal'
+        'proteins' => 'nullable|numeric',   // <--- Añadido (acepta decimales)
+        'carbs' => 'nullable|numeric',      // <--- Añadido (acepta decimales)
+        'fats' => 'nullable|numeric',       // <--- Añadido (acepta decimales)
+    ]);
 
         // 2. Actualizamos
         $product->update($request->all());

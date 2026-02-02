@@ -6,7 +6,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DietController;
 use App\Http\Controllers\RoutineController;
-use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\NutritionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +43,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     return $request->user()->load('profile');
 });
 });
+
+Route::middleware('auth:sanctum')->group(function () {
+    // Tu ruta será: http://tu-web/api/weekly-plans
+    Route::get('/weekly-plans', [NutritionController::class, 'index']);
+    Route::put('/weekly-plans/{id}', [NutritionController::class, 'updateStatus']);
+    Route::post('/weekly-plans/save-day', [App\Http\Controllers\NutritionController::class, 'saveDayPlan']);
+});
+

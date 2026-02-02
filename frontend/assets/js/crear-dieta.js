@@ -1,20 +1,41 @@
 // =========================================================
 // CREAR-DIETA.JS (Iconos de basura + Suma arreglada)
 // =========================================================
+const urlParams = new URLSearchParams(window.location.search);
+const diaSeleccionado = urlParams.get('day');
+console.log("Editando el día:", diaSeleccionado);
 
 if (typeof window.productosSeleccionados === 'undefined') {
     window.productosSeleccionados = [];
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Configurar Día
+    // 1. Configurar Día (CON ARREGLO DE TILDES/MAYÚSCULAS)
     const params = new URLSearchParams(window.location.search);
-    const diaUrl = params.get('dia') || 'lunes';
+    const diaUrl = params.get('day') || params.get('dia') || 'Lunes';
     const selectDia = document.getElementById('select-dia');
     
     if (selectDia) {
-        selectDia.value = diaUrl;
-        cargarDatosDelDia(diaUrl);
+        // --- INICIO: NORMALIZADOR INTELIGENTE ---
+        // Esta función convierte "Sábado" -> "sabado" para compararlos
+        const limpiarTexto = (t) => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        const diaBuscado = limpiarTexto(diaUrl); 
+
+        let valorOficial = 'lunes'; // Valor por defecto
+        
+        // Buscamos en el select la opción que coincida (ignorando tildes y mayúsculas)
+        Array.from(selectDia.options).forEach(opcion => {
+            if (limpiarTexto(opcion.value) === diaBuscado || limpiarTexto(opcion.text) === diaBuscado) {
+                valorOficial = opcion.value; // ¡Encontrado! Usamos el valor real del HTML (ej: "sabado")
+                selectDia.value = valorOficial; // Marcamos la opción visualmente
+            }
+        });
+        // --- FIN: NORMALIZADOR ---
+
+        // Cargamos los datos usando el valor OFICIAL (ej: "sabado")
+        cargarDatosDelDia(selectDia.value);
+        
+        // Listener para cambio manual
         selectDia.addEventListener('change', (e) => cargarDatosDelDia(e.target.value));
     }
 
@@ -26,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnNuevo.addEventListener('click', guardarYSalir);
     }
 
-    // 3. Activar el detector inteligente
+    // 3. Activar el detector inteligente de clicks
     activarDetectorDeClicks();
     
     // 4. Configurar búsqueda
@@ -128,25 +149,107 @@ function renderizarCesta() {
     if (barra) barra.style.display = window.productosSeleccionados.length > 0 ? 'block' : 'none';
 }
 
-function cargarDatosDelDia(dia) {
-    const raw = localStorage.getItem(`dieta_${dia}`);
-    if (raw) {
-        window.productosSeleccionados = JSON.parse(raw).items || [];
-    } else {
-        window.productosSeleccionados = [];
+function cargarDatosDelDia(diaSeleccionado) {
+    // 1. Definir versiones del nombre
+    // EJEMPLO: Si entras en "Martes"...
+    const diaRaw = diaSeleccionado; // "Martes"
+    const diaLimpio = diaSeleccionado.toLowerCase()
+                                     .normalize("NFD")
+                                     .replace(/[\u0300-\u036f]/g, "")
+                                     .trim(); // "martes"
+
+    // 2. Definir Prioridad: PRIMERO buscamos la llave limpia ('dieta_martes')
+    // Si esa existe, es la más reciente y CORRECTA. Ignoramos 'dieta_Martes'.
+    const variantes = [
+        `dieta_${diaLimpio}`, // Prioridad 1: dieta_martes
+        `dieta_${diaRaw}`,    // Prioridad 2: dieta_Martes (Solo si no existe la 1)
+        `dieta_${diaSeleccionado.toLowerCase()}` // Por si acaso: dieta_martes (con tilde si aplica)
+    ];
+
+    let productosEncontrados = [];
+    let origenDatos = 'ninguno';
+
+    for (const key of variantes) {
+        const raw = localStorage.getItem(key);
+        if (raw) {
+            try {
+                const data = JSON.parse(raw);
+                if (data.items && data.items.length > 0) {
+                    productosEncontrados = data.items;
+                    origenDatos = key;
+                    // IMPORTANTE: Si encontramos datos en la prioritaria, PARAMOS.
+                    // Así evitamos cargar la versión vieja "sucia".
+                    break; 
+                }
+            } catch (e) {
+                console.error("Error leyendo", key);
+            }
+        }
     }
+
+    console.log(`Cargando día: ${diaSeleccionado} | Fuente: ${origenDatos}`);
+
+    window.productosSeleccionados = productosEncontrados;
     renderizarCesta();
 }
+async function guardarYSalir() {
+    const selectDia = document.getElementById('select-dia');
+    let diaRaw = selectDia.value; // Ej: "Martes"
+    
+    // Limpiamos el nombre para usarlo como llave oficial
+    const diaOficial = diaRaw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim(); // "martes"
 
-function guardarYSalir() {
-    const dia = document.getElementById('select-dia').value;
     const total = window.productosSeleccionados.reduce((acc, item) => acc + (parseFloat(item.kcal) || 0), 0);
-    
-    localStorage.setItem(`dieta_${dia}`, JSON.stringify({ 
-        items: window.productosSeleccionados, 
-        total: total,
-        completado: true 
-    }));
-    
-    window.location.href = 'nutrition';
+    const nombres = window.productosSeleccionados.map(p => p.name);
+    const resumen = nombres.slice(0, 3).join(', ') + (nombres.length > 3 ? '...' : '');
+
+    try {
+        const xsrfToken = getCookie('XSRF-TOKEN');
+        const response = await fetch('/api/weekly-plans/save-day', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-XSRF-TOKEN': xsrfToken
+            },
+            body: JSON.stringify({
+                day: diaRaw, 
+                calories: Math.round(total),
+                summary: resumen || "Dieta personalizada"
+            })
+        });
+
+        if (response.ok) {
+            // 1. Guardar en la llave LIMPIA (el futuro)
+            localStorage.setItem(`dieta_${diaOficial}`, JSON.stringify({ 
+                items: window.productosSeleccionados, 
+                total: total,
+                completado: true 
+            }));
+            
+            // 2. BORRAR la llave SUCIA (el pasado)
+            // Si la llave vieja era "dieta_Martes" y es distinta a "dieta_martes", la borramos.
+            if (`dieta_${diaRaw}` !== `dieta_${diaOficial}`) {
+                console.log(`Borrando datos fantasma en: dieta_${diaRaw}`);
+                localStorage.removeItem(`dieta_${diaRaw}`);
+            }
+
+            // Opcional: Borrar otras variantes comunes por si acaso
+            if (diaRaw !== 'Sabado' && diaRaw !== 'sabado') localStorage.removeItem('dieta_Sábado');
+            
+            window.location.href = '/nutrition'; 
+        } else {
+            alert("Error al guardar en servidor.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Error de conexión.");
+    }
+}
+
+function getCookie(name) {
+    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return decodeURIComponent(match[2]);
+    return null;
 }
