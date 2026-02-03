@@ -32,14 +32,18 @@ jobs:
         cp .env.example .env
         php artisan key:generate
 
-    ## 2. Validación (Tests)
+    # 2. Validación (Tests)
     - name: Execute Tests (Unit & Feature)
       working-directory: ./backend
-      run: php artisan test
+      run: |
+        php artisan config:clear
+        php artisan test
       env:
         DB_CONNECTION: sqlite
-        # IMPORTANTE: Las comillas son obligatorias aquí
+        # La base de datos en memoria (con comillas)
         DB_DATABASE: ':memory:'
+        # Forzamos la clave para que no falle el Hashing
+        APP_KEY: base64:Hupx773BS1iQfF0hSuDMjq2wd4zIGF+A3p1o5J+34nA=
 
     # 3. Configuración de Node (Frontend)
     # Asumo que tu package.json TAMBIÉN está dentro de backend (lo normal en Laravel)
