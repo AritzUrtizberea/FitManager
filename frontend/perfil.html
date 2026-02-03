@@ -3,17 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FitManager - Perfil</title>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="assets/css/configuration.css">
     <link rel="stylesheet" href="assets/css/chatbot.css">
-
-    <link rel="stylesheet" href="assets/css/perfil.css">
-</head>
+    <link rel="stylesheet" href="assets/css/perfil.css"> </head>
 
 <body>
 
@@ -23,10 +22,27 @@
                 <i class="ph ph-gear-six" style="font-size: 24px; color: #333;"></i>
             </div>
 
-            <div class="avatar-placeholder">
-                <i class="ph-fill ph-user"></i>
+            <div style="width: 100px; height: 100px; margin: 0 auto 15px; position: relative;">
+                
+                <div id="avatar-placeholder" class="avatar-placeholder" style="margin: 0;">
+                    <i class="ph-fill ph-user"></i>
+                </div>
+
+                <img id="avatar-image" 
+                     src="" 
+                     alt="Avatar"
+                     style="
+                        display: none;
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 4px solid white;
+                        box-shadow: 0 8px 25px rgba(26, 115, 232, 0.15);
+                        background-color: #f0f0f0;
+                     ">
             </div>
-            
+
             <h1 id="profile-name" class="user-name">Cargando...</h1>
             <span class="user-badge">Miembro FitManager</span>
         </section>
@@ -56,9 +72,8 @@
         </div>
 
         <h6 class="menu-section-title">Cuenta</h6>
-        
+
         <ul class="menu-list">
-            
             <li>
                 <a href="/profile/edit" class="menu-item">
                     <div class="menu-left">
@@ -95,7 +110,7 @@
                         <i class="ph ph-sign-out menu-icon"></i>
                         <span class="menu-text">Cerrar Sesión</span>
                     </div>
-                    </button>
+                </button>
             </li>
         </ul>
 
@@ -106,7 +121,7 @@
                 </div>
                 <h3 class="modal-title">¿Cerrar Sesión?</h3>
                 <p class="modal-text">¿Estás seguro de que quieres salir de tu cuenta?</p>
-                
+
                 <div class="modal-actions">
                     <button id="cancelarLogout" class="btn-modal-cancel">Cancelar</button>
                     <button id="confirmarLogout" class="btn-modal-confirm">Salir</button>
@@ -116,32 +131,17 @@
 
     </main>
 
-    <footer class="fm-bottom-nav white z-depth-2"
-        style="display: flex; justify-content: space-around; align-items: center; position: fixed; bottom: 0; width: 100%; height: 65px; padding: 0; background-color: white; border-top: 1px solid #f0f0f0;">
-
-        <a href="/home" class="nav-item" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
-            <i class="ph-bold ph-house" style="font-size: 24px;"></i>
-            <span style="font-size: 12px;">Inicio</span>
-        </a>
-
-        <a href="/nutrition" class="nav-item" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
-            <i class="ph-bold ph-unite" style="font-size: 24px;"></i>
-            <span style="font-size: 12px;">Nutrición</span>
-        </a>
-
-        <a href="/training" class="nav-item" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #5f6368;">
-            <i class="ph-bold ph-barbell" style="font-size: 24px;"></i>
-            <span style="font-size: 12px;">Entrenamiento</span>
-        </a>
-
-        <a href="/perfil" class="nav-item active" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #1a73e8;">
-            <i class="ph-fill ph-user" style="font-size: 24px;"></i>
-            <span style="font-size: 12px; font-weight: bold;">Perfil</span>
-        </a>
-    </footer>
+    <div class="floating-dock">
+        <a href="/home" class="dock-item"><i class="ph-fill ph-house"></i></a>
+        <a href="/nutrition" class="dock-item"><i class="ph-bold ph-fork-knife"></i></a>
+        <div class="dock-fab-container">
+            <button class="dock-fab" id="video-trigger-btn"><i class="ph-fill ph-play"></i></button>
+        </div>
+        <a href="/training" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
+        <a href="/perfil" class="dock-item active"><i class="ph-bold ph-user"></i></a>
+    </div>
 
     <script src="assets/js/chatbot.js"></script>
-    
     <script src="assets/js/perfil.js"></script>
 </body>
 </html>

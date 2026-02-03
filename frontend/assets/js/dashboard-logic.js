@@ -1,107 +1,122 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    // 1. Fecha en español
-    const dateOptions = { weekday: 'long', day: 'numeric', month: 'short' };
-    const today = new Date();
-    document.getElementById('date-display').textContent = today.toLocaleDateString('es-ES', dateOptions);
 
-    // 2. Marcar Semana
-    marcarDiaSemana();
+    // --- 1. UTILS ---
+    const updateSkeleton = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = text;
+            el.classList.remove('skeleton', 'skeleton-text');
+            el.style.width = 'auto';
+            el.style.height = 'auto';
+        }
+    };
 
-    try {
-        console.log("Iniciando carga de usuario...");
-        const response = await fetch('/api/user', {
-            headers: { 'Accept': 'application/json' }
+    // --- 2. POPUP VIDEO ---
+    const modal = document.getElementById('video-modal');
+    const openBtn = document.getElementById('video-trigger-btn');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const videoPlayer = document.getElementById('popup-video');
+
+    if (openBtn && modal) {
+        openBtn.addEventListener('click', () => {
+            modal.classList.add('open');
+            if (videoPlayer) videoPlayer.play();
         });
+        const cerrarModal = () => {
+            modal.classList.remove('open');
+            if (videoPlayer) { videoPlayer.pause(); videoPlayer.currentTime = 0; }
+        };
+        if (closeBtn) closeBtn.addEventListener('click', cerrarModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) cerrarModal(); });
+    }
 
-        if (response.ok) {
-            const user = await response.json();
-            console.log("Datos recibidos del servidor:", user); // IMPORTANTE: Mira esto en la consola (F12)
+    // --- 3. CARGA DE DATOS ---
+    try {
+        const res = await fetch('/api/user', { headers: { 'Accept': 'application/json' } });
+        await new Promise(r => setTimeout(r, 600)); // Delay estético
 
-            // --- A. NOMBRE ---
-            document.getElementById('user-name').textContent = `Hola, ${user.name || 'Atleta'}`;
-            
-            // --- B. PESO (SOLUCIÓN ROBUSTA) ---
-            // Buscamos 'weight', 'peso' o 'currentWeight' por si acaso
-            let pesoUsuario = user.weight || user.peso || user.currentWeight;
-            
-            if (pesoUsuario) {
-                document.getElementById('user-weight').textContent = pesoUsuario;
+        if (res.ok) {
+            const rawData = await res.json();
+            const user = rawData.data || rawData;
+
+            // === CORRECCIÓN CLAVE AQUÍ ===
+            // Los datos físicos están dentro del objeto 'profile'
+            const profile = user.profile || {};
+
+            console.log("Perfil físico detectado:", profile); // Para que confirmes en consola
+
+            // --- A. FECHA ---
+            const today = new Date();
+            const fechaTexto = today.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' });
+            const fechaFinal = fechaTexto.charAt(0).toUpperCase() + fechaTexto.slice(1);
+            updateSkeleton('date-display', fechaFinal);
+
+            // --- B. INICIALES ---
+            // Usamos name y surname tal cual salen en tu log
+            const nombre = user.name || "Usuario";
+            const apellido = user.surname || user.lastname || ""; // Tu log dice 'surname'
+            let iniciales = "US";
+
+            if (nombre && apellido) {
+                iniciales = nombre.trim().charAt(0) + apellido.trim().charAt(0);
             } else {
-                document.getElementById('user-weight').textContent = "--";
-                // Opcional: Avisar que falta peso
-                console.warn("No se encontró el peso en el objeto user.");
+                iniciales = nombre.substring(0, 2);
+            }
+            const headerInitials = document.getElementById('header-initials');
+            if (headerInitials) headerInitials.textContent = iniciales.toUpperCase();
+
+            // --- C. PESO, ALTURA Y CALORÍAS (BUSCANDO EN PROFILE) ---
+
+            // 1. Buscamos en profile.weight, si no está, probamos user.weight, si no, 70 por defecto
+            const peso = parseFloat(profile.weight || profile.peso || user.weight || 70);
+
+            // 2. Lo mismo para altura
+            const altura = parseFloat(profile.height || profile.altura || user.height || 175);
+
+            // 3. Lo mismo para edad
+            const edad = parseInt(profile.age || profile.edad || user.age || 25);
+
+            // Actualizamos la pantalla
+            updateSkeleton('user-weight', peso);
+
+            // Fórmula de Calorías
+            const calculoCalorias = Math.round((10 * peso) + (6.25 * altura) - (5 * edad) + 500);
+            updateSkeleton('cal-goal', calculoCalorias);
+
+            setTimeout(() => {
+                const circle = document.getElementById('cal-circle');
+                if (circle) circle.setAttribute('stroke-dasharray', `85, 100`);
+            }, 100);
+
+            // --- D. RUTINA ---
+            const titulos = ["Descanso Activo", "Pecho & Tríceps", "Espalda & Bíceps", "Pierna & Glúteo", "Hombro & Abs", "Full Body", "Cardio"];
+            const tituloHoy = titulos[today.getDay()] || "Entreno Libre";
+
+            const workoutTitle = document.getElementById('workout-title');
+            if (workoutTitle) {
+                workoutTitle.textContent = tituloHoy;
+                workoutTitle.classList.remove('text-loading');
             }
 
-            // --- C. CALORÍAS ---
-            calcularCalorias(user, pesoUsuario);
-            
-            // --- D. RUTINA ---
-            actualizarRutina(today.getDay());
+            // --- E. DÍAS DE LA SEMANA ---
+            const daysContainer = document.getElementById('week-days-container');
+            if (daysContainer) {
+                const daysElements = daysContainer.children;
+                let dayOfWeek = today.getDay();
+                if (dayOfWeek === 0) dayOfWeek = 7;
 
-        } else if (response.status === 401) {
-            window.location.href = '/login';
+                for (let i = 0; i < 7; i++) {
+                    const diaVisual = i + 1;
+                    daysElements[i].classList.remove('active', 'done');
+                    if (diaVisual < dayOfWeek) daysElements[i].classList.add('done');
+                    else if (diaVisual === dayOfWeek) daysElements[i].classList.add('active');
+                }
+            }
+
+        } else {
+            console.error("Error API:", res.status);
         }
     } catch (error) {
-        console.error("Error cargando dashboard:", error);
+        console.error("Error JS:", error);
     }
 });
-
-function calcularCalorias(user, peso) {
-    // Valores por defecto si faltan datos para que no salga NaN
-    const altura = user.height || user.altura || 175; 
-    const edad = user.age || user.edad || 25;
-    const genero = user.gender || user.sexo || 'male';
-    
-    // Si no hay peso, usamos uno promedio para el cálculo visual (pero mostramos -- en el texto)
-    const pesoCalculo = peso || 75; 
-
-    // Fórmula Mifflin-St Jeor
-    let tdee = (10 * pesoCalculo) + (6.25 * altura) - (5 * edad);
-    if (genero === 'male' || genero === 'hombre') tdee += 5;
-    else tdee -= 161;
-
-    // Factor actividad (sedentario/ligero por defecto)
-    tdee = Math.round(tdee * 1.3);
-
-    // Mostrar en pantalla
-    const elementoMeta = document.getElementById('cal-goal');
-    
-    // Animación de conteo
-    let start = 0;
-    const duration = 1000;
-    const step = timestamp => {
-        if (!start) start = timestamp;
-        const progress = Math.min((timestamp - start) / duration, 1);
-        elementoMeta.textContent = Math.floor(progress * tdee);
-        if (progress < 1) window.requestAnimationFrame(step);
-    };
-    window.requestAnimationFrame(step);
-
-    // Llenar el círculo al 60% por defecto (simulación visual)
-    setTimeout(() => {
-        document.getElementById('cal-circle').setAttribute('stroke-dasharray', `60, 100`);
-    }, 500);
-}
-
-function marcarDiaSemana() {
-    const diasHTML = document.getElementById('week-days-container').children;
-    const diaHoy = new Date().getDay(); // 0=Domingo, 1=Lunes
-    
-    // Ajuste: si es domingo (0), que sea el 7mo día visualmente o ignóralo
-    const diaAjustado = diaHoy === 0 ? 7 : diaHoy;
-
-    for (let i = 0; i < 5; i++) { // Solo L-V (índices 0-4)
-        if (i + 1 < diaAjustado) diasHTML[i].classList.add('done');
-        if (i + 1 === diaAjustado) diasHTML[i].classList.add('active');
-    }
-}
-
-function actualizarRutina(dia) {
-    const titulos = ["Descanso / Cardio", "Pecho & Tríceps", "Espalda & Bíceps", "Pierna & Glúteo", "Hombro & Abs", "Full Body", "Crossfit / HIIT"];
-    const tags = ["Recuperación", "Fuerza A", "Fuerza B", "Leg Day", "Hipertrofia", "Quema Grasa", "Intensidad"];
-    
-    // dia va de 0 (domingo) a 6
-    document.getElementById('workout-title').textContent = titulos[dia];
-    document.getElementById('workout-tag').textContent = tags[dia];
-}

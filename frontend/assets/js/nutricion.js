@@ -248,3 +248,35 @@ async function goToProduct(code) {
     } catch (e) { console.error(e); }
 }
 
+/* --- LÓGICA DEL VIDEO MODAL --- */
+document.addEventListener('DOMContentLoaded', () => {
+    const triggerBtn = document.getElementById('video-trigger-btn');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const modal = document.getElementById('video-modal');
+    const video = document.getElementById('popup-video');
+
+    if(triggerBtn && modal) {
+        // Abrir modal
+        triggerBtn.addEventListener('click', () => {
+            modal.classList.add('open');
+            if(video) video.play(); // Auto-reproducir al abrir (opcional)
+        });
+
+        // Cerrar modal
+        const closeModal = () => {
+            modal.classList.remove('open');
+            if(video) {
+                video.pause();
+                video.currentTime = 0; // Reiniciar video
+            }
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        
+        // Cerrar si tocas fuera del video (en lo oscuro)
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
+});
+

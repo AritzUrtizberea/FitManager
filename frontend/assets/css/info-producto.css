@@ -1,160 +1,479 @@
-/* 1. Variables y Configuración Base */
+/* --- 1. VARIABLES Y BASE (Estilo Moderno) --- */
 :root {
-    --primary: #7ab346;
-    --surface: #ffffff;
-    --background: #f4f6f8;
-    --text-dark: #1a1a1a;
-    --text-light: #737373;
+    --bg-app: #F2F4F7;
+    --card-bg: #FFFFFF;
+    --text-main: #1D1D1F;
+    --text-muted: #86868B;
+    --primary-blue: #007AFF;
+    --primary-gradient: linear-gradient(135deg, #007AFF 0%, #0055B3 100%);
+
+    /* Colores Macros */
+    --color-prot: #007AFF;
+    --color-carb: #FFD60A;
+    --color-fat: #FF3B30;
+
+    --radius-lg: 24px;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background-color: var(--background);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-app);
+    font-family: 'Manrope', sans-serif;
+    color: var(--text-main);
     margin: 0;
-    padding-bottom: 100px; /* Espacio para el botón flotante */
-    color: var(--text-dark);
-    -webkit-overflow-scrolling: touch;
+    padding: 0;
+
+    /* ESPACIO EXTRA PARA EL MENÚ FLOTANTE */
+    padding-bottom: 120px;
+
+    overflow-x: hidden;
 }
 
-/* 2. Header de Navegación */
+/* --- 2. HEADER --- */
 .header-nav {
     position: sticky;
     top: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(242, 244, 247, 0.95);
     backdrop-filter: blur(10px);
-    padding: 15px 20px;
+    padding: 15px 24px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 15px;
     z-index: 100;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
-/* 3. Sección Principal (Hero) */
-.hero-section {
-    background: var(--surface);
-    padding: 20px;
-    text-align: center;
-    border-radius: 0 0 25px 25px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    margin-bottom: 20px;
-}
-
-/* ESTA ES LA PARTE QUE FALTABA PARA QUE LA IMAGEN NO SALGA GIGANTE */
-.product-image-wrapper {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    margin: 0 auto 15px;
-    background: #fff;
-    border-radius: 20px;
-    padding: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+.btn-back {
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    color: var(--text-main);
+    font-size: 20px;
+}
+
+.header-title {
+    font-weight: 800;
+    font-size: 18px;
+}
+
+/* --- 3. CONTENEDOR --- */
+.main-container {
+    padding: 10px 24px;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Tarjetas */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+/* --- 4. DETALLES PRODUCTO --- */
+.product-hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.product-image-wrapper {
+    width: 140px;
+    height: 140px;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #E5E7EB;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 #prod-img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    z-index: 2;
 }
 
-/* 4. Badges (Nutriscore / Nova) */
+.placeholder-icon {
+    position: absolute;
+    font-size: 40px;
+    color: #E5E7EB;
+    z-index: 1;
+}
+
+.title-section h2 {
+    margin: 0 0 5px;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.title-section p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .badges-row {
     display: flex;
-    justify-content: center;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
 .badge-score {
-    padding: 4px 12px;
-    border-radius: 50px;
-    font-size: 0.75rem;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 12px;
     font-weight: 800;
+    color: white;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.title-section h2 { margin: 10px 0 5px; font-size: 1.4rem; line-height: 1.2; }
-.title-section p { margin: 0; color: var(--text-light); font-size: 0.95rem; }
-
-/* 5. Tarjeta de Calorías Destacada */
+/* Macro Highlight */
 .macro-highlight {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5253 100%);
+    background: var(--primary-gradient);
     color: white;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 20px;
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 10px 20px rgba(238, 82, 83, 0.25);
+    box-shadow: 0 10px 25px rgba(0, 122, 255, 0.25);
 }
 
-/* 6. Grid de Estadísticas (Macros) */
+.macro-label {
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.9;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.macro-value-group {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.macro-number {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.macro-unit {
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.macro-icon-box i {
+    font-size: 32px;
+    opacity: 0.8;
+}
+
+/* Stats Grid */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 0 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 .stat-card {
-    background: var(--surface);
-    padding: 15px;
-    border-radius: 16px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-    transition: transform 0.2s;
-}
-
-.stat-card:active { transform: scale(0.98); }
-
-.stat-label { font-size: 0.8rem; color: var(--text-light); margin-bottom: 5px; display: block; }
-.stat-value { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); }
-.stat-unit { font-size: 0.8rem; color: var(--text-light); font-weight: normal;}
-
-/* 7. Barra de Acción Inferior (Botón) */
-.bottom-action-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: var(--surface);
-    padding: 15px 20px;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-    box-sizing: border-box;
-    z-index: 200;
-}
-
-.btn-add {
-    width: 100%;
-    background: linear-gradient(90deg, #7ab346 0%, #5d8f33 100%);
-    color: white;
-    border: none;
+    background: var(--card-bg);
+    border-radius: 20px;
     padding: 16px;
-    border-radius: 14px;
-    font-size: 1rem;
+    box-shadow: var(--shadow-soft);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
     font-weight: 600;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.stat-value small {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-left: 1px;
+}
+
+.progress-bg {
+    height: 6px;
+    width: 100%;
+    background: #F3F4F6;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 100px;
+}
+
+.color-blue {
+    background: var(--color-prot);
+}
+
+.color-yellow {
+    background: var(--color-carb);
+}
+
+.color-red {
+    background: var(--color-fat);
+}
+
+.simple-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-simple {
+    font-size: 24px;
+    color: var(--primary-blue);
+    background: #F0F7FF;
+    padding: 8px;
+    border-radius: 12px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    box-shadow: 0 4px 15px rgba(122, 179, 70, 0.3);
+}
+
+.text-simple {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-simple .stat-label {
+    font-size: 11px;
+    margin-bottom: 0;
+}
+
+.text-simple .stat-value {
+    font-size: 16px;
+}
+
+/* Botón Añadir Grande */
+.btn-add-product {
+    width: 100%;
+    background: #1D1D1F;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 100px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+}
+
+.btn-add-product:active {
+    transform: scale(0.96);
+}
+
+/* Colores Badges */
+.bg-a {
+    background-color: #038141;
+}
+
+.bg-b {
+    background-color: #85BB2F;
+}
+
+.bg-c {
+    background-color: #FECB02;
+}
+
+.bg-d {
+    background-color: #EE8100;
+}
+
+.bg-e {
+    background-color: #E63E11;
+}
+
+.bg-gray {
+    background-color: #D1D5DB;
+}
+
+/* --- 5. FLOATING DOCK (MENÚ FLOTANTE) --- */
+.floating-dock {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    height: 70px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.dock-item {
+    color: #9CA3AF;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.dock-item.active {
+    color: var(--text-main);
+    background: #F3F4F6;
+}
+
+.dock-item:active {
+    transform: scale(0.9);
+}
+
+.dock-fab-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin-top: -40px;
+}
+
+.dock-fab {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--text-main);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s;
 }
 
-.btn-add:active { transform: scale(0.96); }
+.dock-fab:active {
+    transform: scale(0.9);
+}
 
-/* 8. Colores Dinámicos Nutriscore */
-.bg-a { background-color: #038141; }
-.bg-b { background-color: #85BB2F; }
-.bg-c { background-color: #FECB02; }
-.bg-d { background-color: #EE8100; }
-.bg-e { background-color: #E63E11; }
-.bg-gray { background-color: #ccc; }
+.dock-fab i {
+    margin-left: 2px;
+}
+
+/* --- 6. VIDEO MODAL --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+.modal-overlay.open .modal-content {
+    transform: scale(1);
+}
+
+.video-wrapper {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    background: black;
+}
+
+#popup-video {
+    width: 100%;
+    display: block;
+    max-height: 80vh;
+}
+
+.close-modal {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

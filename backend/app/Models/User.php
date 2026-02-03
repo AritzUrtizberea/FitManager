@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage; // <--- IMPORTE NECESARIO
 
 class User extends Authenticatable
 {
@@ -22,6 +23,7 @@ class User extends Authenticatable
         'surname',
         'email',
         'password',
+        'profile_photo_path', // <--- AÑADE ESTO para poder guardar la ruta
     ];
 
     /**
@@ -47,15 +49,29 @@ class User extends Authenticatable
         ];
     }
 
+    // --- RELACIONES ---
     public function profile() {
-    return $this->hasOne(Profile::class);
-}
+        return $this->hasOne(Profile::class);
+    }
 
     public function diets() {
-    return $this->hasMany(Diet::class);
-}
+        return $this->hasMany(Diet::class);
+    }
 
     public function routines() {
-    return $this->hasMany(Routine::class);
-}
+        return $this->hasMany(Routine::class);
+    }
+
+    // --- ACCESSOR (LA MAGIA) ---
+    // Esto crea el atributo virtual 'profile_photo_url' que usas en el HTML
+    public function getProfilePhotoUrlAttribute()
+    {
+        // Si hay una ruta guardada en la DB, devuelve la URL pública
+        if ($this->profile_photo_path) {
+            return Storage::url($this->profile_photo_path);
+        }
+
+        // Si no hay foto, devuelve null (así tu HTML mostrará las iniciales)
+        return null;
+    }
 }

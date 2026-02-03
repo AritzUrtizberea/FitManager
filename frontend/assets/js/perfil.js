@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     
+    console.log("✅ JS Cargado: Animaciones + Validación activas.");
+
     // --- 1. REFERENCIAS AL DOM ---
     const els = {
         modal: document.getElementById('modalLogout'),
@@ -7,15 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
         btnCancel: document.getElementById('cancelarLogout'),
         btnConfirm: document.getElementById('confirmarLogout'),
         
-        // Elementos donde cargaremos datos
         name: document.getElementById('profile-name'),
         weight: document.getElementById('profile-weight'),
         height: document.getElementById('profile-height'),
-        streak: document.getElementById('profile-streak')
+        streak: document.getElementById('profile-streak'),
+
+        avatarPlaceholder: document.getElementById('avatar-placeholder'),
+        avatarImage: document.getElementById('avatar-image')
     };
 
-    // --- 2. HTML DEL LOADER ---
-    // Creamos dos versiones: normal y mini
+    // --- 2. HTML DEL LOADER (RESTAURADO) ---
     const getLoaderHTML = (isMini = false) => {
         const miniClass = isMini ? 'mini' : '';
         return `
@@ -27,29 +30,23 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     };
 
-    // --- 3. FUNCIONES ---
-
-    // Mostrar loaders en todos los campos antes de cargar
+    // --- 3. FUNCIONES DE CARGA (RESTAURADO) ---
     const showLoaders = () => {
-        if(els.name) els.name.innerHTML = getLoaderHTML(false); // Loader normal
-        if(els.weight) els.weight.innerHTML = getLoaderHTML(true); // Loader mini
-        if(els.height) els.height.innerHTML = getLoaderHTML(true); // Loader mini
-        if(els.streak) els.streak.innerHTML = getLoaderHTML(true); // Loader mini
+        if(els.name) els.name.innerHTML = getLoaderHTML(false);
+        if(els.weight) els.weight.innerHTML = getLoaderHTML(true);
+        if(els.height) els.height.innerHTML = getLoaderHTML(true);
+        if(els.streak) els.streak.innerHTML = getLoaderHTML(true);
     };
 
     const loadUserData = async () => {
-        // 1. Mostrar animación inmediatamente
-        showLoaders();
+        showLoaders(); // Mostramos las bolitas al empezar
 
         try {
-            // Simulamos un pequeño retraso para que se aprecie la animación (opcional, puedes quitarlo)
-            // await new Promise(r => setTimeout(r, 800)); 
-
             const response = await fetch('/api/user', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 }
             });
 
@@ -61,39 +58,111 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.ok) {
                 const data = await response.json();
 
-                // 2. Reemplazar animación con datos reales
-                // Usamos textContent para limpiar el HTML del loader
+                // --- TEXTOS ---
                 if (els.name) els.name.textContent = data.name || 'Usuario';
                 
                 if (data.profile) {
                     if (els.weight) els.weight.textContent = data.profile.weight || '--';
                     if (els.height) els.height.textContent = data.profile.height || '--';
-                    
-                    // Lógica para la Racha (Streak)
-                    // Si no tienes la racha funcional, mostrará 0
                     if (els.streak) els.streak.textContent = data.profile.streak || '0';
+                }
+
+                // --- IMAGEN ---
+                const photoPath = data.profile_photo_path; 
+
+                if (photoPath) {
+                    // Timestamp para evitar caché antigua de la imagen
+                    const imgUrl = `/storage/${photoPath}?t=${new Date().getTime()}`;
+                    
+                    if (els.avatarImage) {
+                        els.avatarImage.src = imgUrl;
+
+                        els.avatarImage.onload = () => {
+                            if(els.avatarPlaceholder) els.avatarPlaceholder.style.display = 'none';
+                            els.avatarImage.style.display = 'block';
+                        };
+
+                        els.avatarImage.onerror = () => {
+                            if(els.avatarPlaceholder) els.avatarPlaceholder.style.display = 'flex';
+                            els.avatarImage.style.display = 'none';
+                        };
+                    }
+                } else {
+                    if(els.avatarPlaceholder) els.avatarPlaceholder.style.display = 'flex';
+                    if(els.avatarImage) els.avatarImage.style.display = 'none';
                 }
             }
         } catch (error) {
-            console.error('Error cargando datos:', error);
-            // En caso de error, quitamos el loader y ponemos guiones
+            console.error('Error:', error);
             if (els.name) els.name.textContent = 'Error';
-            if (els.weight) els.weight.textContent = '--';
         }
     };
 
-    // Lógica del Modal (igual que antes)
+    // --- 4. MODAL LOGOUT ---
     const showModal = () => { if(els.modal) els.modal.style.display = 'flex'; };
     const hideModal = () => { if(els.modal) els.modal.style.display = 'none'; };
+    
     const performLogout = () => {
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '/api/logout';
+        const token = document.querySelector('meta[name="csrf-token"]');
+        if(token) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = '_token';
+            input.value = token.content;
+            form.appendChild(input);
+        }
         document.body.appendChild(form);
         form.submit();
     };
 
-    // --- 4. EVENT LISTENERS ---
+    // ============================================================
+    // --- 5. BLOQUEO DE FOTOS GIGANTES (EL "GUARDAESPALDAS") ---
+    // ============================================================
+    
+    // VALIDACIÓN A: Aviso inmediato al elegir archivo
+    const fileInput = document.getElementById('avatar-input');
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (this.files[0] && this.files[0].size > 1048576) { // 1MB
+                alert("⚠️ La imagen es muy pesada (Máximo 1MB).");
+                this.value = ''; // Borramos para intentar evitar el envío
+            }
+        });
+    }
+
+    // VALIDACIÓN B: Bloqueo TOTAL del clic "Guardar" (Fase de Captura)
+    document.addEventListener('click', function(e) {
+        const input = document.getElementById('avatar-input');
+        
+        // Si hay una imagen seleccionada Y pesa más de 1MB...
+        if (input && input.files && input.files[0] && input.files[0].size > 1048576) {
+            
+            // Comprobamos si el clic fue en un botón
+            const targetBtn = e.target.closest('button, input[type="submit"], .btn');
+
+            if (targetBtn) {
+                // Ignoramos si es el botón de cancelar
+                if (targetBtn.id !== 'cancelarLogout' && !targetBtn.classList.contains('btn-cancel')) {
+                    
+                    // ¡ALTO AHÍ!
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+
+                    alert("⛔ NO SE PUEDE GUARDAR\n\nLa imagen supera el límite de 1MB.\nPor favor, elige una más pequeña.");
+                    
+                    input.value = ''; // Borramos la imagen culpable
+                    return false;
+                }
+            }
+        }
+    }, true); // <--- El 'true' es la clave para interceptar el clic antes que nadie.
+
+
+    // --- 6. EVENT LISTENERS ---
     if (els.btnTrigger) els.btnTrigger.addEventListener('click', showModal);
     if (els.btnCancel) els.btnCancel.addEventListener('click', hideModal);
     if (els.btnConfirm) els.btnConfirm.addEventListener('click', performLogout);
@@ -101,6 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target === els.modal) hideModal();
     });
 
-    // --- 5. INICIALIZAR ---
+    // --- 7. INICIO ---
     loadUserData();
 });
