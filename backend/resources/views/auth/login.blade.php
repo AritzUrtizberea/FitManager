@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <a href="{{ url('/') }}" 
+       style="position: absolute; top: 20px; left: 20px; background-color: white; border: 1px solid #d1d5db; padding: 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); z-index: 50; width: 45px; height: 45px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </a>
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}">

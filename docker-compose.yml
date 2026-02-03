@@ -5,8 +5,13 @@ services:
     container_name: fitmanager-proxy
     ports:
       - "80:80"
+      - "443:443"  # <--- ¡IMPORTANTE! Abrir el puerto seguro
     volumes:
+      # Aquí ajustamos la ruta a tu carpeta 'proxy' como me dijiste
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      
+      # <--- ¡IMPORTANTE! Inyectamos los certificados que creaste antes
+      - ./certs:/etc/nginx/certs
     depends_on:
       - backend
       - frontend

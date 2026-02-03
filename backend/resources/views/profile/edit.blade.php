@@ -289,6 +289,19 @@
 </head>
 <body>
 
+    <main class="container fm-edit-container">
+        <div
+            style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 20px;">
+            <a href="{{ url('/perfil') }}"
+                style="position: absolute; left: 0; background-color: #f3f4f6; border: 1px solid #d1d5db; padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: background-color 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+            </a>
+
+            <h2 style="font-size: 1.5rem; font-weight: bold; margin: 0;">Editar Perfil</h2>
+        </div>
     <header class="header-clean">
         <a href="/perfil" class="btn-back">
             <i class="ph-bold ph-caret-left"></i>
@@ -333,6 +346,100 @@
             </div>
         @endif
 
+            <div class="edit-card-content">
+                <form method="post" action="{{ route('profile.update') }}">
+                    @csrf
+                    @method('put')
+
+                    <div class="fm-input-wrapper-exact">
+                        <i class="ph ph-phone"></i>
+                        <input type="tel" name="phone" value="{{ auth()->user()->profile->phone ?? '' }}"
+                            class="fm-input-field-exact">
+                    </div>
+
+                    <div class="row" style="margin-bottom: 0;">
+                        <div class="col s6" style="padding-left: 0;">
+                            <label class="fm-label-exact">Prefijo</label>
+                            <input type="text" value="+34" class="fm-input-field-exact no-icon">
+                        </div>
+                        <div class="col s6" style="padding-right: 0;">
+                            <label class="fm-label-exact">Peso</label>
+                            <div class="input-with-unit">
+                                <input type="number" name="weight" value="{{ auth()->user()->profile->weight ?? '' }}"
+                                    class="fm-input-field-exact no-icon">
+                                <span class="unit">kg</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 0;">
+                        <div class="col s12" style="padding: 0;">
+                            <label class="fm-label-exact">Altura</label>
+                            <div class="input-with-unit">
+                                <input type="number" name="height" value="{{ auth()->user()->profile->height ?? '' }}"
+                                    class="fm-input-field-exact no-icon">
+                                <span class="unit-select">cm</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 0;">
+                        <div class="col s12" style="padding: 0;">
+                            <label class="fm-label-exact">Actividad Física</label>
+                            <div class="input-with-unit">
+                                <select name="activity" class="browser-default fm-input-field-exact no-icon">
+                                    <option value="baja" {{ (auth()->user()->profile->activity ?? '') == 'baja' ? 'selected' : '' }}>Baja</option>
+                                    <option value="moderada" {{ (auth()->user()->profile->activity ?? '') == 'moderada' ? 'selected' : '' }}>Moderada</option>
+                                    <option value="alta" {{ (auth()->user()->profile->activity ?? '') == 'alta' ? 'selected' : '' }}>Alta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="sex" id="sex-input"
+                        value="{{ auth()->user()->profile->sex ?? 'Hombre' }}">
+
+                    <label class="fm-label-exact">Sexo</label>
+                    <div class="gender-btn-group">
+                        <div class="g-btn {{ (auth()->user()->profile->sex ?? 'Hombre') == 'Hombre' ? 'active' : '' }}"
+                            onclick="updateSex('Hombre', this)">Hombre</div>
+                        <div class="g-btn {{ (auth()->user()->profile->sex ?? '') == 'Mujer' ? 'active' : '' }}"
+                            onclick="updateSex('Mujer', this)">Mujer</div>
+                    </div>
+
+                    <button type="submit" class="btn waves-effect waves-light fm-btn-green-exact">
+                        Guardar Cambios
+                    </button>
+                </form>
+
+                @if(session('success'))
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            M.toast({
+                                html: '<span><i class="ph-bold ph-check-circle" style="vertical-align: middle; margin-right: 8px;"></i> {{ session("success") }}</span>',
+                                classes: 'rounded green darken-1',
+                                displayLength: 4000
+                            });
+                        });
+                    </script>
+                @endif
+
+                <script>
+                    function updateSex(sexo, el) {
+                        // 1. Buscamos el input oculto que tiene el name="sex"
+                        const sexInput = document.getElementById('sex-input');
+
+                        // 2. IMPORTANTE: Asignamos el nuevo valor
+                        sexInput.value = sexo;
+
+                        // 3. Cambiamos la clase visual
+                        document.querySelectorAll('.g-btn').forEach(btn => btn.classList.remove('active'));
+                        el.classList.add('active');
+
+                        // Prueba esto: abre la consola (F12) y pulsa el botón, debería salir el mensaje
+                        console.log("Dato preparado para enviar:", sexInput.value);
+                    }
+                </script>
         <div class="btn-edit-photo" onclick="document.getElementById('avatar-input').click()" style="cursor: pointer;">
             <i class="ph-fill ph-camera"></i>
         </div>

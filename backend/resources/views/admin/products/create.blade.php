@@ -1,55 +1,59 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="card" style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
-        <h2>Añadir Nuevo Producto</h2>
+<div class="container py-4">
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 600px;">
+        <div class="card-body p-4">
+            <h2 class="h4 fw-bold mb-4">Añadir Nuevo Producto</h2>
 
-        <form action="{{ route('admin.products.store') }}" method="POST">
-            @csrf <div style="margin-bottom: 15px;">
-                <label>Nombre del Alimento</label>
-                <input type="text" name="name" class="browser-default" style="width: 100%; padding: 8px; margin-top: 5px;"
-                    required>
-            </div>
+            <form action="{{ route('admin.products.store') }}" method="POST">
+                @csrf 
+                
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Nombre del Alimento</label>
+                    <input type="text" name="name" class="form-control" placeholder="Ej: Pechuga de Pollo" required>
+                </div>
 
-            <div class="mb-4">
-                <label for="category_id" class="block text-gray-700 font-bold mb-2">Categoría</label>
-                <select name="category_id" id="category_id"
-                    class="w-full border rounded px-3 py-2 text-gray-700 focus:outline-none focus:border-blue-500" required>
-                    <option value="">-- Selecciona una categoría --</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold text-gray-700">Categoría</label>
+                    <select name="category_id" class="form-select" required>
+                        <option value="">-- Selecciona una categoría --</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-    <div style="margin-bottom: 15px;">
-        <label>Calorías (kcal)</label>
-        <input type="number" name="kcal" class="browser-default" style="width: 100%; padding: 8px;" required>
-    </div>
+                <div class="row g-3">
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label fw-semibold">Calorías (kcal)</label>
+                        <input type="number" name="kcal" class="form-control" required>
+                    </div>
 
-    <div style="margin-bottom: 15px;">
-        <label>Proteínas (g)</label>
-        <input type="number" step="0.1" name="proteins" class="browser-default" style="width: 100%; padding: 8px;">
-    </div>
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label fw-semibold">Proteínas (g)</label>
+                        <input type="number" step="0.1" name="proteins" class="form-control">
+                    </div>
 
-    <div style="margin-bottom: 15px;">
-        <label>Carbohidratos (g)</label>
-        <input type="number" step="0.1" name="carbs" class="browser-default" style="width: 100%; padding: 8px;">
-    </div>
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label fw-semibold">Carbohidratos (g)</label>
+                        <input type="number" step="0.1" name="carbs" class="form-control">
+                    </div>
 
-    <div style="margin-bottom: 15px;">
-        <label>Grasas (g)</label>
-        <input type="number" step="0.1" name="fats" class="browser-default" style="width: 100%; padding: 8px;">
+                    <div class="col-12 col-sm-6">
+                        <label class="form-label fw-semibold">Grasas (g)</label>
+                        <input type="number" step="0.1" name="fats" class="form-control">
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-2">
+                    <button type="submit" class="btn btn-success px-4">
+                        Guardar Producto
+                    </button>
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-light border">Cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-            <button type="submit"
-                style="background: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 4px;">
-                Guardar Producto
-            </button>
-            <a href="{{ route('admin.products.index') }}"
-                style="margin-left: 10px; color: #666; text-decoration: none;">Cancelar</a>
-        </form>
-    </div>
 @endsection
