@@ -46,6 +46,10 @@ class DatabaseSeeder extends Seeder
         }
 
         // 5. Llamar al seeder de productos (si lo tienes listo)
-        $this->call(ProductSeeder::class);
+        $this->call([
+            CategorySeeder::class, // Este te faltaba
+            ProductSeeder::class,  // Este ya lo tenías
+            // Agrega aquí cualquier otro seeder nuevo
+        ]);
     }
 }
