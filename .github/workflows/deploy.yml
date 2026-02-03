@@ -2,12 +2,11 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ] # O la rama que uses para producción (ej. 'master' o 'dev2' si estás probando)
+    branches: [ "main", "dev2" ] # He añadido dev2 para que te funcione ahora mismo
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev2" ]
 
 jobs:
-  # JOBS 1: BUILD Y VALIDACIÓN (CI)
   build-and-test:
     runs-on: ubuntu-latest
 
@@ -22,44 +21,49 @@ jobs:
         extensions: mbstring, bcmath, intl, pdo_mysql
         coverage: none
 
+    # AQUÍ ESTABA EL FALLO: Le decimos que entre a ./backend
     - name: Install Composer Dependencies
+      working-directory: ./backend
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Prepare Laravel Application
+      working-directory: ./backend
       run: |
         cp .env.example .env
         php artisan key:generate
 
     # 2. Validación (Tests)
     - name: Execute Tests (Unit & Feature)
+      working-directory: ./backend
       run: php artisan test
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: :memory
+        DB_DATABASE: :memory:
 
     # 3. Configuración de Node (Frontend)
+    # Asumo que tu package.json TAMBIÉN está dentro de backend (lo normal en Laravel)
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
 
     - name: Install NPM Dependencies
+      working-directory: ./backend
       run: npm ci
 
-    # 4. Build de Assets (Preparación para producción)
+    # 4. Build de Assets
     - name: Build Frontend Assets
+      working-directory: ./backend
       run: npm run build
 
   # JOBS 2: DESPLIEGUE (CD)
   deploy:
-    needs: build-and-test # ¡Importante! Solo despliega si los tests pasan
+    needs: build-and-test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' # Solo despliega si es la rama main
+    if: github.ref == 'refs/heads/main' # Solo despliega si es main
     
     steps:
       - name: Trigger Deploy Hook
-        # Si usas Render o Railway, te dan una URL para desplegar automáticamente
-        # Si no tienes servidor real, este paso simula el éxito.
         run: |
           if [ -n "${{ secrets.DEPLOY_HOOK_URL }}" ]; then
             curl -X POST ${{ secrets.DEPLOY_HOOK_URL }}
