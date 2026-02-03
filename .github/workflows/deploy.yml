@@ -38,7 +38,7 @@ jobs:
       run: php artisan test
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: :memory:
+        DB_DATABASE: :memory
 
     # 3. Configuración de Node (Frontend)
     # Asumo que tu package.json TAMBIÉN está dentro de backend (lo normal en Laravel)
