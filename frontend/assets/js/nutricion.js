@@ -4,12 +4,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Iniciamos los botones LO PRIMERO (para que siempre funcionen)
-    initScannerLogic();      
+    initScannerLogic();
     initNavigationButtons();
-    
+
     // 2. Luego la lógica de la semana
     initWeeklyPlan();
-    
+
     // 3. Al final las animaciones (si fallan, no rompen los botones)
     try {
         anime({
@@ -46,9 +46,9 @@ async function initWeeklyPlan() {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         });
-        
+
         if (!response.ok) {
-            if(response.status === 401) throw new Error("No has iniciado sesión.");
+            if (response.status === 401) throw new Error("No has iniciado sesión.");
             throw new Error(`Error del servidor: ${response.status}`);
         }
 
@@ -76,15 +76,15 @@ function renderPlan(plans) {
     const container = document.getElementById('weekly-plan-container');
     if (!container) return;
 
-    container.innerHTML = ''; 
+    container.innerHTML = '';
 
     plans.forEach(plan => {
         const isCompleted = plan.status === 'completed';
-        
+
         // Estilos
         const bgStyle = isCompleted ? 'background-color: #ecfdf5;' : 'background-color: #ffffff;';
         const borderStyle = isCompleted ? 'border-left: 5px solid #10b981;' : 'border-left: 5px solid #f59e0b;';
-        const iconColor = isCompleted ? '#10b981' : '#e5e7eb'; 
+        const iconColor = isCompleted ? '#10b981' : '#e5e7eb';
         const iconClass = isCompleted ? 'ph-fill ph-check-circle' : 'ph-bold ph-circle';
         const extraClass = isCompleted ? 'completed-mode' : '';
 
@@ -116,20 +116,22 @@ function renderPlan(plans) {
                             </span>
                         </div>
                         <p style="margin: 0; line-height: 1.4;">${summaryHtml}</p>
-                    </div>
+    </div>
 
-                    <button onclick="togglePlanStatus(event, ${plan.id})" 
-                            class="status-btn"
-                            style="background: none; border: none; cursor: pointer; padding: 5px; margin-top: -5px; margin-right: -5px; z-index: 10;">
-                        <i class="${iconClass}" style="font-size: 28px; color: ${iconColor}; transition: transform 0.2s;"></i>
-                    </button>
-                
-                </div>
+    <button onclick="togglePlanStatus(event, ${plan.id})" 
+            onkeydown="event.stopPropagation()"
+            class="status-btn"
+            aria-label="Marcar como completado"
+            style="background: none; border: none; cursor: pointer; padding: 5px; margin-top: -5px; margin-right: -5px; z-index: 10;">
+        <i class="${iconClass}" style="font-size: 28px; color: ${iconColor}; transition: transform 0.2s;"></i>
+    </button>
+
+</div>
             </div>
         `;
         container.insertAdjacentHTML('beforeend', cardHtml);
     });
-    
+
     if (typeof anime !== 'undefined') {
         anime({ targets: '.status-card', opacity: [0, 1], translateY: [10, 0], delay: anime.stagger(50) });
     }
@@ -195,14 +197,14 @@ async function togglePlanStatus(event, id) {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-XSRF-TOKEN': xsrfToken 
+                'X-XSRF-TOKEN': xsrfToken
             },
             body: JSON.stringify({ status: newStatus })
         });
 
         if (!response.ok) {
-             console.error("Error guardando estado");
-             // Opcional: deshacer cambios visuales si falla
+            console.error("Error guardando estado");
+            // Opcional: deshacer cambios visuales si falla
         }
     } catch (error) {
         console.error(error);
@@ -210,8 +212,8 @@ async function togglePlanStatus(event, id) {
 }
 // ... RESTO DE FUNCIONES IGUALES ...
 function initScannerLogic() {
-    const btnVer = document.getElementById('btn-ver'); 
-    const inputManual = document.getElementById('barcode-input'); 
+    const btnVer = document.getElementById('btn-ver');
+    const inputManual = document.getElementById('barcode-input');
     const btnScan = document.getElementById('btn-scan');
     const readerDiv = document.getElementById('reader');
 

@@ -1,0 +1,51 @@
+name: FitManager CI
+
+# Se ejecuta automáticamente al hacer push a la rama main
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  # TRABAJO 1: Verificación de Código Laravel (Lint & Install)
+  laravel-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2' # O la versión que uses (8.1, 8.2, 8.3)
+        extensions: mbstring, xml, bcmath
+
+    - name: Copy .env
+      run: php -r "file_exists('backend/.env') || copy('backend/.env.example', 'backend/.env');"
+
+    - name: Install Dependencies
+      run: |
+        cd backend
+        composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Generate Key
+      run: |
+        cd backend
+        php artisan key:generate
+
+    - name: Check Syntax (Lint)
+      run: |
+        cd backend
+        # Esto busca errores de sintaxis en tu carpeta app/
+        find app -name "*.php" -print0 | xargs -0 -n1 php -l
+
+  # TRABAJO 2: Build de Imagen Docker (Prueba de infraestructura)
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: laravel-check # Solo se ejecuta si el paso anterior fue bien
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build Backend Docker Image
+      run: docker build -t fitmanager-backend ./backend
+      # Si tienes un Dockerfile en backend, esto comprobará que funciona.

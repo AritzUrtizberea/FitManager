@@ -1,63 +1,46 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div style="max-width: 600px; margin: 0 auto;">
-        <h2 style="margin-bottom: 20px;">Nuevo Ejercicio</h2>
+<div class="container py-4">
+    <div class="mx-auto" style="max-width: 600px;">
+        <h2 class="h3 fw-bold mb-4 text-dark">Nuevo Ejercicio</h2>
 
-        <div class="card"
-            style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-            <form action="{{ route('admin.exercises.store') }}" method="POST">
-                @csrf
-                @if ($errors->any())
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-                        <strong class="font-bold">Hay errores en el formulario:</strong>
-                        <ul class="list-disc list-inside mt-1">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-body p-3 p-md-4">
+                <form action="{{ route('admin.exercises.store') }}" method="POST">
+                    @csrf
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nombre del Ejercicio</label>
+                        <input type="text" name="name" class="form-control p-2" placeholder="Ej: Press de Banca" required>
                     </div>
-                @endif
 
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Nombre del Ejercicio</label>
-                    <input type="text" name="name" placeholder="Ej: Press de Banca" required
-                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Grupo Muscular Principal</label>
+                        <select name="muscle_group" class="form-select p-2" required>
+                            <option value="" disabled selected>Selecciona un músculo...</option>
+                            @foreach(['Pecho', 'Espalda', 'Pierna', 'Hombro', 'Bíceps', 'Tríceps', 'Abdomen', 'Cardio', 'General'] as $m)
+                                <option value="{{ $m }}">{{ $m }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Grupo Muscular Principal</label>
-                    <select name="muscle_group" required
-                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: white;">
-                        <option value="" disabled selected>Selecciona un músculo...</option>
-                        <option value="Pecho">Pecho</option>
-                        <option value="Espalda">Espalda</option>
-                        <option value="Pierna">Pierna</option>
-                        <option value="Hombro">Hombro</option>
-                        <option value="Bíceps">Bíceps</option>
-                        <option value="Tríceps">Tríceps</option>
-                        <option value="Abdomen">Abdomen</option>
-                        <option value="Cardio">Cardio</option>
-                    </select>
-                </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Descripción / Notas</label>
+                        <textarea name="description" rows="4" class="form-control" placeholder="Breve explicación de la técnica..."></textarea>
+                    </div>
 
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Descripción / Notas</label>
-                    <textarea name="description" rows="4" placeholder="Breve explicación de la técnica..."
-                        style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
-                </div>
-
-                <div style="display: flex; gap: 10px; margin-top: 30px;">
-                    <button type="submit"
-                        style="background: #4CAF50; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-                        Guardar Ejercicio
-                    </button>
-                    <a href="{{ route('admin.exercises.index') }}"
-                        style="padding: 12px 24px; color: #666; text-decoration: none; border: 1px solid #ddd; border-radius: 4px;">
-                        Cancelar
-                    </a>
-                </div>
-            </form>
+                    <div class="d-grid d-md-flex gap-2">
+                        <button type="submit" class="btn btn-success px-4 fw-bold order-2 order-md-1">
+                            Guardar Ejercicio
+                        </button>
+                        <a href="{{ route('admin.exercises.index') }}" class="btn btn-outline-secondary px-4 order-1 order-md-2">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 @endsection
