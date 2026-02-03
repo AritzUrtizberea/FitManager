@@ -1,22 +1,54 @@
-/* --- ESTRUCTURA & FONDO --- */
-body {
-    background-color: #f4f6f8;
-    color: #333;
-    /* Fuente heredada de materialize o tu configuración global */
+/* --- CONFIGURACIÓN BASE & VARIABLES --- */
+:root {
+    --bg-color: #F8F9FE;
+    /* Un gris azulado más moderno */
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --accent-blue: #1a73e8;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    /* Semi-transparente para efecto cristal */
 }
 
-/* --- HEADER PERFIL --- */
+body {
+    background-color: var(--bg-color);
+    font-family: 'Manrope', sans-serif;
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+    padding-bottom: 120px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- FONDO AMBIENTAL (EL TOQUE MÁGICO) --- */
+.ambient-light {
+    position: fixed;
+    top: -100px;
+    right: -50px;
+    /* Luz desde la derecha en perfil */
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(26, 115, 232, 0.12) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(60px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- HEADER PERFIL (PREMIUM) --- */
 .profile-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 30px 0 30px 0;
-    background: white;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    margin-bottom: 25px;
+    padding: 40px 0 35px 0;
+
+    /* Degradado sutil en lugar de blanco plano */
+    background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
     position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .nav-header {
@@ -24,83 +56,131 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 15px 20px;
+    padding: 20px 24px;
     display: flex;
     justify-content: flex-end;
 }
 
 .avatar-placeholder {
-    width: 90px;
-    height: 90px;
-    background: #e3f2fd;
-    color: #1a73e8;
+    width: 100px;
+    height: 100px;
+    background: white;
+    /* Avatar blanco sobre fondo gris */
+    color: var(--accent-blue);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 15px;
-    font-size: 40px;
-    margin-top: 20px;
+    font-size: 42px;
+    margin-top: 10px;
+
+    /* Sombra elegante para el avatar */
+    box-shadow: 0 8px 25px rgba(26, 115, 232, 0.15);
+    border: 4px solid white;
 }
 
 .user-name {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 800;
-    color: #333;
+    color: var(--text-main);
     margin: 0;
     text-transform: capitalize;
+    letter-spacing: -0.5px;
 }
 
 .user-badge {
-    font-size: 13px;
-    color: #777;
-    background: #f0f0f0;
-    padding: 4px 12px;
-    border-radius: 20px;
-    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-top: 10px;
+    font-weight: 600;
 }
 
-/* --- ESTADÍSTICAS --- */
+/* --- ESTADÍSTICAS (TARJETAS FLOTANTES) --- */
 .stats-container {
     margin-top: 0 !important;
-    padding: 0 15px;
+    padding: 0 20px;
 }
 
 .stat-box {
     background: white;
-    border-radius: 16px;
-    padding: 15px 10px;
+    border-radius: 20px;
+    padding: 15px 5px;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+
+    /* Sombra suave y borde fino */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+
     height: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.stat-icon { font-size: 24px; margin-bottom: 8px; }
-.c-blue { color: #1a73e8; }
-.c-green { color: #71a43d; }
-.c-orange { color: #ff9800; }
+.stat-box:active {
+    transform: scale(0.96);
+}
 
-.stat-val { display: block; font-size: 18px; font-weight: 800; color: #333; }
-.stat-lab { display: block; font-size: 11px; color: #888; text-transform: uppercase; font-weight: 700; margin-top: 4px; }
+.stat-icon {
+    font-size: 26px;
+    margin-bottom: 8px;
+    /* Filtro drop-shadow al icono para que resalte */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
 
-/* --- LISTA DE MENÚ --- */
-.menu-section-title {
-    padding: 0 20px;
-    font-size: 14px;
-    color: #888;
-    font-weight: 700;
-    margin-top: 25px;
+.c-blue {
+    color: #1a73e8;
+}
+
+.c-green {
+    color: #10b981;
+}
+
+.c-orange {
+    color: #f59e0b;
+}
+
+.stat-val {
+    display: block;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+}
+
+.stat-lab {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
     text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 4px;
     letter-spacing: 0.5px;
+}
+
+/* --- LISTA DE MENÚ (ESTILO MODERNO) --- */
+.menu-section-title {
+    padding: 0 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .menu-list {
     list-style: none;
     padding: 0;
-    margin: 10px 15px 100px 15px; /* Margen para footer */
+    margin: 0 20px;
     background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    border-radius: 24px;
+    /* Sombra difusa moderna */
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
@@ -108,123 +188,179 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 20px;
-    border-bottom: 1px solid #f4f4f4;
-    color: #333;
+    padding: 20px;
+    border-bottom: 1px solid #f1f5f9;
+    /* Línea muy sutil */
+    color: var(--text-main);
     text-decoration: none;
     cursor: pointer;
     width: 100%;
-    background: none;
+    background: white;
     border: none;
+    border-bottom: 1px solid #f1f5f9;
     font-family: inherit;
     font-size: 16px;
-    text-align: left;
     transition: background-color 0.2s;
 }
 
-.menu-item:last-child { border-bottom: none; }
-.menu-item:hover, .menu-item:focus { background-color: #fafafa; outline: none; }
+.menu-item:last-child {
+    border-bottom: none;
+}
 
-.menu-left { display: flex; align-items: center; gap: 15px; }
-.menu-icon { font-size: 22px; color: #555; }
-.menu-text { font-weight: 500; }
-.menu-chevron { color: #ccc; font-size: 18px; }
+.menu-item:hover {
+    background-color: #f8fafc;
+}
 
-/* Items específicos */
-.menu-item.logout { color: #d32f2f; }
-.menu-item.logout .menu-icon { color: #d32f2f; }
+.menu-item:active {
+    background-color: #f1f5f9;
+}
 
-/* --- MODAL --- */
+/* Iconos del menú con fondo redondeado (ESTILO IOS) */
+.menu-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.menu-icon {
+    font-size: 20px;
+    color: #475569;
+
+    /* El truco: meter el icono en un cuadradito suave */
+    width: 38px;
+    height: 38px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-text {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.menu-chevron {
+    color: #cbd5e1;
+    font-size: 20px; /* Tamaño igualado al icono de la izquierda para simetría */
+    
+    /* Caja flexible para control total */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    
+    height: 24px;
+    width: 24px;
+    
+    /* AJUSTE ÓPTICO: Esto baja el icono 2 píxeles visualmente */
+    padding-top: 2px; 
+    
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+/* Animación al pasar el ratón */
+.menu-item:hover .menu-chevron {
+    color: var(--accent-blue);
+    transform: translateX(4px); /* Se mueve a la derecha */
+}
+
+/* Item Salir */
+.menu-item.logout .menu-text {
+    color: #ef4444;
+}
+
+.menu-item.logout .menu-icon {
+    color: #ef4444;
+    background: #fef2f2;
+    /* Fondo rojito suave */
+}
+
+/* --- MODAL (Pulido) --- */
 .modal-overlay {
-    display: none; /* Controlado por JS */
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    /* Fondo más oscuro */
     z-index: 9999;
-    justify-content: center; align-items: center;
-    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px);
 }
 
 .modal-box {
     background: white;
-    padding: 25px;
-    border-radius: 20px;
-    width: 85%; max-width: 320px;
+    padding: 30px 25px;
+    border-radius: 28px;
+    width: 85%;
+    max-width: 320px;
     text-align: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
 .modal-icon-container {
-    width: 50px; height: 50px;
-    background: #ffebee; color: #d32f2f;
+    width: 56px;
+    height: 56px;
+    background: #fee2e2;
+    color: #ef4444;
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 0 auto 15px auto;
 }
 
-.modal-title { margin: 0 0 10px 0; font-size: 18px; font-weight: 700; color: #333; }
-.modal-text { color: #666; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
-
-.modal-actions { display: flex; gap: 12px; }
-
 .btn-modal-cancel {
-    flex: 1; padding: 12px;
-    border: 1px solid #ddd; background: white;
-    border-radius: 12px; cursor: pointer;
-    color: #555; font-weight: 600;
+    background: #f1f5f9;
+    color: #64748b;
+    border: none;
 }
-
-.btn-modal-confirm {
-    flex: 1; padding: 12px;
-    background: #d32f2f; color: white;
-    border: none; border-radius: 12px;
-    font-weight: 600; cursor: pointer;
-    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
-}
-
-/* Utils */
-.hidden { display: none !important; }
 
 /* --- ANIMACIÓN DE CARGA (LOADER) --- */
-
-/* Contenedor principal del loader */
 .fm-loader-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 6px; /* Un poco más junto */
+    gap: 6px;
     width: 100%;
-    min-height: 30px; /* Altura mínima para que no salte el contenido */
+    min-height: 30px;
 }
 
-/* Puntos animados */
 .fm-dot {
-    width: 10px;
-    height: 10px;
-    background-color: #1a73e8; /* Tu color azul (o var(--fm-blue)) */
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-blue);
     border-radius: 50%;
-    display: inline-block;
     animation: fm-bounce 1.4s infinite ease-in-out both;
 }
 
-/* Retrasos para el efecto de ola */
-.fm-dot:nth-child(1) { animation-delay: -0.32s; }
-.fm-dot:nth-child(2) { animation-delay: -0.16s; }
+.fm-dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
 
-/* Animación */
+.fm-dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
 @keyframes fm-bounce {
-    0%, 80%, 100% { 
+
+    0%,
+    80%,
+    100% {
         transform: scale(0);
         opacity: 0.3;
-    } 
-    40% { 
+    }
+
+    40% {
         transform: scale(1.0);
         opacity: 1;
     }
 }
 
-/* --- VARIANTE MINI (Para Peso, Altura y Racha) --- */
-/* Esta clase ajusta el loader para que quepa en las cajas pequeñas */
 .fm-loader-container.mini {
     margin-top: 0;
     min-height: 20px;
@@ -232,7 +368,171 @@ body {
 }
 
 .fm-loader-container.mini .fm-dot {
-    width: 6px;
-    height: 6px;
-    background-color: #1a73e8; /* O usa un gris #999 si prefieres algo sutil */
+    width: 5px;
+    height: 5px;
+}
+
+/* --- 4. FLOATING DOCK (Sin tocar la estructura, solo el icono) --- */
+.floating-dock {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    height: 70px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    z-index: 1000;
+    line-height: normal;
+    animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.dock-item {
+    color: #9CA3AF;
+    font-size: 24px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0;
+    line-height: 0;
+}
+
+.dock-item i {
+    display: block;
+    line-height: 1;
+}
+
+.dock-item.active {
+    color: var(--text-main);
+    background: #F3F4F6;
+}
+
+.dock-item:active {
+    transform: scale(0.9);
+}
+
+/* --- CORRECCIÓN CENTRADO PLAY --- */
+.dock-fab-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dock-fab {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--text-main);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+    transform: translateY(-25px);
+}
+
+.dock-fab:active {
+    transform: translateY(-25px) scale(0.9);
+}
+
+/* AQUÍ ESTÁ EL TRUCO DEL CENTRADO ÓPTICO */
+/* --- CORRECCIÓN CENTRADO ÓPTICO DEL PLAY --- */
+.dock-fab i {
+    /* Empujamos el triángulo a la derecha porque tiene más peso visual a la izquierda */
+    margin-left: 3px; 
+    /* Lo bajamos un pelín para que no se vea "flotando" arriba */
+    margin-top: 2px; 
+}
+
+/* --- ESTILOS DEL TEXTO DEL MODAL --- */
+.modal-title {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+}
+
+.modal-text {
+    margin: 0 0 25px 0;
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* --- ACCIONES (BOTONES) --- */
+.modal-actions {
+    display: flex;
+    gap: 12px; /* Espacio entre botones */
+    width: 100%;
+}
+
+/* Estilo base para ambos botones */
+.btn-modal-cancel, 
+.btn-modal-confirm {
+    flex: 1; /* Para que ocupen el 50% cada uno */
+    padding: 14px 0;
+    border-radius: 16px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Botón Cancelar (Gris suave) */
+.btn-modal-cancel {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.btn-modal-cancel:active {
+    background: #e2e8f0;
+    transform: scale(0.96);
+}
+
+/* Botón Salir (Rojo Alerta) */
+.btn-modal-confirm {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); /* Resplandor rojo */
+}
+
+.btn-modal-confirm:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }

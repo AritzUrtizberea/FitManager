@@ -1,179 +1,452 @@
-/* =========================================
-   ESTILOS PARA: CREAR DIETA (ORGANIC MODERN)
-   ARCHIVO: assets/css/crear-dieta.css
-   ========================================= */
-
-/* 1. Fondo y Espaciado General */
-.bg-gray-50 {
-    background-color: #f8fafc; /* Gris muy suave/azulado */
+/* --- 1. VARIABLES Y BASE (Unified Theme) --- */
+:root {
+    --bg-app: #F2F4F7;
+    --card-bg: #FFFFFF;
+    --text-main: #1D1D1F;
+    --text-muted: #86868B;
+    --primary-blue: #007AFF;
+    --primary-gradient: linear-gradient(135deg, #007AFF 0%, #0055B3 100%);
+    --radius-lg: 24px;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+    --input-bg: #F3F4F6;
 }
 
-/* Ajuste específico para esta página para dejar hueco al resumen flotante */
-.app-container.crear-dieta-layout {
-    padding-bottom: 200px !important; 
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* 2. Header Limpio */
+body {
+    background-color: var(--bg-app);
+    font-family: 'Manrope', sans-serif;
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+
+    /* IMPORTANTE: Espacio para Dock (70px) + Resumen (80px) + Margen */
+    padding-bottom: 180px;
+
+    overflow-x: hidden;
+}
+
+/* --- 2. HEADER --- */
 .header-nav {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px;
-    background: white;
     position: sticky;
     top: 0;
-    z-index: 50;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    background: rgba(242, 244, 247, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
 }
 
-.back-btn {
-    background: #f0fdf4; /* Verde muy claro */
+.btn-back {
+    background: white;
     border: none;
-    color: #2d6a4f; /* Verde oscuro */
     width: 40px;
     height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: transform 0.2s;
+    color: var(--text-main);
+    font-size: 20px;
 }
 
-.back-btn:active { transform: scale(0.9); }
-.h1-title { margin: 0; font-size: 1.2rem; color: #1e293b; }
+.header-title {
+    font-weight: 800;
+    font-size: 18px;
+}
 
-/* 3. Tarjetas (Cards) Modernas */
-.card-modern {
-    background: white;
-    border-radius: 20px;
+/* --- 3. LAYOUT PRINCIPAL --- */
+.main-container {
+    padding: 10px 24px;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
     padding: 20px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
-    margin-bottom: 20px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
-/* Borde decorativo verde */
-.card-accent-left {
-    border-left: 5px solid #2d6a4f; 
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
 }
 
-/* 4. Inputs y Selects */
+/* --- 4. SELECCIÓN DE DÍA --- */
+.select-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
 .input-modern {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    background-color: #f8fafc;
-    font-size: 1rem;
+    appearance: none;
+    background: var(--input-bg);
+    border: 1px solid transparent;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-main);
+    font-family: inherit;
     outline: none;
-    transition: all 0.2s;
+    transition: 0.2s;
 }
 
 .input-modern:focus {
     background: white;
-    border-color: #2d6a4f;
-    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
+    border-color: var(--primary-blue);
 }
 
-/* 5. Buscador */
+.select-arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-muted);
+}
+
+/* --- 5. BUSCADOR --- */
 .search-wrapper {
-    display: flex;
-    gap: 10px;
+    position: relative;
 }
 
-.btn-search {
-    background: #2d6a4f;
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    background: var(--input-bg);
+    border: 1px solid transparent;
+    border-radius: 100px;
+    /* Pill shape */
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    transition: 0.2s;
+    font-family: inherit;
+}
+
+.search-input:focus {
+    background: white;
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+/* Resultados (Estilo para lo que genera JS) */
+.results-container {
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Override para los divs generados por JS */
+#laravel-results>div {
+    padding: 12px 0;
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-add-item {
+    /* Botón + generado por JS */
+    background: var(--input-bg) !important;
+    color: var(--primary-blue) !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    cursor: pointer;
+}
+
+/* --- 6. LISTA (CESTA) --- */
+.card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.badge-count {
+    background: var(--primary-blue);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 20px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 30px 0;
+    color: var(--text-muted);
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    background: #F3F4F6;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #9CA3AF;
+}
+
+/* Estilos para Items Añadidos (Generados por JS) */
+.item-cesta {
+    padding: 12px 0;
+    border-bottom: 1px dashed #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-borrar-item {
+    color: #FF3B30 !important;
+    background: rgba(255, 59, 48, 0.1) !important;
+    padding: 6px !important;
+    border-radius: 8px !important;
+    border: none !important;
+}
+
+/* --- 7. RESUMEN FLOTANTE --- */
+.floating-summary {
+    position: fixed;
+    bottom: 100px;
+    /* Encima del dock (70px + gap) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    z-index: 900;
+}
+
+.summary-content {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    border: 1px solid white;
+    padding: 15px 20px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-calories {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-calories .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.info-calories .value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.btn-finish {
+    background: var(--text-main);
+    /* Negro Apple */
     color: white;
     border: none;
-    width: 50px;
-    border-radius: 12px;
-    font-size: 1.2rem;
+    padding: 12px 20px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+
+.btn-finish:active {
+    transform: scale(0.96);
+}
+
+
+/* --- 8. DOCK FLOTANTE (Copiado de Nutrición) --- */
+.floating-dock {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    height: 70px;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000;
+}
+
+.dock-item {
+    color: #9CA3AF;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.dock-item.active {
+    color: var(--text-main);
+    background: #F3F4F6;
+}
+
+.dock-item:active {
+    transform: scale(0.9);
+}
+
+.dock-fab-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin-top: -40px;
+}
+
+.dock-fab {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--text-main);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+.dock-fab:active {
+    transform: scale(0.9);
+}
+
+/* --- 9. VIDEO MODAL --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* 6. Barra Resumen Flotante (FIX) */
-#resumen-fijo {
-    position: fixed;
-    bottom: 85px; /* Justo encima del menú inferior */
-    left: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    padding: 15px 20px;
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+}
+
+.modal-overlay.open .modal-content {
+    transform: scale(1);
+}
+
+.video-wrapper {
+    width: 100%;
     border-radius: 20px;
-    box-shadow: 0 -10px 25px rgba(0,0,0,0.08);
-    border: 1px solid rgba(0,0,0,0.05);
-    z-index: 900;
-    display: none; /* El JS lo muestra cuando hay items */
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    background: black;
 }
 
-.total-label { 
-    font-size: 0.75rem; 
-    text-transform: uppercase; 
-    color: #64748b; 
-    font-weight: 700; 
-    letter-spacing: 0.5px; 
+#popup-video {
+    width: 100%;
+    display: block;
+    max-height: 80vh;
 }
 
-.total-value { 
-    font-size: 1.5rem; 
-    font-weight: 800; 
-    color: #2d6a4f; 
-}
-
-/* Botón Terminar */
-#btn-finalizar {
-    background: #2d6a4f;
-    color: white;
+.close-modal {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    background: white;
     border: none;
-    padding: 10px 25px;
-    border-radius: 50px;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.25);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
     cursor: pointer;
-    display: flex; 
+    display: flex;
     align-items: center;
+    justify-content: center;
 }
-
-/* 7. Overrides para elementos generados por JS */
-/* Usamos !important para sobrescribir los estilos inline que pone el script */
-
-/* Resultados de búsqueda */
-#laravel-results > div {
-    padding: 15px 0 !important;
-    border-bottom: 1px dashed #e2e8f0 !important;
-}
-
-/* Botón Añadir (+) */
-.btn-add-item {
-    background-color: #dcfce7 !important; /* Fondo verde claro */
-    color: #166534 !important; /* Icono verde oscuro */
-    border-radius: 50% !important;
-    width: 35px !important;
-    height: 35px !important;
-    box-shadow: none !important;
-    border: none !important;
-}
-
-/* Items de la cesta */
-.item-cesta {
-    padding: 15px 0 !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-}
-.item-cesta strong { color: #334155 !important; font-weight: 600; }
-.item-cesta span { color: #64748b !important; }
-
-/* Botón papelera */
-.btn-borrar-item {
-    color: #ef4444 !important;
-    background: #fef2f2 !important;
-    border-radius: 10px !important;
-    padding: 8px !important;
-    transition: transform 0.2s;
-    border: none !important;
-}
-.btn-borrar-item:hover { transform: scale(1.1); }

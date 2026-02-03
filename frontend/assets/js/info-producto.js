@@ -147,3 +147,31 @@ async function guardarProducto() {
         }, 2000);
     }
 }
+
+/* --- LÓGICA VIDEO MODAL (Igual que en Nutrición) --- */
+document.addEventListener('DOMContentLoaded', () => {
+    const triggerBtn = document.getElementById('video-trigger-btn');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const modal = document.getElementById('video-modal');
+    const video = document.getElementById('popup-video');
+
+    if(triggerBtn && modal) {
+        triggerBtn.addEventListener('click', () => {
+            modal.classList.add('open');
+            if(video) video.play(); 
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('open');
+            if(video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
+});
