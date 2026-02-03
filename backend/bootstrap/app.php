@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
         
         // 2. AQUÍ REGISTRAMOS EL ALIAS 'admin'
         $middleware->alias([

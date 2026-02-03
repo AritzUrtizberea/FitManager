@@ -5,12 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Cargar datos del LocalStorage
     cargarDatosProducto();
 
-    // 2. Asignar el evento al botón (Programación No Obstructiva)
-    // Buscamos el botón por su clase y le decimos "escucha el click"
-    const btnGuardar = document.querySelector('.btn-add');
+    // 2. Asignar el evento al botón (CORREGIDO)
+    // Usamos getElementById porque en tu HTML el botón tiene id="btn-add"
+    const btnGuardar = document.getElementById('btn-add');
+    
     if (btnGuardar) {
         btnGuardar.addEventListener('click', guardarProducto);
+    } else {
+        console.error("Error: No se encontró el botón de guardar (#btn-add)");
     }
+    
+    // Configuración del video modal (lo he movido aquí para tener un solo DOMContentLoaded)
+    setupVideoModal(); 
 });
 
 function cargarDatosProducto() {
@@ -35,14 +41,14 @@ function cargarDatosProducto() {
                 imgEl.src = data.image_url;
             } else {
                 imgEl.style.display = 'none';
-                // Fallback visual si quieres agregarlo
+                document.getElementById('img-placeholder').style.display = 'block';
             }
         }
 
         // Nutriscore y Nova
         updateBadges(data);
 
-        // Macros (usamos una función auxiliar para no repetir document.getElementById)
+        // Macros
         setMacro('prod-kcal', nut['energy-kcal_100g'], 0);
         setMacro('prod-prot', nut.proteins_100g, 1);
         setMacro('prod-carb', nut.carbohydrates_100g, 1);
@@ -53,7 +59,7 @@ function cargarDatosProducto() {
 
     } else {
         alert("No hay producto seleccionado");
-        window.location.href = 'nutrition';
+        window.location.href = '/nutrition'; // Asegúrate de la barra al inicio
     }
 }
 
@@ -69,7 +75,10 @@ function updateBadges(data) {
     
     if(badge && ['a','b','c','d','e'].includes(score)){
         badge.textContent = 'Nutri-Score ' + score.toUpperCase();
-        badge.className = `badge-score bg-${score}`; // Reemplaza clases limpiamente
+        
+        // Limpiamos clases viejas y ponemos la nueva
+        badge.className = 'badge-score'; 
+        badge.classList.add(`bg-${score}`); 
     } else if (badge) {
         badge.style.display = 'none';
     }
@@ -83,24 +92,24 @@ function updateBadges(data) {
     }
 }
 
-// 1. FUNCIÓN AUXILIAR (Pégala arriba del todo o antes de guardarProducto)
-// Sirve para recuperar el token de seguridad que Laravel guarda en las cookies
+// Función para obtener cookie XSRF de Laravel
 function getCookie(name) {
     let value = "; " + document.cookie;
     let parts = value.split("; " + name + "=");
     if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-// 2. TU FUNCIÓN CORREGIDA
+// --- FUNCIÓN DE GUARDADO (LA IMPORTANTE) ---
 async function guardarProducto() {
-    const btn = document.querySelector('.btn-add');
+    // CORREGIDO: Buscamos por ID
+    const btn = document.getElementById('btn-add'); 
     const originalText = btn.innerHTML;
     
     // Feedback visual
     btn.innerHTML = '<i class="ph ph-spinner ph-spin"></i> Guardando...';
     btn.disabled = true;
 
-    // Payload limpio para tu Backend
+    // Payload
     const nut = currentProductData.nutriments || {};
     const payload = {
         name: currentProductData.product_name || 'Sin Nombre',
@@ -110,46 +119,51 @@ async function guardarProducto() {
         proteins: nut.proteins_100g || 0,
         carbs: nut.carbohydrates_100g || 0,
         fats: nut.fat_100g || 0,
-        category_id: 1 
+        category_id: 1 // OJO: Asegúrate de que existe la categoría ID 1 en tu DB
     };
 
     try {
+        // Obtenemos el token. Si es null (primera carga), a veces Laravel falla.
+        const token = getCookie('XSRF-TOKEN');
+        
         const response = await fetch('/api/products', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                // --- CAMBIO IMPORTANTE AQUÍ (Soluciona el error 419) ---
-                'X-XSRF-TOKEN': decodeURIComponent(getCookie('XSRF-TOKEN'))
+                'X-XSRF-TOKEN': token ? decodeURIComponent(token) : ''
             },
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-            btn.style.background = '#4cd137';
+            btn.style.background = '#4cd137'; // Verde éxito
             btn.innerHTML = '<i class="ph ph-check"></i> ¡Guardado!';
             
-            // He añadido la barra / para asegurar que vuelve a la raíz correcta
-            setTimeout(() => { window.location.href = '/nutrition'; }, 1500); 
+            setTimeout(() => { 
+                window.location.href = '/nutrition'; 
+            }, 1500); 
         } else {
-            // Si el servidor devuelve error (ej. 422 o 500)
-            console.log("Status:", response.status);
+            console.log("Error Status:", response.status);
+            const errorData = await response.json();
+            console.log("Error Detalles:", errorData); // Mira la consola si falla
             throw new Error('Error en servidor');
         }
     } catch (error) {
         console.error(error);
-        btn.style.background = '#e84118';
+        btn.style.background = '#e84118'; // Rojo error
         btn.innerHTML = '<i class="ph ph-warning"></i> Error';
+        
         setTimeout(() => {
             btn.disabled = false;
             btn.innerHTML = originalText;
-            btn.style.background = 'linear-gradient(90deg, #7ab346 0%, #5d8f33 100%)';
+            btn.style.background = ''; // Vuelve al color del CSS
         }, 2000);
     }
 }
 
-/* --- LÓGICA VIDEO MODAL (Igual que en Nutrición) --- */
-document.addEventListener('DOMContentLoaded', () => {
+// Lógica del Modal de Video (Separada en función limpia)
+function setupVideoModal() {
     const triggerBtn = document.getElementById('video-trigger-btn');
     const closeBtn = document.getElementById('close-modal-btn');
     const modal = document.getElementById('video-modal');
@@ -174,4 +188,4 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === modal) closeModal();
         });
     }
-});
+}
