@@ -40,10 +40,11 @@ jobs:
         php artisan test
       env:
         DB_CONNECTION: sqlite
-        # La base de datos en memoria (con comillas)
+        # La base de datos en memoria (con comillas, esto ya lo tenías bien)
         DB_DATABASE: ':memory:'
-        # Forzamos la clave para que no falle el Hashing
-        APP_KEY: base64:Hupx773BS1iQfF0hSuDMjq2wd4zIGF+A3p1o5J+34nA=
+        # IMPORTANTE: Forzamos la llave y el driver para corregir el error de Hashing
+        APP_KEY: 'base64:Hupx773BS1iQfF0hSuDMjq2wd4zIGF+A3p1o5J+34nA='
+        HASH_DRIVER: bcrypt
 
     # 3. Configuración de Node (Frontend)
     # Asumo que tu package.json TAMBIÉN está dentro de backend (lo normal en Laravel)
