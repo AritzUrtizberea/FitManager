@@ -13,6 +13,7 @@ return new class extends Migration
 {
     Schema::table('profiles', function (Blueprint $table) {
         $table->integer('streak')->default(0); // Añadimos la racha al perfil
+        $table->date('last_streak_at')->nullable();
     });
 }
 

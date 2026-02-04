@@ -28,7 +28,7 @@ jobs:
       working-directory: ./backend
       run: |
         echo "Validando que no haya errores de sintaxis en el código PHP..."
-        find . -name ".php" -not -path "./vendor/" | xargs -n 1 -P 4 php -l
+        find . -name "*.php" -not -path "./vendor/*" | xargs -n 1 -P 4 php -l
         echo "✅ Sintaxis validada correctamente."
 
     - name: 5. Simular Despliegue
