@@ -67,24 +67,35 @@ class ProfileController extends Controller
         $user = $request->user();
 
         // 1. Validación
+       // 1. Validación con TODOS los mensajes
         $validated = $request->validate([
-        'phone'    => 'nullable|string|max:20',
-        'weight'   => 'required|numeric|min:1|max:300', // Ponemos límites lógicos
-        'height'   => 'required|integer|min:50|max:300',
-        'activity' => 'required|string',
-        'sex'      => 'required|string',
-        'avatar'   => 'nullable|image|max:5120',
-    ], [
-        // --- MENSAJES PERSONALIZADOS ---
-        'weight.required' => '¡Oye! El peso es obligatorio.',
-        'weight.numeric'  => 'El peso debe ser un número válido.',
-        'height.required' => 'La altura es obligatoria.',
-        'height.integer'  => 'La altura debe ser un número entero (cm).',
-        'activity.required' => 'Debes seleccionar tu nivel de actividad.',
-        'sex.required'    => 'Por favor, selecciona tu sexo.',
-        'avatar.image'    => 'El archivo debe ser una imagen (jpg, png, etc).',
-        'avatar.max'      => 'La imagen pesa mucho (máximo 5MB).',
-    ]);
+            'phone'    => 'nullable|string|max:20',
+            'weight'   => 'required|numeric|min:20|max:300', // Pongo min 20kg por lógica
+            'height'   => 'required|integer|min:50|max:300', // Aquí está el min:50
+            'activity' => 'required|string',
+            'sex'      => 'required|string',
+            'avatar'   => 'nullable|image|max:5120',
+        ], [
+            // --- MENSAJES PERSONALIZADOS ---
+            
+            // PESO
+            'weight.required' => '¡Oye! El peso es obligatorio.',
+            'weight.numeric'  => 'El peso debe ser un número válido.',
+            'weight.min'      => 'El peso debe ser de al menos 20 kg.',    // <--- NUEVO
+            'weight.max'      => 'El peso no puede superar los 300 kg.',   // <--- NUEVO
+
+            // ALTURA (Aquí es donde te fallaba)
+            'height.required' => 'La altura es obligatoria.',
+            'height.integer'  => 'La altura debe ser un número entero (cm).',
+            'height.min'      => 'La altura debe ser de al menos 50 cm.',  // <--- ¡ESTO ARREGLA TU ERROR!
+            'height.max'      => 'La altura no puede superar los 300 cm.', // <--- NUEVO
+
+            // OTROS
+            'activity.required' => 'Debes seleccionar tu nivel de actividad.',
+            'sex.required'    => 'Por favor, selecciona tu sexo.',
+            'avatar.image'    => 'El archivo debe ser una imagen (jpg, png, etc).',
+            'avatar.max'      => 'La imagen pesa mucho (máximo 5MB).',
+        ]);
 
         // 2. GESTIÓN DE LA FOTO
         if ($request->hasFile('avatar')) {
