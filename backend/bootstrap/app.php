@@ -3,8 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-// 1. IMPORTANTE: Importamos el archivo del Middleware aquí
-use App\Http\Middleware\AdminMiddleware; 
+use App\Http\Middleware\AdminMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,26 +12,26 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
+    ->withMiddleware(function (Middleware $middleware) {
+        // Configuración de Proxies
         $middleware->trustProxies(at: '*');
-        
-        // 2. AQUÍ REGISTRAMOS EL ALIAS 'admin'
+
+        // Alias para el admin
         $middleware->alias([
             'admin' => AdminMiddleware::class,
         ]);
 
-        // --- Tus configuraciones anteriores (NO LAS BORRES) ---
+        // 👇 CAMBIO IMPORTANTE: Usamos 'append' directo (Global)
+        // Esto obliga a que se ejecute SIEMPRE, en cualquier ruta.
+        $middleware->append(\App\Http\Middleware\UpdateStreak::class);
 
-        // Permite que la API use cookies de sesión
+        // Configuraciones extra
         $middleware->statefulApi(); 
-
-        // Excepciones CSRF
         $middleware->validateCsrfTokens(except: [
             'api/routines', 
             'api/routines/*',
             'logout',
         ]);
-
         $middleware->redirectTo(
             guests: '/login',
             users: '/home'

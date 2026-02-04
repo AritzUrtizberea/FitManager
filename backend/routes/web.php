@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
 
+
 /*
 |--------------------------------------------------------------------------
 | RUTAS PÚBLICAS
@@ -66,8 +67,8 @@ Route::middleware('auth')->group(function () {
     // --- API INTERNA (Usada por el JS de Rutinas) ---
     // Estas rutas no devuelven vistas, devuelven datos JSON o hacen acciones
     Route::prefix('api')->group(function () {
-        
-        // Rutinas
+        // Y como está en web.php, ¡recordará que estás logueado!
+        Route::get('/user', [ProfileController::class, 'getUserData']);
         Route::get('/routines', [RoutineController::class, 'index']); 
         Route::post('/routines', [RoutineController::class, 'store']); 
         Route::delete('/routines/{id}', [RoutineController::class, 'destroy']); 
