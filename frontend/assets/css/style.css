@@ -460,3 +460,35 @@ a {
 
     /* Aseguramos que no moleste */
 }
+
+/* --- SPINNER DE CARGA (MODO OSCURO) --- */
+.loader-container {
+    width: 100%;
+    height: 200px; /* Altura mínima para que no haga saltos raros */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1); /* Anillo base muy suave */
+    border-top: 5px solid #00d4ff; /* Color neón/brillante para destacar */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    color: #ccc; /* Texto gris claro */
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -566,3 +566,146 @@ button:focus, .btn:focus, a:focus {
     margin-top: 15px;
     letter-spacing: 0.2px;
 }
+
+/* --- ESTILO TABS TIPO "CÁPSULAS" (MODERNO) --- */
+
+/* 1. El contenedor (Carrusel) */
+.tabs {
+    background: transparent !important;
+    border-bottom: none !important; /* Quitamos la línea gris del fondo */
+    height: auto !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    padding: 10px 0 15px 0 !important; /* Un poco de aire arriba y abajo */
+    
+    /* Ocultar scrollbar feo */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+/* 2. Cada pestaña (El botón base) */
+.tabs .tab {
+    display: inline-block !important;
+    float: none !important;
+    padding: 0 !important;
+    margin-right: 10px !important; /* Espacio entre botones */
+    min-width: auto !important;
+}
+
+/* 3. El enlace (Texto y forma) */
+.tabs .tab a {
+    color: var(--fm-muted) !important;
+    background-color: #ffffff;
+    border: 1px solid #e0e6ed;
+    border-radius: 50px; /* Forma de píldora redonda */
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: none !important; /* Texto normal, no mayúsculas */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    transition: all 0.2s ease;
+    height: auto !important;
+    line-height: normal !important;
+    display: block; /* Para que coja bien el padding */
+}
+
+/* 4. ESTADO ACTIVO (Seleccionado) */
+.tabs .tab a.active {
+    background-color: var(--fm-blue) !important;
+    color: white !important;
+    border-color: var(--fm-blue) !important;
+    box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3);
+    transform: translateY(-1px); /* Efecto de "levantarse" un poco */
+}
+
+/* 5. ESTADO FOCUS (Accesibilidad) */
+.tabs .tab a:focus {
+    background-color: var(--fm-blue-light) !important;
+    outline: none;
+}
+/* Si está activo y tiene foco, mantener azul */
+.tabs .tab a:focus.active {
+    background-color: var(--fm-blue) !important;
+}
+
+/* 6. ELIMINAR LA LÍNEA INDICADORA DE MATERIALIZE */
+.tabs .indicator {
+    display: none !important;
+}
+
+#btn-volver:hover {
+    background-color: #f1f3f4; /* Un gris muy suave tipo Google al pasar el ratón */
+    color: #4688df !important; /* El texto se vuelve azul al tocarlo */
+}
+
+/* --- MEJORAS ESTÉTICAS FINALES (AÑADIR AL FINAL) --- */
+
+/* 1. SCROLLBARS MODERNAS (Chrome/Edge/Safari) */
+/* Hace que las barras de desplazamiento sean finas y elegantes */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+
+/* 2. ESTILO DEL BOTÓN "GUARDAR RUTINA" (CTA Principal) */
+.btn-save-custom {
+    background: linear-gradient(135deg, var(--fm-blue) 0%, #1557b0 100%) !important;
+    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3) !important;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-save-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4) !important;
+}
+
+/* 3. BOTÓN VOLVER (Ajuste fino) */
+.fm-btn-back-custom {
+    display: inline-flex !important;
+    align-items: center;
+    padding: 0 15px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+    border-radius: 8px !important;
+    color: #5f6368 !important;
+    transition: background 0.2s, color 0.2s !important;
+}
+
+.fm-btn-back-custom i {
+    font-size: 20px !important;
+    margin-right: 8px !important;
+    font-weight: bold;
+}
+
+.fm-btn-back-custom span {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.3px;
+}
+
+.fm-btn-back-custom:hover {
+    background-color: #e8f0fe !important; /* Fondo azul muy muy clarito */
+    color: var(--fm-blue) !important;
+}
+
+/* 4. ARREGLO VISUAL DEL DRAG ZONE VACÍO */
+#rutina-personalizada:empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-content-area .collection, 
+#resultados-busqueda {
+    overflow: visible !important;
+}
