@@ -10,6 +10,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
 
+// --- MIDDLEWARE IMPORTADO (AQUÍ ESTÁ EL TRUCO) ---
+use App\Http\Middleware\AdminMiddleware; 
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +25,11 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| ZONA ADMIN
+| ZONA ADMIN (SOLUCIÓN)
 |--------------------------------------------------------------------------
+| En lugar de 'admin', usamos AdminMiddleware::class directamente.
 */
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard'); 
     })->name('dashboard');
@@ -55,28 +58,26 @@ Route::middleware('auth')->group(function () {
     //  ZONA DE RESEÑAS
     // ==========================================
 
-    // 1. PANTALLA OBLIGATORIA (Create) - URL distinta para que no haga bucle
+    // 1. PANTALLA OBLIGATORIA (Create)
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
 
     // 2. PANTALLA PRINCIPAL (Index + Lista)
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 
-    // 3. DATOS JSON (Para que el JavaScript pinte la lista)
+    // 3. DATOS JSON
     Route::get('/reviews/list', [ReviewController::class, 'list'])->name('reviews.list');
 
-    // 4. ACCIONES (Guardar y Borrar)
+    // 4. ACCIONES
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
 
-    // --- API INTERNA (Otras cosas) ---
+    // --- API INTERNA ---
     Route::prefix('api')->group(function () {
-// Rutinas
-        // Y como está en web.php, ¡recordará que estás logueado!
+        // Usuario
         Route::get('/user', [ProfileController::class, 'getUserData']);
 
-        
- 
+        // Rutinas
         Route::get('/routines', [RoutineController::class, 'index']); 
         Route::post('/routines', [RoutineController::class, 'store']); 
         Route::delete('/routines/{id}', [RoutineController::class, 'destroy']); 

@@ -17,10 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
 
         // Alias para el admin
-        $middleware->alias([
-            'admin' => AdminMiddleware::class,
+       $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'check.review' => \App\Http\Middleware\CheckFirstReview::class,
         ]);
-
         // 👇 CAMBIO IMPORTANTE: Usamos 'append' directo (Global)
         // Esto obliga a que se ejecute SIEMPRE, en cualquier ruta.
         $middleware->append(\App\Http\Middleware\UpdateStreak::class);
