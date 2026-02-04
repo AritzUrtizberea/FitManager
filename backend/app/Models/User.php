@@ -62,6 +62,11 @@ class User extends Authenticatable
         return $this->hasMany(Routine::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+}
+
     // --- ACCESSOR (LA MAGIA) ---
     // Esto crea el atributo virtual 'profile_photo_url' que usas en el HTML
     public function getProfilePhotoUrlAttribute()

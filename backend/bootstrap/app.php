@@ -36,6 +36,12 @@ return Application::configure(basePath: dirname(__DIR__))
             guests: '/login',
             users: '/home'
         );
+
+     
+            $middleware->alias([
+                'check.review' => \App\Http\Middleware\CheckFirstReview::class,
+            ]);
+        
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

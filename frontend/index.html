@@ -4,107 +4,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitManager - Landing Page</title>
+    <title>FitManager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
 
     <header class="header">
-        <div class="logo">
-            <img src="assets/img/Logo_FitManager.png" alt="Logo FitManager" class="logo-img">
-        </div>
+        <div class="container header-container">
 
-        <nav class="desktop-nav">
-            <a href="/login" class="btn-nav-outline">Iniciar Sesión</a>
-            <a href="/register" class="btn-nav-desktop">Registrarse</a>
-        </nav>
+            <a href="/" class="logo-left">
+                <img src="assets/img/Logo_FitManager.png" alt="Logo" class="logo-img">
+            </a>
 
-        <div class="menu-icon" id="menuToggle">
-            <span></span>
-            <span></span>
-            <span></span>
+            <a href="/" class="brand-center">
+                FitManager
+            </a>
+
+            <div class="nav-right">
+                <nav class="desktop-nav">
+                    <a href="/login" class="btn btn-ghost">Iniciar Sesión</a>
+                    <a href="/register" class="btn btn-primary">Crear Cuenta</a>
+                </nav>
+
+                <div class="menu-toggle" id="menuToggle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </div>
+
         </div>
     </header>
 
-    <div class="nav-overlay" id="navOverlay">
-        <div class="overlay-content">
-
-            <div class="nav-footer">
-                <img src="assets/img/Logo_FitManager.png"FitManager Logo" class="logo-img">
-            </div>
-            <hr class="divider">
-            <div class="nav-buttons">
-                <a href="/login" class="btn-nav" style="text-decoration: none; text-align: center;">INICIAR SESIÓN</a>
-                <a href="/register" class="btn-nav" style="text-decoration: none; text-align: center;">REGISTRARSE</a>
-            </div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-header">
+            <span class="logo-text">FitManager</span>
+            <button class="close-menu" id="closeMenu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-content">
+            <a href="/login" class="btn btn-outline w-100">Iniciar Sesión</a>
+            <a href="/register" class="btn btn-primary w-100">Registrarse Gratis</a>
         </div>
     </div>
 
     <main>
         <section class="hero">
-            <div class="hero-content">
-                <h1>Transforma tu cuerpo, gestiona tu vida</h1>
-                <button class="btn-primary">Empieza Gratis</button>
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+                <span class="badge-new">Tu Entrenador Digital 📱</span>
+                <h1>Tu mejor versión<br>empieza aquí.</h1>
+                <p>Entrenamiento, nutrición y comunidad. Todo en una app.</p>
+                <div class="hero-buttons">
+                    <a href="/register" class="btn btn-primary btn-lg">Empezar Gratis</a>
+                </div>
             </div>
         </section>
 
         <section class="features">
             <div class="container">
-                <h2>Características Clave</h2>
-                <p class="subtitle">Descubre cómo FitManager puede ayudarte a alcanzar tus metas de fitness.</p>
-
                 <div class="features-grid">
-                    <div class="card">
-                        <i class="fa-solid fa-apple-whole icon"></i>
-                        <h3>Seguimiento de Nutrición</h3>
-                        <p>Controla tus calorías y macronutrientes con facilidad.</p>
+                    <div class="feature-card">
+                        <div class="icon-box blue"><i class="fa-solid fa-dumbbell"></i></div>
+                        <h3>Entrena</h3>
+                        <p>Rutinas adaptadas a tu nivel y material.</p>
                     </div>
-                    <div class="card">
-                        <i class="fa-solid fa-dumbbell icon"></i>
-                        <h3>Planes de Entrenamiento Personalizados</h3>
-                        <p>Entrenamientos adaptados a tus objetivos y nivel.</p>
+                    <div class="feature-card">
+                        <div class="icon-box green"><i class="fa-solid fa-utensils"></i></div>
+                        <h3>Come</h3>
+                        <p>Control de calorías y macros fácil.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon-box purple"><i class="fa-solid fa-fire"></i></div>
+                        <h3>Progresa</h3>
+                        <p>Gráficos reales de tu evolución.</p>
                     </div>
                 </div>
             </div>
         </section>
-        <section id="reviews-section">
+
+        <section class="reviews-section dark-mode">
             <div class="container">
-                <h2 style="text-align: center;">Lo que dicen nuestros atletas</h2>
+                <div class="section-header">
+                    <h2>Únete a los mejores</h2>
+                    <p class="text-light-muted">Más de 1.000 atletas confían en nosotros.</p>
+                </div>
             </div>
 
             <div class="carousel-wrapper">
-                <div id="contenedor-reseñas">
-                    <div class="loading-dots">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-                </div>
+                <div class="fade-left-dark"></div>
+                <div class="fade-right-dark"></div>
+
+                <div id="contenedor-reseñas"></div>
             </div>
         </section>
-
-        <script src="js/reviews.js"></script>
-        <script>
-            // Ejecutar la carga cuando abra la página
-            document.addEventListener('DOMContentLoaded', cargarReseñas);
-        </script>
     </main>
-<script>
-        const menuToggle = document.getElementById('menuToggle');
-        const navOverlay = document.getElementById('navOverlay');
 
-        menuToggle.addEventListener('click', () => {
-            // 1. Desliza el menú (añadiendo la clase .active del CSS que ya tienes)
-            navOverlay.classList.toggle('active');
-            
-            // 2. Anima el icono de hamburguesa (para convertirlo en una X)
-            menuToggle.classList.toggle('active');
-        });
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="brand">
+                <span class="logo-text">FitManager</span>
+                <p>© 2026</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/reviews.js"></script>
+    <script>
+        // Lógica del Menú con la X
+        const menuToggle = document.getElementById('menuToggle');
+        const closeMenu = document.getElementById('closeMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
     </script>
-</body>
-</html>
 </body>
 
 </html>
