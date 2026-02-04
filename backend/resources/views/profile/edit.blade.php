@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Perfil - FitManager</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
             /* Paleta de Colores Vibrante */
-            --primary: #3b82f6; 
+            --primary: #3b82f6;
             --primary-dark: #2563eb;
-            --teal: #10b981;    
-            --amber: #f59e0b;   
+            --teal: #10b981;
+            --amber: #f59e0b;
             --purple: #8b5cf6;
-            
+
             --bg-body: #F8FAFC;
             --bg-card: #FFFFFF;
             --input-bg: #F1F5F9;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            
+
             --radius-card: 28px;
             --radius-input: 18px;
         }
@@ -68,10 +70,14 @@
             justify-content: center;
             text-decoration: none;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
             font-size: 20px;
         }
-        .btn-back:active { transform: scale(0.95); background: #f1f5f9; }
+
+        .btn-back:active {
+            transform: scale(0.95);
+            background: #f1f5f9;
+        }
 
         .header-title {
             font-weight: 800;
@@ -85,7 +91,7 @@
             margin: 10px 20px;
             border-radius: var(--radius-card);
             padding: 35px 24px;
-            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.08); 
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.08);
             position: relative;
             overflow: hidden;
         }
@@ -131,10 +137,13 @@
             justify-content: center;
             font-size: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
             transition: transform 0.2s;
         }
-        .btn-edit-photo:active { transform: scale(0.9); }
+
+        .btn-edit-photo:active {
+            transform: scale(0.9);
+        }
 
         /* --- TITULOS --- */
         .divider-label {
@@ -146,8 +155,15 @@
             display: flex;
             align-items: center;
         }
+
         .divider-label::after {
-             content: ''; flex: 1; height: 2px; background: currentColor; opacity: 0.1; margin-left: 12px; border-radius: 2px;
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: currentColor;
+            opacity: 0.1;
+            margin-left: 12px;
+            border-radius: 2px;
         }
 
         /* --- INPUTS --- */
@@ -179,14 +195,25 @@
             margin-right: 12px;
             flex-shrink: 0;
         }
-        
-        .icon-blue { background: rgba(59, 130, 246, 0.1); color: var(--primary); }
-        .icon-teal { background: rgba(16, 185, 129, 0.1); color: var(--teal); }
-        .icon-amber { background: rgba(245, 158, 11, 0.1); color: var(--amber); }
 
-        .input-wrapper { 
-            flex-grow: 1; 
-            min-width: 0; 
+        .icon-blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+        }
+
+        .icon-teal {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--teal);
+        }
+
+        .icon-amber {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--amber);
+        }
+
+        .input-wrapper {
+            flex-grow: 1;
+            min-width: 0;
         }
 
         .input-label-small {
@@ -196,7 +223,7 @@
             margin-bottom: 2px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            white-space: nowrap; 
+            white-space: nowrap;
         }
 
         .field-clean {
@@ -214,7 +241,7 @@
             display: flex;
             align-items: baseline;
         }
-        
+
         .measurement-input {
             background: transparent;
             border: none;
@@ -224,8 +251,8 @@
             outline: none;
             padding: 0;
             width: 100%;
-            min-width: 0; 
-            flex: 1;      
+            min-width: 0;
+            flex: 1;
         }
 
         .unit-text {
@@ -234,7 +261,7 @@
             color: var(--text-main);
             opacity: 0.6;
             margin-left: 4px;
-            flex-shrink: 0; 
+            flex-shrink: 0;
         }
 
         /* --- GÉNERO --- */
@@ -261,7 +288,7 @@
         .gender-opt.active {
             background: white;
             color: var(--primary);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15); 
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
         }
 
         /* --- BOTÓN FINAL --- */
@@ -283,10 +310,167 @@
             justify-content: center;
             gap: 8px;
         }
-        .btn-save-main:active { transform: scale(0.97); box-shadow: 0 5px 15px -5px rgba(59, 130, 246, 0.4); }
 
+        .btn-save-main:active {
+            transform: scale(0.97);
+            box-shadow: 0 5px 15px -5px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Grid para poner las cajas lado a lado, pero que se adapten */
+        .medidas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Dos columnas iguales */
+            gap: 15px;
+            /* Espacio entre ellas */
+            margin-bottom: 20px;
+        }
+
+        /* En móviles muy muy pequeños, poner uno debajo de otro */
+        @media (max-width: 380px) {
+            .medidas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Diseño de la tarjeta gris */
+        .measure-card {
+            background-color: #F3F4F6;
+            /* Gris clarito */
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            /* Centrar verticalmente */
+            gap: 12px;
+            position: relative;
+            /* Para el borde rojo de error */
+            transition: all 0.3s ease;
+        }
+
+        /* Si hay error, borde rojo */
+        .measure-card.has-error {
+            border: 2px solid #ef4444;
+            background-color: #fef2f2;
+        }
+
+        /* El círculo del icono */
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            /* Que el icono no se aplaste nunca */
+        }
+
+        .icon-bg-green {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+
+        .icon-bg-blue {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+
+        /* Contenedor del texto e input */
+        .measure-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .measure-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #6B7280;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: baseline;
+            /* Alinear el número con el "kg" */
+        }
+
+        /* El input en sí: sin bordes, transparente y grande */
+        .clean-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #111827;
+            padding: 0;
+            outline: none;
+            /* Quitar borde azul al clicar */
+            -moz-appearance: textfield;
+            /* Firefox */
+        }
+
+        /* Truco para quitar las flechas de subir/bajar número en Chrome/Safari */
+        .clean-input::-webkit-outer-spin-button,
+        .clean-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .unit-text {
+            font-size: 0.9rem;
+            color: #6B7280;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        /* Mensaje de error pequeñito debajo */
+        .error-msg-mini {
+            color: #ef4444;
+            font-size: 0.7rem;
+            font-weight: bold;
+            position: absolute;
+            bottom: -18px;
+            left: 0;
+        }
+
+        /* Estilo específico para fondo azul (como en tu diseño) */
+        .card-blue {
+            background-color: #EFF6FF;
+            /* Azul muy clarito */
+        }
+
+        .icon-bg-dark-blue {
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+        }
+
+        /* Para poner el prefijo y el teléfono juntos */
+        .phone-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        /* Selector limpio para el +34 */
+        .clean-select {
+            background: transparent;
+            border: none;
+            font-weight: 700;
+            color: #2563eb;
+            /* Azul fuerte */
+            font-size: 1.1rem;
+            outline: none;
+            cursor: pointer;
+            padding-right: 5px;
+            /* Espacio extra */
+        }
     </style>
 </head>
+
 <body>
 
     <header class="header-clean">
@@ -297,144 +481,215 @@
         <div style="width: 42px;"></div>
     </header>
 
-<form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
-    @csrf
-    @method('put') 
+    <form method="post" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+        @csrf
+        @method('put')
 
-    <div class="content-card">
-        
-        <input type="file" id="avatar-input" name="avatar" accept="image/*" style="display: none;" onchange="previewImage(event)">
+        <div class="content-card">
 
-        <div class="profile-header text-center mb-4">
-    <div class="avatar-container" style="width: 105px; height: 105px; margin: 0 auto 15px; position: relative;">
-        
-        @if(auth()->user()->profile_photo_url)
-            <div id="avatar-preview" style="
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                background-image: url('{{ auth()->user()->profile_photo_url }}');
-                background-size: cover;
-                background-position: center;
-                box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
-                border: 4px solid white;
-            "></div>
-        @else
-            <div id="avatar-preview" class="d-flex align-items-center justify-content-center bg-light text-primary fw-bold" 
-                 style="
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 50%;
-                    font-size: 40px; 
-                    border: 4px solid white;
-                    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
-                 ">
-                {{ substr(auth()->user()->name, 0, 1) }}
+            <input type="file" id="avatar-input" name="avatar" accept="image/*" style="display: none;"
+                onchange="previewImage(event)">
+
+            <div class="profile-header text-center mb-4">
+                <div class="avatar-container"
+                    style="width: 105px; height: 105px; margin: 0 auto 15px; position: relative;">
+
+                    @if(auth()->user()->profile_photo_url)
+                        <div id="avatar-preview" style="
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 50%;
+                                background-image: url('{{ auth()->user()->profile_photo_url }}');
+                                background-size: cover;
+                                background-position: center;
+                                box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+                                border: 4px solid white;
+                            "></div>
+                    @else
+                        <div id="avatar-preview"
+                            class="d-flex align-items-center justify-content-center bg-light text-primary fw-bold" style="
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 50%;
+                                font-size: 40px; 
+                                border: 4px solid white;
+                                box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+                             ">
+                            {{ substr(auth()->user()->name, 0, 1) }}
+                        </div>
+                    @endif
+
+                    <div class="btn-edit-photo" onclick="document.getElementById('avatar-input').click()"
+                        style="cursor: pointer;">
+                        <i class="ph-fill ph-camera"></i>
+                    </div>
+                </div>
+
+                <h5 class="fw-bold m-0">{{ auth()->user()->name }}</h5>
+                <p class="text-muted fw-medium small m-0">{{ auth()->user()->email }}</p>
             </div>
-        @endif
 
-        <div class="btn-edit-photo" onclick="document.getElementById('avatar-input').click()" style="cursor: pointer;">
-            <i class="ph-fill ph-camera"></i>
+            <h4 style="color: #3B82F6; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; margin-top: 20px; margin-bottom: 10px;">
+    CONTACTO
+</h4>
+
+<div class="medidas-grid" style="grid-template-columns: 1fr;"> <div class="measure-card card-blue @error('phone') has-error @enderror">
+        <div class="icon-circle icon-bg-dark-blue">
+            <i class="fas fa-phone-alt"></i> 
+            📞
         </div>
+        
+        <div class="measure-content">
+            <label for="phone" class="measure-label" style="color: #60A5FA;">Teléfono Móvil</label>
+            
+            <div class="phone-row">
+                <select class="clean-select">
+                    <option value="+34">+34 🇪🇸</option>
+                    <option value="+1">+1 🇺🇸</option>
+                    <option value="+52">+52 🇲🇽</option>
+                    </select>
+
+                <input 
+                    type="tel" 
+                    id="phone"
+                    name="phone" 
+                    value="{{ old('phone', $user->profile->phone ?? '') }}"
+                    class="clean-input"
+                    placeholder="600 00 00 00"
+                    style="color: #1E40AF;" 
+                >
+            </div>
+        </div>
+
+        @error('phone')
+            <span class="error-msg-mini">{{ $message }}</span>
+        @enderror
     </div>
 
-    <h5 class="fw-bold m-0">{{ auth()->user()->name }}</h5>
-    <p class="text-muted fw-medium small m-0">{{ auth()->user()->email }}</p>
-</div>
+            <h4
+                style="color: #10B981; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; margin-top: 20px; margin-bottom: 10px;">
+                MEDIDAS CORPORALES
+            </h4>
 
-            <div class="divider-label" style="color: var(--primary);">Contacto</div>
+            <div class="medidas-grid">
 
-            <div class="smart-input">
-                <div class="icon-box icon-blue">
-                    <i class="ph-fill ph-phone"></i>
-                </div>
-                <div class="input-wrapper">
-                    <span class="input-label-small">Teléfono Móvil</span>
-                    <div class="d-flex">
-                         <select class="field-clean fw-bold" style="width: auto; margin-right: 8px; color: var(--primary);">
-                            <option>+34</option>
-                            <option>+1</option>
-                        </select>
-                        <input type="tel" name="phone" value="{{ auth()->user()->profile->phone ?? '' }}" class="field-clean" placeholder="000 000 000">
+                <div class="measure-card @error('weight') has-error @enderror">
+                    <div class="icon-circle icon-bg-green">
+                        <i class="fas fa-weight"></i> ⚖️
                     </div>
-                </div>
-            </div>
 
-            <div class="divider-label" style="color: var(--teal);">Medidas Corporales</div>
-
-            <div class="row g-3 mb-3">
-                <div class="col-6">
-                    <div class="smart-input mb-0">
-                        <div class="icon-box icon-teal" style="width: 36px; height: 36px; font-size: 18px; margin-right: 10px;">
-                            <i class="ph-fill ph-scales"></i>
-                        </div>
+                    <div class="measure-content">
+                        <label for="weight" class="measure-label">Peso</label>
                         <div class="input-wrapper">
-                            <span class="input-label-small">Peso</span>
-                            <div class="measurement-row">
-                                <input type="number" name="weight" value="{{ auth()->user()->profile->weight ?? '' }}" class="measurement-input" placeholder="0">
-                                <span class="unit-text">kg</span>
-                            </div>
+                            <input type="number" id="weight" name="weight"
+                                value="{{ old('weight', $user->profile->weight ?? '') }}" class="clean-input"
+                                placeholder="0" step="0.1">
+                            <span class="unit-text">kg</span>
                         </div>
                     </div>
+
+                    @error('weight')
+                        <span class="error-msg-mini">{{ $message }}</span>
+                    @enderror
                 </div>
-                <div class="col-6">
-                    <div class="smart-input mb-0">
-                        <div class="icon-box icon-teal" style="width: 36px; height: 36px; font-size: 18px; margin-right: 10px;">
-                            <i class="ph-fill ph-ruler"></i>
-                        </div>
+
+                <div class="measure-card @error('height') has-error @enderror">
+                    <div class="icon-circle icon-bg-blue">
+                        <i class="fas fa-ruler-vertical"></i> 📏
+                    </div>
+
+                    <div class="measure-content">
+                        <label for="height" class="measure-label">Altura</label>
                         <div class="input-wrapper">
-                            <span class="input-label-small">Altura</span>
-                            <div class="measurement-row">
-                                <input type="number" name="height" value="{{ auth()->user()->profile->height ?? '' }}" class="measurement-input" placeholder="0">
-                                <span class="unit-text">cm</span>
-                            </div>
+                            <input type="number" id="height" name="height"
+                                value="{{ old('height', $user->profile->height ?? '') }}" class="clean-input"
+                                placeholder="0">
+                            <span class="unit-text">cm</span>
                         </div>
                     </div>
+
+                    @error('height')
+                        <span class="error-msg-mini">{{ $message }}</span>
+                    @enderror
                 </div>
+
             </div>
 
             <div>
                 <span class="input-label-small ms-2 mb-2">Sexo Biológico</span>
                 <input type="hidden" name="sex" id="sex-input" value="{{ auth()->user()->profile->sex ?? 'Hombre' }}">
                 <div class="gender-switch">
-                    <div class="gender-opt {{ (auth()->user()->profile->sex ?? 'Hombre') == 'Hombre' ? 'active' : '' }}" onclick="updateSex('Hombre', this)">
+                    <div class="gender-opt {{ (auth()->user()->profile->sex ?? 'Hombre') == 'Hombre' ? 'active' : '' }}"
+                        onclick="updateSex('Hombre', this)">
                         Hombre
                     </div>
-                    <div class="gender-opt {{ (auth()->user()->profile->sex ?? '') == 'Mujer' ? 'active' : '' }}" onclick="updateSex('Mujer', this)">
+                    <div class="gender-opt {{ (auth()->user()->profile->sex ?? '') == 'Mujer' ? 'active' : '' }}"
+                        onclick="updateSex('Mujer', this)">
                         Mujer
                     </div>
                 </div>
             </div>
 
-            <div class="divider-label" style="color: var(--amber);">Objetivos</div>
+           <h4 style="color: #D97706; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; margin-top: 20px; margin-bottom: 10px;">
+    OBJETIVOS
+</h4>
 
-            <div class="smart-input">
-                <div class="icon-box icon-amber">
-                    <i class="ph-fill ph-lightning"></i>
-                </div>
-                <div class="input-wrapper">
-                    <span class="input-label-small">Nivel de Actividad</span>
-                    <select name="activity" class="field-clean" style="cursor: pointer; background: transparent; appearance: none;">
-                        <option value="baja" {{ (auth()->user()->profile->activity ?? '') == 'baja' ? 'selected' : '' }}>Sedentario</option>
-                        <option value="moderada" {{ (auth()->user()->profile->activity ?? '') == 'moderada' ? 'selected' : '' }}>Activo (Moderado)</option>
-                        <option value="alta" {{ (auth()->user()->profile->activity ?? '') == 'alta' ? 'selected' : '' }}>Atleta (Alto)</option>
-                    </select>
-                </div>
-                <i class="ph-bold ph-caret-down text-muted small me-2"></i>
-            </div>
-
-            <button type="submit" class="btn-save-main">
-                <i class="ph-bold ph-floppy-disk"></i>
-                Guardar Cambios
-            </button>
-
+<div class="medidas-grid" style="grid-template-columns: 1fr;">
+    
+    <div class="measure-card @error('activity') has-error @enderror" style="background-color: #FFFBEB;"> <div class="icon-circle" style="background-color: #FEF3C7; color: #D97706;">
+            <i class="fas fa-bolt"></i>
+            ⚡
         </div>
+        
+        <div class="measure-content">
+            <label for="activity" class="measure-label" style="color: #92400E;">Nivel de Actividad</label>
+            
+            <div style="position: relative; width: 100%;">
+                <select 
+                    name="activity" 
+                    id="activity" 
+                    class="clean-input" 
+                    style="width: 100%; cursor: pointer; color: #4B5563; background: transparent;"
+                >
+                    <option value="" disabled selected>Selecciona una opción</option>
+                    <option value="sedentary" {{ old('activity', $user->profile->activity ?? '') == 'sedentary' ? 'selected' : '' }}>
+                        Sedentario (Poco ejercicio)
+                    </option>
+                    <option value="light" {{ old('activity', $user->profile->activity ?? '') == 'light' ? 'selected' : '' }}>
+                        Ligero (1-3 días/semana)
+                    </option>
+                    <option value="moderate" {{ old('activity', $user->profile->activity ?? '') == 'moderate' ? 'selected' : '' }}>
+                        Moderado (3-5 días/semana)
+                    </option>
+                    <option value="active" {{ old('activity', $user->profile->activity ?? '') == 'active' ? 'selected' : '' }}>
+                        Activo (6-7 días/semana)
+                    </option>
+                    <option value="very_active" {{ old('activity', $user->profile->activity ?? '') == 'very_active' ? 'selected' : '' }}>
+                        Muy Activo (Doble sesión)
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        @error('activity')
+            <span class="error-msg-mini">{{ $message }}</span>
+        @enderror
+    </div>
+
+</div>
+
+<div style="margin-top: 25px;">
+    <button type="submit" style="width: 100%; background-color: #2563EB; color: white; padding: 15px; border-radius: 12px; border: none; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">
+        💾 Guardar Cambios
+    </button>
+</div>
     </form>
 
     @if(session('success'))
-        <div class="position-fixed top-0 start-50 translate-middle-x mt-4" style="z-index: 9999; width: 90%; max-width: 350px;">
-            <div class="d-flex align-items-center text-white rounded-pill px-4 py-3 shadow-lg justify-content-center" 
-                 style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.5);">
+        <div class="position-fixed top-0 start-50 translate-middle-x mt-4"
+            style="z-index: 9999; width: 90%; max-width: 350px;">
+            <div class="d-flex align-items-center text-white rounded-pill px-4 py-3 shadow-lg justify-content-center"
+                style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.5);">
                 <i class="ph-fill ph-check-circle text-white me-2 fs-5"></i>
                 <span class="fw-bold" style="font-size: 14px;">{{ session('success') }}</span>
             </div>
@@ -459,24 +714,24 @@
             if (file && file.size > 1048576) {
                 // A) Mostramos alerta
                 alert("⚠️ ¡IMAGEN MUY GRANDE!\n\nLa imagen supera el límite de 1MB.\nEl servidor la rechazará. Por favor, elige una más pequeña.");
-                
+
                 // B) Borramos el archivo del input para que NO se envíe
-                event.target.value = ''; 
-                
+                event.target.value = '';
+
                 // C) Paramos la ejecución (no mostramos preview)
-                return false; 
+                return false;
             }
 
             // 2. Si el tamaño es correcto, mostramos la preview normal
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     const avatarDiv = document.getElementById('avatar-preview');
-                    
+
                     // Limpiamos clases de texto si las hubiera
                     avatarDiv.classList.remove('bg-light', 'text-primary', 'd-flex', 'align-items-center', 'justify-content-center');
                     avatarDiv.innerHTML = ''; // Borramos las iniciales
-                    
+
                     // Ponemos la imagen como fondo
                     avatarDiv.style.backgroundImage = `url(${e.target.result})`;
                     avatarDiv.style.backgroundColor = 'white'; // Asegurar fondo limpio
@@ -486,7 +741,7 @@
         }
 
         const toast = document.querySelector('.position-fixed');
-        if(toast) {
+        if (toast) {
             setTimeout(() => {
                 toast.style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
                 toast.style.opacity = '0';
@@ -496,4 +751,5 @@
         }
     </script>
 </body>
+
 </html>

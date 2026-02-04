@@ -71,17 +71,12 @@ Route::middleware('auth')->group(function () {
 
     // --- API INTERNA (Otras cosas) ---
     Route::prefix('api')->group(function () {
-<<<<<<< HEAD
-<<<<<<< HEAD
+// Rutinas
         // Y como está en web.php, ¡recordará que estás logueado!
         Route::get('/user', [ProfileController::class, 'getUserData']);
-=======
-        // Rutinas
->>>>>>> bc2d029c4518308b84fe2aa5ff21c2b297cb2d82
-=======
-        // Y como está en web.php, ¡recordará que estás logueado!
-        Route::get('/user', [ProfileController::class, 'getUserData']);
->>>>>>> 97df84729588304a933b4cfceb71d899b20a4d08
+
+        
+ 
         Route::get('/routines', [RoutineController::class, 'index']); 
         Route::post('/routines', [RoutineController::class, 'store']); 
         Route::delete('/routines/{id}', [RoutineController::class, 'destroy']); 
