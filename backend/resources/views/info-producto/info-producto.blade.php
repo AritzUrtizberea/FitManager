@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>Detalles del Producto</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <link rel="stylesheet" href="assets/css/info-producto.css"> 
+    <link rel="stylesheet" href="{{ asset('css/info-producto.css') }}"> 
 </head>
 
 <body>
@@ -26,7 +28,7 @@
 
         <section class="card product-hero">
             <div class="product-image-wrapper">
-                <img id="prod-img" src="assets/img/placeholder-product.png" alt="Producto" onerror="this.style.display='none'">
+                <img id="prod-img" src="{{ asset('assets/img/placeholder-product.png') }}" alt="Producto" onerror="this.style.display='none'">
                 <i class="ph-duotone ph-image placeholder-icon" id="img-placeholder"></i>
             </div>
 
@@ -118,14 +120,14 @@
     </main>
 
     <nav class="floating-dock">
-        <a href="/home" class="dock-item"><i class="ph-fill ph-house"></i></a>
-        <a href="/nutrition" class="dock-item active"><i class="ph-bold ph-fork-knife"></i></a>
+        <a href="{{ route('home') }}" class="dock-item"><i class="ph-fill ph-house"></i></a>
+        <a href="{{ route('nutrition') }}" class="dock-item active"><i class="ph-bold ph-fork-knife"></i></a>
         
         <div class="dock-fab-container">
             <button class="dock-fab" id="video-trigger-btn"><i class="ph-fill ph-play"></i></button>
         </div>
         
-        <a href="/training" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
+        <a href="{{ route('training') }}" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
         <a href="/perfil" class="dock-item"><i class="ph-bold ph-user"></i></a>
     </nav>
 
@@ -140,6 +142,7 @@
         </div>
     </div>
 
-    <script src="assets/js/info-producto.js" defer></script>
+    <script src="{{ asset('js/info-producto.js') }}" defer></script>
+    <script src="{{ asset('assets/js/chatbot.js') }}"></script>
 </body>
 </html>

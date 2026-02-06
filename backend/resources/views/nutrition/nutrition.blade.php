@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>Nutrición</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -12,8 +14,8 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
 
-    <link rel="stylesheet" href="assets/css/nutricion.css">
-    <link rel="stylesheet" href="assets/css/chatbot.css">
+    <link rel="stylesheet" href="{{ asset('css/nutrition.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
 </head>
 
 <body>
@@ -48,7 +50,7 @@
             </div>
         </section>
 
-        <button id="btn-crear-dieta" class="btn-secondary-action full-width shadow-soft">
+        <button id="btn-crear-dieta" class="btn-secondary-action full-width shadow-soft" onclick="window.location.href='{{ route('crear-dieta') }}'">
             <div class="icon-box">
                 <i class="ph-fill ph-pencil-simple"></i>
             </div>
@@ -72,16 +74,13 @@
     </main>
 
     <nav class="floating-dock">
-        <a href="/home" class="dock-item"><i class="ph-fill ph-house"></i></a>
-
-        <a href="/nutrition" class="dock-item active"><i class="ph-bold ph-fork-knife"></i></a>
-
+        <a href="{{ route('home') }}" class="dock-item"><i class="ph-fill ph-house"></i></a>
+        <a href="{{ route('nutrition') }}" class="dock-item active"><i class="ph-bold ph-fork-knife"></i></a>
         <div class="dock-fab-container">
             <button class="dock-fab" id="video-trigger-btn"><i class="ph-fill ph-play"></i></button>
         </div>
-
-        <a href="/training" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
-        <a href="/perfil" class="dock-item"><i class="ph-bold ph-user"></i></a>
+        <a href="{{ route('training') }}" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
+        <a href="{{ route('profile.edit') }}" class="dock-item"><i class="ph-bold ph-user"></i></a>
     </nav>
 
     <div id="video-modal" class="modal-overlay">
@@ -89,17 +88,15 @@
             <button class="close-modal" id="close-modal-btn"><i class="ph-bold ph-x"></i></button>
             <div class="video-wrapper">
                 <video id="popup-video" controls playsinline>
-                    <source src="https://videos.pexels.com/video-files/5319759/5319759-hd_720_1280_25fps.mp4"
-                        type="video/mp4">
+                    <source src="https://videos.pexels.com/video-files/5319759/5319759-hd_720_1280_25fps.mp4" type="video/mp4">
                     Tu navegador no soporta video.
                 </video>
             </div>
         </div>
     </div>
 
-    <script src="assets/js/nutricion.js" defer></script>
-    <script src="assets/js/chatbot.js"></script>
+    <script src="{{ asset('js/nutricion.js') }}" defer></script>
+    <script src="{{ asset('js/chatbot.js') }}"></script>
 
 </body>
-
 </html>

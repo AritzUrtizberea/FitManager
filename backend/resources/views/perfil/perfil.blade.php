@@ -4,22 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>FitManager - Perfil</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/configuration.css">
-    <link rel="stylesheet" href="assets/css/chatbot.css">
-    <link rel="stylesheet" href="assets/css/perfil.css"> </head>
+    <link rel="stylesheet" href="{{ asset('css/configuration.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/perfil.css') }}"> 
+</head>
 
 <body>
 
     <main>
         <section class="profile-header">
             <div class="nav-header">
-                <i class="ph ph-gear-six" style="font-size: 24px; color: #333;"></i>
+                <a href="{{ route('profile.edit') }}">
+                    <i class="ph ph-gear-six" style="font-size: 24px; color: #333;"></i>
+                </a>
             </div>
 
             <div style="width: 100px; height: 100px; margin: 0 auto 15px; position: relative;">
@@ -75,7 +81,7 @@
 
         <ul class="menu-list">
             <li>
-                <a href="/profile/edit" class="menu-item">
+                <a href="{{ route('profile.edit') }}" class="menu-item">
                     <div class="menu-left">
                         <i class="ph ph-pencil-simple menu-icon"></i>
                         <span class="menu-text">Editar Perfil</span>
@@ -85,7 +91,7 @@
             </li>
 
             <li>
-                <a href="/reviews" class="menu-item">
+                <a href="{{ route('reviews.index') }}" class="menu-item">
                     <div class="menu-left">
                         <i class="ph ph-star menu-icon" style="color: #fbc02d;"></i>
                         <span class="menu-text">Mis Reseñas</span>
@@ -95,7 +101,7 @@
             </li>
 
             <li>
-                <a href="/privacidad" class="menu-item">
+                <a href="{{ route('privacidad') }}" class="menu-item">
                     <div class="menu-left">
                         <i class="ph ph-shield-check menu-icon"></i>
                         <span class="menu-text">Privacidad</span>
@@ -132,16 +138,16 @@
     </main>
 
     <div class="floating-dock">
-        <a href="/home" class="dock-item"><i class="ph-fill ph-house"></i></a>
-        <a href="/nutrition" class="dock-item"><i class="ph-bold ph-fork-knife"></i></a>
+        <a href="{{ route('home') }}" class="dock-item"><i class="ph-fill ph-house"></i></a>
+        <a href="{{ route('nutrition') }}" class="dock-item"><i class="ph-bold ph-fork-knife"></i></a>
         <div class="dock-fab-container">
             <button class="dock-fab" id="video-trigger-btn"><i class="ph-fill ph-play"></i></button>
         </div>
-        <a href="/training" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
-        <a href="/perfil" class="dock-item active"><i class="ph-bold ph-user"></i></a>
+        <a href="{{ route('training') }}" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
+        <a href="{{ route('perfil') }}" class="dock-item active"><i class="ph-bold ph-user"></i></a>
     </div>
 
-    <script src="assets/js/chatbot.js"></script>
-    <script src="assets/js/perfil.js"></script>
+    <script src="{{ asset('js/chatbot.js') }}"></script>
+    <script src="{{ asset('js/perfil.js') }}"></script>
 </body>
 </html>

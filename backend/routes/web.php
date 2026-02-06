@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request; // Necesario para usar $request en las funciones
 
 // --- CONTROLADORES ---
 use App\Http\Controllers\ProfileController;
@@ -10,7 +11,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ExerciseController as AdminExerciseController;
 
-// --- MIDDLEWARE IMPORTADO (AQUÍ ESTÁ EL TRUCO) ---
+// --- MIDDLEWARE ---
 use App\Http\Middleware\AdminMiddleware; 
 
 /*
@@ -25,9 +26,8 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| ZONA ADMIN (SOLUCIÓN)
+| ZONA ADMIN
 |--------------------------------------------------------------------------
-| En lugar de 'admin', usamos AdminMiddleware::class directamente.
 */
 Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
@@ -43,13 +43,28 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
 | RUTAS DE USUARIO (Auth)
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->group(function () {
-    
-    Route::get('/home', function () {
-        return view('home'); 
-    })->name('home');
 
-    // --- PERFIL ---
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // --- VISTAS PRINCIPALES ---
+    Route::get('/home', function () { return view('home.home'); })->name('home');
+    Route::get('/training', function () { return view('training.training'); })->name('training');
+    Route::get('/routines', function () { return view('routines.routines'); })->name('routines');
+    Route::get('/nutrition', function () { return view('nutrition.nutrition'); })->name('nutrition');
+    Route::get('/crear-dieta', function () { return view('crear-dieta.crear-dieta'); })->name('crear-dieta');
+    Route::get('/info-producto', function () { return view('info-producto.info-producto'); })->name('info-producto');
+    Route::get('/privacidad', function () { return view('privacidad.privacidad'); })->name('privacidad');
+
+    // ==========================================
+    //  PERFIL (NUEVO)
+    // ==========================================
+    
+    // 1. Vista visual del perfil (La que has maquetado)
+    Route::get('/perfil', function () {
+        return view('perfil.perfil');
+    })->name('perfil');
+
+    // 2. Configuración de cuenta (Editar contraseña, borrar cuenta, etc.)
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -57,27 +72,25 @@ Route::middleware('auth')->group(function () {
     // ==========================================
     //  ZONA DE RESEÑAS
     // ==========================================
-
-    // 1. PANTALLA OBLIGATORIA (Create)
     Route::get('/reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
-
-    // 2. PANTALLA PRINCIPAL (Index + Lista)
     Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-
-    // 3. DATOS JSON
     Route::get('/reviews/list', [ReviewController::class, 'list'])->name('reviews.list');
-
-    // 4. ACCIONES
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
-
-    // --- API INTERNA ---
+    // ==========================================
+    //  API INTERNA (AJAX desde el Navegador)
+    // ==========================================
+    // Estas rutas usan la sesión del navegador. No requieren tokens Sanctum.
     Route::prefix('api')->group(function () {
-        // Usuario
-        Route::get('/user', [ProfileController::class, 'getUserData']);
+        
+        // VITAL: Esta ruta devuelve al usuario CON los datos de su perfil (peso, altura)
+        // para que perfil.js pueda mostrarlos.
+        Route::get('/user', function (Request $request) {
+            // Asegúrate de que en App\Models\User tengas la relación public function profile()
+            return $request->user()->load('profile'); 
+        });
 
-        // Rutinas
         Route::get('/routines', [RoutineController::class, 'index']); 
         Route::post('/routines', [RoutineController::class, 'store']); 
         Route::delete('/routines/{id}', [RoutineController::class, 'destroy']); 
@@ -85,4 +98,5 @@ Route::middleware('auth')->group(function () {
 
 });
 
+// Carga las rutas de autenticación (login, logout, register)
 require __DIR__.'/auth.php';

@@ -6,18 +6,19 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitManager - Rutinas</title>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/routines.css">
-
+    
+    <link rel="stylesheet" href="{{ asset('css/routines.css') }}">
 </head>
 
 <body>
 
     <div class="row" style="margin-top: 20px; margin-bottom: 0;">
         <div class="col s12 container" style="width: 95%; max-width: 1100px;">
-            <a href="/training" id="btn-volver" class="btn-flat waves-effect waves-grey fm-btn-back-custom">
+            <a href="{{ route('training') }}" id="btn-volver" class="btn-flat waves-effect waves-grey fm-btn-back-custom">
                 <i class="ph ph-arrow-left"></i>
                 <span>Volver a Entrenamiento</span>
             </a>
@@ -119,7 +120,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script src="js/apiEjercicios.js"></script>
+    
+    <script src="{{ asset('js/apiEjercicios.js') }}"></script>
 </body>
 
 </html>

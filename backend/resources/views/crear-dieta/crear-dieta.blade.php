@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>Diseñar Dieta</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/crear-dieta.css">
+    <link rel="stylesheet" href="{{ asset('css/crear-dieta.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
 
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -17,7 +20,7 @@
 <body>
 
     <header class="header-nav">
-        <button class="btn-back" onclick="window.location.href='/nutrition'" aria-label="Volver">
+        <button class="btn-back" onclick="window.location.href='{{ route('nutrition') }}'" aria-label="Volver">
             <i class="ph-bold ph-caret-left"></i>
         </button>
         <span class="header-title">Añadir Alimentos</span>
@@ -86,12 +89,12 @@
     </div>
 
     <nav class="floating-dock">
-        <a href="/home" class="dock-item"><i class="ph-fill ph-house"></i></a>
-        <a href="/nutrition" class="dock-item active"><i class="ph-bold ph-fork-knife"></i></a>
+        <a href="{{ route('home') }}" class="dock-item"><i class="ph-fill ph-house"></i></a>
+        <a href="{{ route('nutrition') }}" class="dock-item active"><i class="ph-bold ph-fork-knife"></i></a>
         <div class="dock-fab-container">
             <button class="dock-fab" id="video-trigger-btn"><i class="ph-fill ph-play"></i></button>
         </div>
-        <a href="/training" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
+        <a href="{{ route('training') }}" class="dock-item"><i class="ph-bold ph-barbell"></i></a>
         <a href="/perfil" class="dock-item"><i class="ph-bold ph-user"></i></a>
     </nav>
 
@@ -107,8 +110,9 @@
         </div>
     </div>
 
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/crear-dieta.js"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('js/crear-dieta.js') }}"></script>
+    <script src="{{ asset('js/chatbot.js') }}"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {

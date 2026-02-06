@@ -10,8 +10,8 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/training.css">
-    <link rel="stylesheet" href="assets/css/chatbot.css">
+    <link rel="stylesheet" href="{{ asset('css/training.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chatbot.css') }}">
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 
     <main class="main-container">
 
-        <section class="card-premium-dark" onclick="window.location.href='/routines'">
+        <section class="card-premium-dark" onclick="window.location.href='{{ route('routines') }}'">
             <div class="premium-content">
                 <div class="premium-text">
                     <h2>Tu viaje empieza hoy</h2>
@@ -41,7 +41,7 @@
 
         <h3 class="section-label">Recomendado</h3>
 
-        <section class="card-immersive" onclick="window.location.href='/routines'">
+        <section class="card-immersive" onclick="window.location.href='{{ route('routines') }}'">
             <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1000"
                 class="bg-img" alt="Full Body">
             <div class="immersive-overlay">
@@ -59,19 +59,19 @@
         <h3 class="section-label">Explorar</h3>
 
         <div class="categories-scroll">
-            <div class="cat-item active" onclick="window.location.href='/routines'">
+            <div class="cat-item active" onclick="window.location.href='{{ route('routines') }}'">
                 <i class="ph-fill ph-person-simple-run"></i>
                 <span>Cardio</span>
             </div>
-            <div class="cat-item" onclick="window.location.href='/routines'">
+            <div class="cat-item" onclick="window.location.href='{{ route('routines') }}'">
                 <i class="ph-fill ph-barbell"></i>
                 <span>Fuerza</span>
             </div>
-            <div class="cat-item" onclick="window.location.href='/routines'">
+            <div class="cat-item" onclick="window.location.href='{{ route('routines') }}'">
                 <i class="ph-fill ph-flower-lotus"></i>
                 <span>Yoga</span>
             </div>
-            <div class="cat-item" onclick="window.location.href='/routines'">
+            <div class="cat-item" onclick="window.location.href='{{ route('routines') }}'">
                 <i class="ph-fill ph-sneaker-move"></i>
                 <span>HIIT</span>
             </div>
@@ -80,20 +80,21 @@
     </main>
 
     <div class="floating-dock">
-        <a href="/home" class="dock-item"><i class="ph-fill ph-house"></i></a>
+        <a href="{{ route('home') }}" class="dock-item"><i class="ph-fill ph-house"></i></a>
 
-        <a href="/nutrition" class="dock-item"><i class="ph-bold ph-fork-knife"></i></a>
+        <a href="{{ route('nutrition') }}" class="dock-item"><i class="ph-bold ph-fork-knife"></i></a>
 
         <div class="dock-fab-container">
             <button class="dock-fab" id="video-trigger-btn"><i class="ph-fill ph-play"></i></button>
         </div>
 
-        <a href="/training" class="dock-item active"><i class="ph-bold ph-barbell"></i></a>
+        <a href="{{ route('training') }}" class="dock-item active"><i class="ph-bold ph-barbell"></i></a>
+        
         <a href="/perfil" class="dock-item"><i class="ph-bold ph-user"></i></a>
     </div>
 
-    <script src="assets/js/chatbot.js"></script>
-    <script src="assets/js/trainingNav.js"></script>
+    <script src="{{ asset('js/chatbot.js') }}"></script>
+    <script src="{{ asset('js/trainingNav.js') }}"></script>
 </body>
 
 </html>
