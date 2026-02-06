@@ -652,19 +652,24 @@
                     style="width: 100%; cursor: pointer; color: #4B5563; background: transparent;"
                 >
                     <option value="" disabled selected>Selecciona una opción</option>
-                    <option value="sedentary" {{ old('activity', $user->profile->activity ?? '') == 'sedentary' ? 'selected' : '' }}>
+                    
+                    <option value="sedentary" {{ old('activity', $user->profile->activity_level ?? '') == 'sedentary' ? 'selected' : '' }}>
                         Sedentario (Poco ejercicio)
                     </option>
-                    <option value="light" {{ old('activity', $user->profile->activity ?? '') == 'light' ? 'selected' : '' }}>
+                    
+                    <option value="light" {{ old('activity', $user->profile->activity_level ?? '') == 'light' ? 'selected' : '' }}>
                         Ligero (1-3 días/semana)
                     </option>
-                    <option value="moderate" {{ old('activity', $user->profile->activity ?? '') == 'moderate' ? 'selected' : '' }}>
+                    
+                    <option value="moderate" {{ old('activity', $user->profile->activity_level ?? '') == 'moderate' ? 'selected' : '' }}>
                         Moderado (3-5 días/semana)
                     </option>
-                    <option value="active" {{ old('activity', $user->profile->activity ?? '') == 'active' ? 'selected' : '' }}>
+                    
+                    <option value="active" {{ old('activity', $user->profile->activity_level ?? '') == 'active' ? 'selected' : '' }}>
                         Activo (6-7 días/semana)
                     </option>
-                    <option value="very_active" {{ old('activity', $user->profile->activity ?? '') == 'very_active' ? 'selected' : '' }}>
+                    
+                    <option value="very_active" {{ old('activity', $user->profile->activity_level ?? '') == 'very_active' ? 'selected' : '' }}>
                         Muy Activo (Doble sesión)
                     </option>
                 </select>

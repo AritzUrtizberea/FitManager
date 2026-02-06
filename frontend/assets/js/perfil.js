@@ -12,11 +12,30 @@ document.addEventListener("DOMContentLoaded", () => {
         name: document.getElementById('profile-name'),
         weight: document.getElementById('profile-weight'),
         height: document.getElementById('profile-height'),
-        streak: document.getElementById('profile-streak'), // <--- AQUÍ VA EL FUEGO 🔥
+        streak: document.getElementById('profile-streak'),
+        
+        // AÑADIDO: Referencia al campo de actividad
+        activity: document.getElementById('profile-activity'), 
 
         avatarPlaceholder: document.getElementById('avatar-placeholder'),
         avatarImage: document.getElementById('avatar-image')
     };
+
+    // Diccionario para traducir lo que viene de la BD a texto bonito
+    const activityMap = {
+            // Valores del Registro (Español)
+            'baja': 'Sedentario (Poco ejercicio)',
+            'ligera': 'Ligero (1-3 días)',
+            'moderada': 'Moderado (3-5 días)',
+            'alta': 'Fuerte (6-7 días)',
+
+            // Valores de la Edición (Inglés) -> ¡ESTOS FALTABAN!
+            'sedentary': 'Sedentario (Poco ejercicio)',
+            'light': 'Ligero (1-3 días)',
+            'moderate': 'Moderado (3-5 días)',
+            'active': 'Activo (6-7 días)',
+            'very_active': 'Muy Activo (Doble sesión)'
+        };
 
     // --- 2. HTML DEL LOADER ---
     const getLoaderHTML = (isMini = false) => {
@@ -36,13 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if(els.weight) els.weight.innerHTML = getLoaderHTML(true);
         if(els.height) els.height.innerHTML = getLoaderHTML(true);
         if(els.streak) els.streak.innerHTML = getLoaderHTML(true);
+        if(els.activity) els.activity.innerHTML = getLoaderHTML(true); // AÑADIDO
     };
 
     const loadUserData = async () => {
         showLoaders(); 
 
         try {
-            // AHORA ESTA RUTA DEVUELVE EL USUARIO + PERFIL (Gracias a tu cambio en web.php)
             const response = await fetch('/api/user', {
                 method: 'GET',
                 headers: {
@@ -58,40 +77,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log("📡 DATOS RECIBIDOS:", data); 
 
-                // --- CHIVATO PARA VER SI LLEGA LA RACHA ---
-                console.log("📡 DATOS RECIBIDOS DEL BACKEND:", data); 
-
-                // --- TEXTOS ---
+                // --- TEXTOS BÁSICOS ---
                 if (els.name) els.name.textContent = data.name || 'Usuario';
                 
-                // AQUÍ ES DONDE OCURRE LA MAGIA
+                // --- DATOS DEL PERFIL ---
                 if (data.profile) {
-                    console.log("🔥 Racha detectada:", data.profile.streak);
-                    
                     if (els.weight) els.weight.textContent = data.profile.weight || '--';
                     if (els.height) els.height.textContent = data.profile.height || '--';
-                    // Pintamos la racha (si es null pone 0)
                     if (els.streak) els.streak.textContent = data.profile.streak !== null ? data.profile.streak : '0';
+                    
+                    // AÑADIDO: Lógica para mostrar la actividad
+                    if (els.activity) {
+                        // Buscamos el valor en el diccionario, si no existe ponemos el original
+                        const rawActivity = data.profile.activity_level; // Asegúrate que en BD se llama activity_level
+                        els.activity.textContent = activityMap[rawActivity] || rawActivity || 'No definido';
+                    }
+
                 } else {
                     console.warn("⚠️ El usuario no tiene perfil creado todavía.");
                     if (els.streak) els.streak.textContent = '0';
+                    if (els.activity) els.activity.textContent = '--';
                 }
 
                 // --- IMAGEN ---
                 const photoPath = data.profile_photo_path; 
-
                 if (photoPath) {
                     const imgUrl = `/storage/${photoPath}?t=${new Date().getTime()}`;
-                    
                     if (els.avatarImage) {
                         els.avatarImage.src = imgUrl;
-
                         els.avatarImage.onload = () => {
                             if(els.avatarPlaceholder) els.avatarPlaceholder.style.display = 'none';
                             els.avatarImage.style.display = 'block';
                         };
-
                         els.avatarImage.onerror = () => {
                             if(els.avatarPlaceholder) els.avatarPlaceholder.style.display = 'flex';
                             els.avatarImage.style.display = 'none';
@@ -108,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // ... (RESTO DEL CÓDIGO IGUAL: MODAL LOGOUT, VALIDACIÓN FOTOS, ETC.) ...
     // --- 4. MODAL LOGOUT ---
     const showModal = () => { if(els.modal) els.modal.style.display = 'flex'; };
     const hideModal = () => { if(els.modal) els.modal.style.display = 'none'; };
@@ -115,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const performLogout = () => {
         const form = document.createElement('form');
         form.method = 'POST';
-        form.action = '/logout'; // Normalmente es /logout en web, o /api/logout si es SPA pura
+        form.action = '/logout'; 
         const token = document.querySelector('meta[name="csrf-token"]');
         if(token) {
             const input = document.createElement('input');
@@ -128,22 +148,17 @@ document.addEventListener("DOMContentLoaded", () => {
         form.submit();
     };
 
-    // ============================================================
     // --- 5. BLOQUEO DE FOTOS GIGANTES ---
-    // ============================================================
-    
-    // VALIDACIÓN A: Aviso inmediato
     const fileInput = document.getElementById('avatar-input');
     if (fileInput) {
         fileInput.addEventListener('change', function() {
-            if (this.files[0] && this.files[0].size > 1048576) { // 1MB
+            if (this.files[0] && this.files[0].size > 1048576) { 
                 alert("⚠️ La imagen es muy pesada (Máximo 1MB).");
                 this.value = ''; 
             }
         });
     }
 
-    // VALIDACIÓN B: Bloqueo de subida
     document.addEventListener('click', function(e) {
         const input = document.getElementById('avatar-input');
         if (input && input.files && input.files[0] && input.files[0].size > 1048576) {
