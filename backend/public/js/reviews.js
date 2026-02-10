@@ -1,139 +1,184 @@
 document.addEventListener('DOMContentLoaded', async () => {
-            const contenedor = document.getElementById('contenedor-reseñas');
-            const overlay = document.getElementById('lock-overlay');
-            const reviewForm = document.getElementById('review-form');
-            const countBadge = document.getElementById('review-count');
+    // 1. Referencias a todos los elementos del DOM
+    const contenedor = document.getElementById('contenedor-reseñas');
+    const overlay = document.getElementById('lock-overlay');
+    const reviewForm = document.getElementById('review-form');
+    const countBadge = document.getElementById('review-count');
+    const headerLockIcon = document.getElementById('header-lock-icon');
 
-            // --- 1. FUNCIÓN PARA CARGAR Y BLOQUEAR/DESBLOQUEAR ---
-            async function loadReviews() {
-                try {
-                    // Usamos la ruta que definimos en el Controller para JSON
-                    const response = await fetch('/reviews/list'); 
-                    const data = await response.json();
+    // --- FUNCIÓN PRINCIPAL DE CARGA ---
+    async function loadReviews() {
+        try {
+            // CAMBIO CLAVE: Usamos la ruta API pública para que no pida login en el Index
+            const response = await fetch('/api/reviews'); 
+            
+            if (!response.ok) throw new Error("Error al conectar con la API");
 
-                    const reviews = data.reviews;
-                    const isLocked = data.locked; // El controlador nos dice si bloquear o no
-                    const currentUserId = data.current_user_id;
+            const data = await response.json();
 
-                    // APLICAR ESTADO VISUAL
-                    if (isLocked) {
-                        contenedor.classList.add('locked-blur');
-                        overlay.style.display = 'flex';
-                        document.getElementById('header-lock-icon').style.display = 'block';
-                    } else {
-                        contenedor.classList.remove('locked-blur');
-                        overlay.style.display = 'none';
-                        document.getElementById('header-lock-icon').style.display = 'none';
-                    }
+            // ADAPTADOR INTELIGENTE:
+            // Si la respuesta viene de la API pública, a veces es solo un array.
+            // Si viene del controlador interno, trae .locked y .current_user_id.
+            // Aquí gestionamos los dos casos para que no falle nunca.
+            const reviews = Array.isArray(data) ? data : (data.reviews || []);
+            const isLocked = data.locked || false; // Si no viene el dato, asumimos NO bloqueado
+            const currentUserId = data.current_user_id || null; // Si no hay login, es null
 
-                    // PINTAR RESEÑAS
-                    contenedor.innerHTML = '';
-                    
-                    if (reviews.length === 0 && !isLocked) {
-                        contenedor.innerHTML = '<div class="p-5 text-center text-muted">Aún no hay reseñas. ¡Sé el primero!</div>';
-                        return;
-                    }
-
-                    reviews.forEach(r => {
-                        const userName = r.user ? r.user.name : 'Usuario';
-                        const inicial = userName.charAt(0).toUpperCase();
-                        const colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'];
-                        const bgAvatar = colors[Math.floor(Math.random() * colors.length)];
-                        
-                        // Generar estrellas HTML
-                        let stars = '';
-                        for(let i=1; i<=5; i++) {
-                            stars += (i <= r.rating) 
-                                ? '<i class="ph-fill ph-star text-warning"></i>' 
-                                : '<i class="ph ph-star text-muted" style="opacity:0.3"></i>';
-                        }
-
-                        // Botón borrar (solo si es mía y está desbloqueado)
-                        let deleteBtn = '';
-                        if (r.user_id === currentUserId && !isLocked) {
-                             deleteBtn = `<button onclick="borrarResena(${r.id})" class="btn btn-sm text-danger border-0 p-0 ms-2"><i class="ph ph-trash"></i></button>`;
-                        }
-
-                        const html = `
-                            <div class="review-item">
-                                <div class="d-flex align-items-start">
-                                    <div class="avatar-circle flex-shrink-0" style="background: ${bgAvatar}">
-                                        ${inicial}
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <div class="d-flex justify-content-between align-items-start">
-                                            <h6 class="mb-0 fw-bold text-dark">${userName} ${deleteBtn}</h6>
-                                            <small class="text-muted" style="font-size:0.75rem">Hace poco</small>
-                                        </div>
-                                        <div class="text-warning mb-1" style="font-size: 0.9rem;">${stars}</div>
-                                        <p class="text-secondary mb-0 small" style="line-height: 1.5;">${r.comment}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                        contenedor.innerHTML += html;
-                    });
-                    
-                    countBadge.innerText = isLocked ? '?' : reviews.length;
-
-                } catch (error) {
-                    console.error("Error cargando:", error);
+            // APLICAR ESTADO VISUAL DE BLOQUEO (Solo si existen los elementos)
+            if (contenedor && overlay) {
+                if (isLocked) {
+                    contenedor.classList.add('locked-blur');
+                    overlay.style.display = 'flex';
+                    if(headerLockIcon) headerLockIcon.style.display = 'block';
+                } else {
+                    contenedor.classList.remove('locked-blur');
+                    overlay.style.display = 'none';
+                    if(headerLockIcon) headerLockIcon.style.display = 'none';
                 }
             }
 
-            // --- 2. ENVIAR FORMULARIO (SIN RECARGAR PANTALLA BLANCA) ---
-            if(reviewForm) {
-                reviewForm.addEventListener('submit', async (e) => {
-                    e.preventDefault(); // <--- ESTO EVITA LA PANTALLA BLANCA JSON
-
-                    const rating = document.querySelector('input[name="rating"]:checked');
-                    const comment = document.querySelector('textarea[name="comment"]');
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-
-                    if (!rating) { alert('¡Por favor selecciona las estrellas!'); return; }
-
-                    try {
-                        const res = await fetch('/reviews', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': csrfToken
-                            },
-                            body: JSON.stringify({
-                                rating: rating.value,
-                                comment: comment.value
-                            })
-                        });
-
-                        if (res.ok) {
-                            alert('¡Reseña publicada con éxito!');
-                            reviewForm.reset(); // Limpia el formulario
-                            // MAGIA: Recargamos la página para que el backend detecte que ya tienes reseña y desbloquee todo
-                            window.location.reload(); 
-                        } else {
-                            alert('Hubo un error al guardar.');
-                        }
-                    } catch (error) {
-                        console.error(error);
-                        alert('Error de conexión');
-                    }
-                });
+            // PINTAR RESEÑAS
+            if (!contenedor) return;
+            contenedor.innerHTML = '';
+            
+            if (reviews.length === 0 && !isLocked) {
+                contenedor.innerHTML = '<div class="p-5 text-center text-muted" style="color:white;">Aún no hay reseñas. ¡Sé el primero!</div>';
+                return;
             }
 
-            // --- 3. BORRAR RESEÑA ---
-            window.borrarResena = async (id) => {
-                if(!confirm('¿Borrar tu reseña? Se volverá a bloquear el contenido.')) return;
+            let htmlAcumulado = '';
+
+            reviews.forEach(r => {
+                // Protección por si el usuario fue borrado
+                const userName = r.user ? (r.user.name + ' ' + (r.user.surname || '')) : 'Usuario Anónimo';
+                const inicial = userName.charAt(0).toUpperCase();
                 
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-                try {
-                    const res = await fetch(`/reviews/${id}`, {
-                        method: 'DELETE',
-                        headers: { 'X-CSRF-TOKEN': csrfToken }
-                    });
-                    if(res.ok) window.location.reload(); // Recarga para volver a bloquear
-                } catch(e) { console.error(e); }
+                // Colores aleatorios para el avatar
+                const colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'];
+                const bgAvatar = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Generar estrellas
+                let stars = '';
+                for(let i=1; i<=5; i++) {
+                    // Nota: He puesto fa-solid fa-star porque vi que usas FontAwesome,
+                    // si usas otra librería cámbialo aquí.
+                    stars += (i <= r.rating) 
+                        ? '<i class="fa-solid fa-star" style="color: #f6c23e;"></i>' 
+                        : '<i class="fa-regular fa-star" style="color: #ccc;"></i>';
+                }
+
+                // Botón borrar (solo si es mía, no está bloqueado y tengo ID de usuario)
+                let deleteBtn = '';
+                if (currentUserId && r.user_id === currentUserId && !isLocked) {
+                     deleteBtn = `<button onclick="borrarResena(${r.id})" class="btn btn-sm text-danger border-0 p-0 ms-2" style="background:none; cursor:pointer; color:red;"><i class="fa-solid fa-trash"></i></button>`;
+                }
+
+                // HTML de la tarjeta
+                htmlAcumulado += `
+                    <div class="review-card" style="min-width: 300px; margin: 0 15px; background: #2a2a2a; padding: 20px; border-radius: 15px;">
+                        <div class="review-header" style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div class="avatar" style="width: 40px; height: 40px; background: ${bgAvatar}; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 10px;">
+                                ${inicial}
+                            </div>
+                            <div style="flex-grow: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <h4 style="margin: 0; color: white; font-size: 1rem;">${userName} ${deleteBtn}</h4>
+                                </div>
+                                <div class="stars">${stars}</div>
+                            </div>
+                        </div>
+                        <p class="review-text" style="color: #ccc;">"${r.comment}"</p>
+                    </div>
+                `;
+            });
+
+            // Insertamos HTML (Duplicado para efecto carrusel infinito)
+            contenedor.innerHTML = `
+                <div class="carousel-track" style="display: flex;">
+                    ${htmlAcumulado}
+                    ${htmlAcumulado} 
+                </div>
+            `;
+            
+            // Actualizar contador si existe
+            if(countBadge) {
+                countBadge.innerText = isLocked ? '?' : reviews.length;
             }
 
-            // Arrancamos
-            loadReviews();
+        } catch (error) {
+            console.error("Error cargando reseñas:", error);
+            if(contenedor) contenedor.innerHTML = '<p style="text-align:center; color:white;">No se pudieron cargar las reseñas.</p>';
+        }
+    }
+
+    // --- 2. ENVIAR FORMULARIO (Protegido para que no falle si no existe el form) ---
+    if(reviewForm) {
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+
+            const rating = document.querySelector('input[name="rating"]:checked');
+            const comment = document.querySelector('textarea[name="comment"]');
+            
+            // Buscamos el token CSRF con seguridad
+            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfMeta) {
+                alert("Error de seguridad: No se encuentra el token CSRF.");
+                return;
+            }
+
+            if (!rating) { alert('¡Por favor selecciona las estrellas!'); return; }
+
+            try {
+                // Para GUARDAR usamos la ruta WEB (que tiene sesión y CSRF)
+                const res = await fetch('/reviews', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfMeta.content
+                    },
+                    body: JSON.stringify({
+                        rating: rating.value,
+                        comment: comment.value
+                    })
+                });
+
+                if (res.ok) {
+                    alert('¡Reseña publicada con éxito!');
+                    reviewForm.reset(); 
+                    window.location.reload(); 
+                } else {
+                    const errorText = await res.text();
+                    console.error("Error servidor:", errorText);
+                    alert('Hubo un error al guardar. Asegúrate de haber iniciado sesión.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error de conexión');
+            }
         });
+    }
+
+    // Arrancamos la carga
+    loadReviews();
+});
+
+// --- 3. BORRAR RESEÑA (Función Global fuera del DOMContentLoaded) ---
+window.borrarResena = async (id) => {
+    if(!confirm('¿Borrar tu reseña?')) return;
+    
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfMeta) return;
+
+    try {
+        const res = await fetch(`/reviews/${id}`, {
+            method: 'DELETE',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': csrfMeta.content 
+            }
+        });
+        if(res.ok) window.location.reload(); 
+    } catch(e) { console.error(e); }
+}

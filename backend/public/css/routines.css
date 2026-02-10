@@ -582,6 +582,11 @@ button:focus, .btn:focus, a:focus {
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
+
+.tabs:active {
+    cursor: grabbing; /* Añade esto para cuando agarras */
+}
+
 .tabs::-webkit-scrollbar { display: none; }
 
 /* 2. Cada pestaña (El botón base) */

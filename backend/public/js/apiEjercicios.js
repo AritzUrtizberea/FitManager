@@ -27,15 +27,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // ==========================================
     // 2. CONFIGURACIÓN DRAG & DROP (SORTABLE)
     // ==========================================
-    
+
     // Opciones para que funcione fluido (SOLUCIÓN AL FALLO DE ARRASTRE)
     const sortableOptionsSource = {
         group: { name: 'fit', pull: 'clone', put: false },
         animation: 150,
-        sort: false, 
-        handle: '.handle', 
+        sort: false,
+        handle: '.handle',
         forceFallback: true, // CLAVE: Usa el motor JS, evita bugs visuales
-        fallbackOnBody: true, 
+        fallbackOnBody: true,
         swapThreshold: 0.65
     };
 
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     else if (parentList.id === 'lista-rutinas-db') {
                         e.preventDefault();
                         // Al estar abajo del todo, podemos volver al principio (input nombre) o al botón volver
-                        if (btnVolver) btnVolver.focus(); 
+                        if (btnVolver) btnVolver.focus();
                     }
                 }
                 return;
@@ -280,11 +280,16 @@ document.addEventListener('DOMContentLoaded', function () {
         // --- ENTER ---
         else if (e.key === 'Enter') {
             if (active === linkAñadirRapido || active === btnVolver || active === btnAñadirSeleccionados) return;
+            
+            // CORRECCIÓN AQUÍ:
             if (active.classList.contains('collection-item')) {
                 e.preventDefault();
-                const actionIcon = active.querySelector('.action-icon');
-                if (icon) icon.click();
+                // Buscamos el icono
+                const elIcono = active.querySelector('.action-icon'); 
+                // Hacemos click en él si existe
+                if (elIcono) elIcono.click(); 
             }
+            
             if (active.classList.contains('selectable-item')) {
                 e.preventDefault();
                 active.click();
@@ -358,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function () {
         item.setAttribute('tabindex', '0');
         item.setAttribute('role', 'button');
         item.setAttribute('aria-label', `Ejercicio ${nombreEx}, enter para borrar`);
-        
+
         item.innerHTML = `
         <div style="padding: 5px; display: flex; justify-content: space-between; align-items: center; width: 100%;">
             <div class="handle" style="cursor: grab; display: flex; align-items: center; gap: 10px;">
@@ -447,6 +452,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     const tabsContainer = listaRecomendados.querySelector('.tabs');
                     M.Tabs.init(tabsContainer, { swipeable: false, duration: 300 });
 
+                    // ---> NUEVO: AQUÍ ACTIVAMOS EL ARRASTRE <---
+                    activarArrastreTabs('.tabs');
+
                     // Inicializar Sortable con el FIX de forceFallback
                     listaRecomendados.querySelectorAll('.sortable-list').forEach(el => {
                         new Sortable(el, sortableOptionsSource);
@@ -479,7 +487,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>`;
                         });
                     };
-                    
+
                     renderBusqueda(data.todos.slice(0, 5));
                     buscador.addEventListener('input', (e) => {
                         const term = e.target.value.toLowerCase();
@@ -593,6 +601,66 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         };
+    }
+
+// ==========================================
+    // 6. HELPER MEJORADO: ARRASTRAR TABS SUAVE (PC)
+    // ==========================================
+    function activarArrastreTabs() {
+        const slider = document.querySelector('.tabs');
+        if (!slider) return;
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let haArrastrado = false; // Para diferenciar click de arrastre
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            haArrastrado = false;
+            slider.style.cursor = 'grabbing';
+            slider.style.userSelect = 'none'; // Evita que se seleccione el texto azul
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+            slider.style.userSelect = 'auto';
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.style.cursor = 'grab';
+            slider.style.userSelect = 'auto';
+            // Pequeño truco: quitamos la clase de bloqueo tras soltar
+            setTimeout(() => { haArrastrado = false; }, 50);
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 1.5; // Velocidad ajustada
+            slider.scrollLeft = scrollLeft - walk;
+            
+            // Si nos movemos más de 5 pixels, consideramos que es arrastre
+            if (Math.abs(x - startX) > 5) {
+                haArrastrado = true;
+            }
+        });
+
+        // BLOQUEO DE CLICKS: Si ha arrastrado, no cambies de tab
+        const links = slider.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (haArrastrado) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                }
+            });
+        });
     }
 
     cargarMenuEjercicios();

@@ -630,64 +630,74 @@
                 </div>
             </div>
 
-           <h4 style="color: #D97706; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; margin-top: 20px; margin-bottom: 10px;">
-    OBJETIVOS
-</h4>
-
 <div class="medidas-grid" style="grid-template-columns: 1fr;">
     
-    <div class="measure-card @error('activity') has-error @enderror" style="background-color: #FFFBEB;"> <div class="icon-circle" style="background-color: #FEF3C7; color: #D97706;">
-            <i class="fas fa-bolt"></i>
-            ⚡
-        </div>
-        
-        <div class="measure-content">
-            <label for="activity" class="measure-label" style="color: #92400E;">Nivel de Actividad</label>
+<h4 style="color: #D97706; font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; margin-top: 20px; margin-bottom: 10px;">
+                OBJETIVOS
+            </h4>
+
+            <div class="medidas-grid" style="grid-template-columns: 1fr;">
+                
+                <div class="measure-card @error('activity') has-error @enderror" style="background-color: #FFFBEB;"> 
+                    <div class="icon-circle" style="background-color: #FEF3C7; color: #D97706;">
+                        <i class="fas fa-bolt"></i>
+                        ⚡
+                    </div>
+                    
+                    <div class="measure-content">
+    <label for="activity" class="measure-label" style="color: #92400E;">Nivel de Actividad</label>
+    
+    <div style="position: relative; width: 100%;">
+        <select 
+            name="activity" 
+            id="activity" 
+            class="clean-input" 
+            style="width: 100%; cursor: pointer; color: #4B5563; background: transparent;"
+        >
+            <option value="" disabled selected>Selecciona una opción</option>
             
-            <div style="position: relative; width: 100%;">
-                <select 
-                    name="activity" 
-                    id="activity" 
-                    class="clean-input" 
-                    style="width: 100%; cursor: pointer; color: #4B5563; background: transparent;"
-                >
-                    <option value="" disabled selected>Selecciona una opción</option>
-                    
-                    <option value="sedentary" {{ old('activity', $user->profile->activity_level ?? '') == 'sedentary' ? 'selected' : '' }}>
-                        Sedentario (Poco ejercicio)
-                    </option>
-                    
-                    <option value="light" {{ old('activity', $user->profile->activity_level ?? '') == 'light' ? 'selected' : '' }}>
-                        Ligero (1-3 días/semana)
-                    </option>
-                    
-                    <option value="moderate" {{ old('activity', $user->profile->activity_level ?? '') == 'moderate' ? 'selected' : '' }}>
-                        Moderado (3-5 días/semana)
-                    </option>
-                    
-                    <option value="active" {{ old('activity', $user->profile->activity_level ?? '') == 'active' ? 'selected' : '' }}>
-                        Activo (6-7 días/semana)
-                    </option>
-                    
-                    <option value="very_active" {{ old('activity', $user->profile->activity_level ?? '') == 'very_active' ? 'selected' : '' }}>
-                        Muy Activo (Doble sesión)
-                    </option>
-                </select>
+            <option value="sedentaria" 
+                {{ (old('activity', auth()->user()->profile->activity ?? '') == 'sedentaria') ? 'selected' : '' }}>
+                Sedentario (Poco ejercicio)
+            </option>
+            
+            <option value="ligera" 
+                {{ (old('activity', auth()->user()->profile->activity ?? '') == 'ligera') ? 'selected' : '' }}>
+                Ligero (1-3 días/semana)
+            </option>
+            
+            <option value="moderada" 
+                {{ (old('activity', auth()->user()->profile->activity ?? '') == 'moderada') ? 'selected' : '' }}>
+                Moderado (3-5 días/semana)
+            </option>
+            
+            <option value="alta" 
+                {{ (old('activity', auth()->user()->profile->activity ?? '') == 'alta') ? 'selected' : '' }}>
+                Activo (6-7 días/semana)
+            </option>
+            
+            <option value="muy_alta" 
+                {{ (old('activity', auth()->user()->profile->activity ?? '') == 'muy_alta') ? 'selected' : '' }}>
+                Muy Activo (Doble sesión)
+            </option>
+        </select>
+    </div>
+</div>
+                
+                    @error('activity')
+                        <span class="error-msg-mini">{{ $message }}</span>
+                    @enderror
+                </div>
+
             </div>
+            </div>
+
+        <div style="margin: 25px 20px;">
+            <button type="submit" class="btn-save-main">
+                💾 Guardar Cambios
+            </button>
         </div>
 
-        @error('activity')
-            <span class="error-msg-mini">{{ $message }}</span>
-        @enderror
-    </div>
-
-</div>
-
-<div style="margin-top: 25px;">
-    <button type="submit" style="width: 100%; background-color: #2563EB; color: white; padding: 15px; border-radius: 12px; border: none; font-weight: 800; font-size: 1rem; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);">
-        💾 Guardar Cambios
-    </button>
-</div>
     </form>
 
     @if(session('success'))
