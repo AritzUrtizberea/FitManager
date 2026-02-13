@@ -158,14 +158,34 @@
 
                     // APLICAR ESTADO VISUAL
                     if (isLocked) {
-                        contenedor.classList.add('locked-blur');
-                        overlay.style.display = 'flex';
-                        document.getElementById('header-lock-icon').style.display = 'block';
-                    } else {
-                        contenedor.classList.remove('locked-blur');
-                        overlay.style.display = 'none';
-                        document.getElementById('header-lock-icon').style.display = 'none';
+                    contenedor.classList.add('locked-blur');
+                    overlay.style.display = 'flex';
+                    document.getElementById('header-lock-icon').style.display = 'block';
+
+                } else {
+                    contenedor.classList.remove('locked-blur');
+                    overlay.style.display = 'none';
+
+                    const stepTitle = document.querySelector('.card-premium h6');
+                    const submitBtn = reviewForm.querySelector('button[type=\"submit\"]');
+
+                    if (stepTitle && submitBtn) {
+                        stepTitle.innerText = "Comparte otra opinión"; // Cambiado: ya no es "Tu reseña actual"
+                        stepTitle.classList.replace('text-primary', 'text-success');
+                        
+                        submitBtn.innerHTML = 'Publicar reseña <i class="ph-bold ph-plus ms-2"></i>';
+                        submitBtn.style.background = "var(--primary-gradient)"; // Volvemos al azul o el que prefieras
                     }
+
+                    // BORRA O COMENTA ESTA PARTE (ya no queremos rellenar el form con la vieja)
+                    /*
+                    const miResena = reviews.find(r => r.user_id === currentUserId);
+                    if (miResena) { ... }
+                    */
+                    
+                    // IMPORTANTE: Asegúrate de que el formulario se limpie después de enviar
+                    reviewForm.reset(); 
+                }
 
                     // PINTAR RESEÑAS
                     contenedor.innerHTML = '';

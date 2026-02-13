@@ -3,16 +3,30 @@
     --bg-app: #F2F4F7;
     --card-bg: #FFFFFF;
     --text-main: #1D1D1F;
-    --text-muted: #86868B;
+    /* CORRECCIÓN: Gris más oscuro (#636366) para pasar el test de contraste 4.5:1 */
+    --text-muted: #475569;
     --primary-blue: #007AFF;
-    --primary-gradient: linear-gradient(135deg, #007AFF 0%, #0055B3 100%);
+    --primary-gradient: linear-gradient(135deg, #0062CC 0%, #004599 100%);
     --success-bg: #E1F7E9;
-    --success-text: #16A34A;
+    --success-text: #117836; /* Verde más oscuro para contraste */
 
-    /* Bordes y Sombras */
     --radius-lg: 24px;
     --radius-md: 16px;
     --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* CORRECCIÓN: Asegurar que el placeholder también sea legible */
+::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 1; /* Firefox baja la opacidad por defecto, esto lo arregla */
+}
+
+/* CORRECCIÓN: Estilo de foco para navegación por teclado */
+button:focus-visible, 
+a:focus-visible, 
+input:focus-visible {
+    outline: 3px solid var(--primary-blue);
+    outline-offset: 2px;
 }
 
 * {
@@ -134,9 +148,37 @@ body {
     border-bottom: 1px solid #E5E7EB;
 }
 
+/* Busca esto o añádelo si no existe */
 .divider span {
+    background: var(--bg-app); /* Para tapar la línea de fondo */
     padding: 0 10px;
-    opacity: 0.7;
+    
+    /* ESTOS DOS SON LOS CAMBIOS CLAVE: */
+    color: #475569;      /* Gris oscuro (Slate 600) que pasa el test AA */
+    font-weight: 600;    /* Hacer la letra un poco más gorda ayuda al contraste */
+    
+    font-size: 0.85rem;  /* (Opcional) Ajusta el tamaño si lo ves pequeño */
+}
+
+.divider, .divider span {
+    color: var(--text-muted) !important; 
+    /* Aseguramos que herede el nuevo color más oscuro */
+}
+
+/* FIX PARA EL ERROR "o escribe el código" */
+.divider span, .mini-label {
+    color: var(--text-muted) !important;
+    font-weight: 700; /* Un poco más de grosor ayuda a la legibilidad */
+}
+
+/* ESTILO PARA EL TABULADOR (Keyboard Error) */
+/* Esto hará que el inspector marque en verde el orden de tabulación */
+.dock-item:focus-visible, 
+.bento-card:focus-visible, 
+.white-btn:focus-visible {
+    outline: 3px solid var(--icon-blue) !important;
+    outline-offset: 4px;
+    border-radius: 8px;
 }
 
 .input-modern-group {
@@ -277,34 +319,6 @@ body {
     color: var(--success-text);
 }
 
-/* Colores Días */
-.border-lunes {
-    border-left-color: #3B82F6;
-}
-
-.border-martes {
-    border-left-color: #F97316;
-}
-
-.border-miercoles {
-    border-left-color: #10B981;
-}
-
-.border-jueves {
-    border-left-color: #8B5CF6;
-}
-
-.border-viernes {
-    border-left-color: #EAB308;
-}
-
-.border-sabado {
-    border-left-color: #EF4444;
-}
-
-.border-domingo {
-    border-left-color: #6B7280;
-}
 
 /* --- 4. FLOATING DOCK (Menú Nuevo) --- */
 .floating-dock {
@@ -456,4 +470,71 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* --- ACCESIBILIDAD Y FOCO --- */
+
+/* Indicador de foco visible para navegación por teclado */
+:focus-visible {
+    outline: 3px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+/* Ocultar el foco visual solo para clics de ratón, pero mantenerlo para teclado */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Mejora del contraste para el texto muted en fondo gris */
+.btn-subtitle, .card-body {
+    color: #636366; /* Un gris un poco más oscuro para pasar el test WCAG */
+}
+
+/* Animación de carga */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* --- 6. COLORES DE LOS DÍAS (Añadir al final) --- */
+/* Estas clases colorean el borde transparente de .status-card */
+
+.border-lunes {
+    border-left-color: #3B82F6; /* Azul */
+}
+
+.border-martes {
+    border-left-color: #F97316; /* Naranja */
+}
+
+.border-miercoles {
+    border-left-color: #10B981; /* Verde Esmeralda */
+}
+
+.border-jueves {
+    border-left-color: #8B5CF6; /* Violeta */
+}
+
+.border-viernes {
+    border-left-color: #EAB308; /* Amarillo oscuro */
+}
+
+.border-sabado {
+    border-left-color: #EF4444; /* Rojo */
+}
+
+.border-domingo {
+    border-left-color: #6B7280; /* Gris */
 }

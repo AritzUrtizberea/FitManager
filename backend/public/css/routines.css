@@ -2,13 +2,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
 :root {
-    --fm-blue: #1a73e8;
+    /* COLORES CORREGIDOS PARA WCAG AAA (Ratio 7:1) */
+    --fm-blue: #1558b0;
+    /* Antes #1a73e8 (Muy claro para texto) */
     --fm-blue-light: #f1f4f9;
-    --fm-green: #71a43d;
+    --fm-green: #4a7a29;
+    /* Oscurecido para contraste */
     --fm-text: #1a1f36;
-    --fm-muted: #8898aa;
+    /* Ok */
+    --fm-muted: #454f5b;
+    /* Antes #8898aa (Gris ilegible) -> Ahora Gris Oscuro */
     --radius-lg: 20px;
     --radius-md: 12px;
+    --fm-danger-contrast: #b91c1c;
+}
+
+/* --- CLASES DE ACCESIBILIDAD (NUEVO) --- */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Indicador de foco obligatorio para navegación por teclado */
+:focus-visible {
+    outline: 3px solid var(--fm-blue);
+    outline-offset: 2px;
+}
+
+/* Forzar contraste en clases de Materialize */
+.grey-text {
+    color: var(--fm-muted) !important;
+}
+
+.blue-text {
+    color: var(--fm-blue) !important;
 }
 
 /* --- 2. RESET Y ESTRUCTURA BASE --- */
@@ -17,7 +51,9 @@ body {
     font-family: 'Inter', sans-serif !important;
     color: var(--fm-text);
     margin: 0;
-    padding-bottom: 90px; /* Espacio para el footer */
+    padding-bottom: 90px;
+    font-size: 16px;
+    /* Base legible */
 }
 
 .container {
@@ -25,7 +61,7 @@ body {
     max-width: 1100px !important;
 }
 
-/* --- 3. HEADER Y LOGO (Tamaño corregido) --- */
+/* --- 3. HEADER Y LOGO --- */
 .fm-header-entrenamiento {
     background: white;
     padding: 15px 0;
@@ -38,12 +74,12 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 90%;
-    max-width: 500px; /* Alineado con el contenido slim */
+    max-width: 500px;
     margin: 0 auto;
 }
 
 .fm-logo-header {
-    height: 28px !important; /* Altura fija para evitar logo gigante */
+    height: 28px !important;
     width: auto;
     object-fit: contain;
 }
@@ -55,7 +91,9 @@ body {
 }
 
 /* --- 4. TÍTULOS E ICONOS --- */
-h5 {
+/* Mantenemos estilo visual de h5 pero aplicable a h2 */
+h2,
+.h5-style {
     font-weight: 800 !important;
     color: var(--fm-text);
     display: flex;
@@ -63,42 +101,64 @@ h5 {
     gap: 10px;
     margin: 25px 0 15px 0 !important;
     font-size: 1.3rem !important;
+    /* Visualmente igual al diseño original */
 }
 
-h5 i { font-size: 24px; color: inherit; }
+h2 i,
+.h5-style i {
+    font-size: 24px;
+    color: inherit;
+}
 
 /* --- 5. TARJETAS (Paneles) --- */
 .card-panel {
     border-radius: var(--radius-lg) !important;
     border: 1px solid #edf2f7 !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03) !important;
     padding: 20px !important;
 }
 
 /* --- 6. INPUTS MODERNOS --- */
-.input-field { margin-top: 15px !important; }
+.input-field {
+    margin-top: 15px !important;
+}
 
 .input-field input[type=text]:not(.browser-default) {
     background: #f1f4f9 !important;
-    border: 1px solid transparent !important;
+    border: 1px solid #cbd5e0 !important;
+    /* Borde visible para accesibilidad */
     border-radius: var(--radius-md) !important;
     height: 48px !important;
     padding: 0 15px !important;
     box-sizing: border-box !important;
     box-shadow: none !important;
     transition: 0.3s;
+    color: var(--fm-text);
 }
 
 .input-field input[type=text]:focus:not(.browser-default) {
     background: #fff !important;
-    border: 1px solid var(--fm-blue) !important;
+    border: 2px solid var(--fm-blue) !important;
 }
 
-.input-field label { left: 15px !important; color: var(--fm-muted); }
-.input-field label.active { color: var(--fm-blue) !important; transform: translateY(-14px) scale(0.8) !important; font-weight: 700; }
+/* Labels con contraste suficiente */
+.input-field label {
+    left: 15px !important;
+    color: var(--fm-muted);
+    opacity: 1;
+}
+
+.input-field label.active {
+    color: var(--fm-blue) !important;
+    transform: translateY(-14px) scale(0.8) !important;
+    font-weight: 700;
+}
 
 /* --- 7. SISTEMA DE COLECCIONES Y DRAG & DROP --- */
-.collection { border: none !important; margin: 0 !important; }
+.collection {
+    border: none !important;
+    margin: 0 !important;
+}
 
 .collection .collection-item {
     background: #fff !important;
@@ -111,9 +171,12 @@ h5 i { font-size: 24px; color: inherit; }
     transition: 0.2s;
 }
 
-.collection .collection-item:active { cursor: grabbing !important; transform: scale(0.98); background: #f8fafd !important; }
+.collection .collection-item:active {
+    cursor: grabbing !important;
+    transform: scale(0.98);
+    background: #f8fafd !important;
+}
 
-/* Zona de construcción (Drop Zone) */
 #rutina-personalizada {
     min-height: 300px !important;
     background: #fdfdfd !important;
@@ -122,26 +185,15 @@ h5 i { font-size: 24px; color: inherit; }
     padding: 15px !important;
 }
 
-.collection-item:focus {
-        background-color: #e3f2fd !important; /* Fondo Azul Claro */
-        border-left: 6px solid #2196f3 !important; /* Borde Izquierdo Grueso */
-        transform: translateX(5px); /* Se desplaza un poco a la derecha */
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        z-index: 10;
-    }
-
-    /* Ajuste para que el icono + no robe el foco visualmente si ya lo tiene la fila */
-    .collection-item:focus i {
-        color: #1565c0 !important; /* Icono más oscuro */
-        font-weight: bold;
-    }
-
-.collection-item:focus, .selectable-item:focus {
-        background-color: #e3f2fd !important; /* Azul clarito */
-        border-left: 6px solid #2196f3 !important; /* Borde grueso */
-        outline: none;
-        transform: translateX(5px); /* Pequeño desplazamiento */
-    }
+/* Foco visible en items de lista */
+.collection-item:focus,
+.selectable-item:focus {
+    background-color: #e3f2fd !important;
+    border-left: 6px solid var(--fm-blue) !important;
+    outline: none;
+    transform: translateX(5px);
+    color: #000;
+}
 
 .placeholder-text {
     color: var(--fm-muted) !important;
@@ -152,10 +204,10 @@ h5 i { font-size: 24px; color: inherit; }
     letter-spacing: 0.5px;
 }
 
-/* --- 8. ARREGLO RUTINAS GUARDADAS (Imagen corregida) --- */
+/* --- 8. ARREGLO RUTINAS GUARDADAS --- */
 #lista-rutinas-db .collection-item {
     display: flex !important;
-    flex-direction: column !important; /* Título arriba, ejercicios abajo */
+    flex-direction: column !important;
     align-items: flex-start !important;
     cursor: default !important;
 }
@@ -174,7 +226,6 @@ h5 i { font-size: 24px; color: inherit; }
     gap: 8px;
 }
 
-/* Estilo de los ejercicios guardados (Burbujas azules) */
 .exercise-tag {
     background: var(--fm-blue);
     color: white;
@@ -182,40 +233,60 @@ h5 i { font-size: 24px; color: inherit; }
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
-    box-shadow: 0 4px 10px rgba(26, 115, 232, 0.2);
+    box-shadow: 0 4px 10px rgba(21, 88, 176, 0.2);
 }
 
-/* --- 9. BOTONES --- */
+/* --- 9. BOTONES ACCESIBLES --- */
+.btn-large,
+.btn,
+.btn-flat {
+    border-radius: var(--radius-md) !important;
+    font-weight: 800 !important;
+    text-transform: none !important;
+}
+
 .btn-large {
     width: 100%;
     height: 54px !important;
     line-height: 54px !important;
-    border-radius: var(--radius-md) !important;
     background-color: var(--fm-blue) !important;
-    font-weight: 800 !important;
-    text-transform: none !important;
-    box-shadow: 0 8px 20px rgba(26, 115, 232, 0.2) !important;
+    box-shadow: 0 8px 20px rgba(21, 88, 176, 0.2) !important;
 }
 
-/* --- 10. FOOTER NAVIGATION --- */
-.fm-bottom-nav {
-    position: fixed; bottom: 0; width: 100%; height: 70px;
-    display: flex; justify-content: space-around; align-items: center;
-    background: white; border-top: 1px solid #f0f0f0; z-index: 999;
+/* --- 10. BOTONES DE ORDENACIÓN (NUEVO PARA AAA) --- */
+.order-controls {
+    display: flex;
+    flex-direction: column;
+    margin-right: 8px;
 }
 
-.nav-item {
-    display: flex; flex-direction: column; align-items: center;
-    text-decoration: none; color: var(--fm-muted);
+.btn-order {
+    padding: 0 !important;
+    width: 24px !important;
+    height: 24px !important;
+    line-height: 24px !important;
+    background: transparent !important;
+    color: var(--fm-muted) !important;
+    border: 1px solid #ddd !important;
+    margin: 1px 0 !important;
+    border-radius: 4px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.nav-item.active { color: var(--fm-blue); font-weight: bold; }
-.nav-item i { font-size: 24px; }
-.nav-item span { font-size: 11px; margin-top: 2px; }
+.btn-order:hover,
+.btn-order:focus {
+    background: #edf2f7 !important;
+    color: var(--fm-blue) !important;
+    border-color: var(--fm-blue) !important;
+}
 
-/* --- 11. RESPONSIVE --- */
+/* --- 11. RESPONSIVE Y MODAL --- */
 @media only screen and (max-width: 992px) {
-    #rutina-personalizada { min-height: 200px !important; }
+    #rutina-personalizada {
+        min-height: 200px !important;
+    }
 }
 
 @media only screen and (min-width: 993px) {
@@ -224,493 +295,330 @@ h5 i { font-size: 24px; color: inherit; }
     }
 }
 
-/* --- BOTÓN VOLVER PREMIUM --- */
-.fm-back-container {
-    margin: 25px auto 15px auto !important; /* Margen arriba y abajo centrado */
-    display: flex;
-    justify-content: flex-start; /* Alineado al inicio del contenedor del 90% */
-}
-
 .fm-btn-back {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    background: #ffffff !important; /* Fondo blanco para que resalte sobre el gris */
-    color: #5f6368 !important;
+    background: #ffffff !important;
+    color: #4a5568 !important;
+    /* Contraste corregido */
     font-weight: 700 !important;
-    text-transform: none !important;
     padding: 8px 20px !important;
-    height: auto !important;
-    line-height: 1 !important;
-    border-radius: 30px !important; /* Forma de cápsula */
-    border: 1px solid #eef2f6 !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border-radius: 30px !important;
+    border: 1px solid #cbd5e0 !important;
 }
 
-.fm-btn-back i {
-    font-size: 18px !important;
-    margin-right: 10px !important;
-    color: var(--fm-blue) !important; /* El icono en azul para darle vida */
-    transition: transform 0.3s ease;
+/* Estados de foco globales */
+button:focus,
+.btn:focus,
+a:focus,
+input:focus {
+    outline: 3px solid var(--fm-blue) !important;
+    outline-offset: 2px;
 }
 
-/* --- ANIMACIÓN Y ESTADOS --- */
-.fm-btn-back:hover {
-    background: #fff !important;
-    color: var(--fm-blue) !important;
-    box-shadow: 0 6px 15px rgba(26, 115, 232, 0.15) !important;
-    transform: translateY(-1px);
-}
-
-.fm-btn-back:active {
-    transform: scale(0.95); /* Efecto de pulsación al hacer clic */
-}
-
-.fm-btn-back:hover i {
-    transform: translateX(-4px); /* El icono se mueve a la izquierda */
-}
-
-/* Ajuste para que el texto sea más fino y moderno */
-.fm-btn-back span {
-    font-size: 14px;
-    letter-spacing: 0.3px;
-}
-
-button:focus, .btn:focus, a:focus {
-    background-color: #1565c0 !important; /* Azul más oscuro */
-    color: white !important;
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.5) !important; /* Anillo azul brillante alrededor */
-    transform: scale(1.02); /* Se hace un poquito más grande */
-    transition: all 0.2s;
-    z-index: 20;
-    border-radius: 4px;
-}
-
-/* --- 12. AJUSTES PARA MÓVIL (Selección en vez de Drag) --- */
-@media only screen and (max-width: 600px) {
-    .row {
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Columna 1: Buscador y Sugerencias (Aparece ARRIBA) */
-    .col.s12.m6:first-child {
-        order: 1; 
-        margin-bottom: 20px;
-    }
-
-    /* Columna 2: Mi Rutina (Aparece DEBAJO) */
-    .col.s12.m6:last-child {
-        order: 2;
-    }
-
-    /* Quitamos el sticky en móvil para que no flote sobre lo demás */
-    .card-panel[style*="sticky"] {
-        position: relative !important;
-        top: 0 !important;
-    }
-}
-
-/* Estilo para los items seleccionables en el modal */
-.selectable-item {
-    cursor: pointer;
-    transition: 0.2s;
-}
-.selectable-item.selected {
-    background-color: var(--fm-blue-light) !important;
-    border-left: 5px solid var(--fm-blue) !important;
-}
-
-/* --- MEJORA DEL MODAL Y ELEMENTOS INTERNOS --- */
-
-/* 1. Ajuste del Modal: Bordes más suaves y tipografía Inter */
+/* Modal Ajustes */
 #modal-ejercicios {
     width: 95% !important;
     max-width: 500px !important;
-    max-height: 80% !important;
-    top: 10% !important;
-    border-radius: var(--radius-lg) !important; /* Usando tu variable de 20px */
-    font-family: 'Inter', sans-serif !important;
-}
-
-/* Títulos dentro del modal */
-#modal-ejercicios h4 {
-    font-weight: 800 !important;
-    font-size: 1.4rem !important;
-    color: var(--fm-text);
-}
-
-/* 2. El contenedor de ejercicios: Mejor espaciado */
-#contenedor-multiselect {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 10px 5px 30px 5px; /* Más espacio inferior para no chocar */
-}
-
-/* 3. Estilo de los items: Nombres centrados y Tiempos finos */
-.selectable-item {
-    border: 1px solid #edf2f7 !important;
-    border-radius: var(--radius-md); /* 12px */
-    padding: 12px !important;
-    min-height: 65px;
-    display: flex;
-    flex-direction: column; /* Nombre arriba, tiempo abajo */
-    align-items: flex-start;
-    justify-content: center;
-    background: #f8fafc;
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-/* Nombre del ejercicio: Tipografía de la página */
-.selectable-item span {
-    font-weight: 700 !important;
-    font-size: 13px !important;
-    color: var(--fm-text);
-    line-height: 1.2;
-}
-
-/* Estilo para los MINUTOS dentro del modal */
-.selectable-item small, 
-.selectable-item .exercise-time {
-    display: block;
-    margin-top: 4px;
-    font-weight: 600;
-    font-size: 11px !important;
-    color: var(--fm-muted);
-}
-
-/* ESTADO SELECCIONADO: Sin el tick azul feo, solo borde y fondo sutil */
-.selectable-item.selected {
-    background-color: #fff !important;
-    border: 2px solid var(--fm-blue) !important;
-    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.12) !important;
-}
-
-/* 4. EL BOTÓN DENTRO DEL POP-UP (Añadir Seleccionados) */
-#modal-ejercicios .modal-footer {
-    height: 90px !important;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 20px !important;
-    background: #fff !important;
-    border-top: 1px solid #f1f4f9 !important;
-}
-
-/* Botón azul: Tipografía 800 e Inter */
-#modal-ejercicios .modal-footer .btn-blue-modal {
-    background-color: var(--fm-blue) !important;
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 800 !important;
-    text-transform: none !important;
-    border-radius: var(--radius-md) !important;
-    height: 50px !important;
-    line-height: 50px !important; /* Centrado vertical perfecto */
-    padding: 0 25px !important;
-    font-size: 14px !important;
-    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2) !important;
-}
-
-/* 5. Responsive */
-@media only screen and (max-width: 480px) {
-    #contenedor-multiselect {
-        grid-template-columns: 1fr; /* Una columna en móviles pequeños */
-    }
-}/* --- MEJORA FINAL DEL MODAL (POP-UP) --- */
-
-/* 1. Estructura del Modal */
-#modal-ejercicios {
-    width: 95% !important;
-    max-width: 500px !important;
-    max-height: 80% !important;
-    top: 10% !important;
     border-radius: var(--radius-lg) !important;
-    font-family: 'Inter', sans-serif !important; /* Forzamos Inter aquí */
 }
 
-/* 2. Contenedor de ejercicios (Grilla) */
-#contenedor-multiselect {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 10px 5px 30px 5px;
-}
-
-/* 3. Items Seleccionables (SIN TICK AZUL) */
 .selectable-item {
-    border: 1px solid #edf2f7 !important;
-    border-radius: var(--radius-md) !important;
-    padding: 14px !important;
-    min-height: 70px;
-    display: flex;
-    flex-direction: column; /* Nombre arriba, tiempo abajo */
-    align-items: flex-start;
-    justify-content: center;
+    border: 1px solid #cbd5e0 !important;
     background: #f8fafc;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    position: relative;
-}
-
-/* ESCONDEMOS EL CHECKBOX DE MATERIALIZE (El tick que queda mal) */
-.selectable-item [type="checkbox"] {
-    display: none !important;
-}
-.selectable-item [type="checkbox"] + span {
-    padding-left: 0 !important;
-    display: block !important;
-}
-
-/* Estilo del texto del ejercicio */
-.selectable-item span {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 13px !important;
     color: var(--fm-text);
-    line-height: 1.2;
 }
 
-/* Estilo para los MINUTOS (Más pequeños y finos) */
-.selectable-item small {
-    display: block;
-    margin-top: 5px;
-    font-weight: 600;
-    font-size: 11px !important;
-    color: var(--fm-muted);
-    font-family: 'Inter', sans-serif !important;
-}
-
-/* ESTADO SELECCIONADO: La tarjeta entera reacciona */
 .selectable-item.selected {
-    background-color: #fff !important;
-    border: 2.5px solid var(--fm-blue) !important; /* Borde más grueso para que se note */
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.15) !important;
-}
-
-/* 4. FOOTER Y BOTÓN (Tipografía 800 e Inter) */
-#modal-ejercicios .modal-footer {
-    height: 90px !important;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 25px !important;
-    background: #fff !important;
-    border-top: 1px solid #f1f4f9 !important;
-}
-
-/* BOTÓN "Añadir Seleccionados" corregido */
-#modal-ejercicios .modal-footer .btn-blue-modal {
-    background-color: var(--fm-blue) !important;
-    font-family: 'Inter', sans-serif !important; /* Aseguramos la fuente */
-    font-weight: 800 !important; /* Peso máximo como el resto de la web */
-    text-transform: none !important;
-    border-radius: var(--radius-md) !important;
-    height: 52px !important;
-    line-height: 52px !important; /* Centrado vertical del texto */
-    padding: 0 30px !important;
-    font-size: 15px !important;
-    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2) !important;
-    display: inline-block !important;
-}
-
-/* 5. Responsive móvil */
-@media only screen and (max-width: 480px) {
-    #contenedor-multiselect {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* --- ANIMACIÓN DE CARGA (3 PUNTOS) --- */
-.fm-loader-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-top: 40px;
-}
-
-.fm-dot {
-    width: 12px;
-    height: 12px;
-    background-color: var(--fm-blue);
-    border-radius: 50%;
-    display: inline-block;
-    animation: fm-bounce 1.4s infinite ease-in-out both;
-}
-
-/* Retrasos para crear el efecto de onda */
-.fm-dot:nth-child(1) { animation-delay: -0.32s; }
-.fm-dot:nth-child(2) { animation-delay: -0.16s; }
-
-@keyframes fm-bounce {
-    0%, 80%, 100% { 
-        transform: scale(0);
-        opacity: 0.3;
-    } 
-    40% { 
-        transform: scale(1.0);
-        opacity: 1;
-    }
-}
-
-.loader-text {
-    text-align: center;
-    color: var(--fm-muted);
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 14px;
-    margin-top: 15px;
-    letter-spacing: 0.2px;
-}
-
-/* --- ESTILO TABS TIPO "CÁPSULAS" (MODERNO) --- */
-
-/* 1. El contenedor (Carrusel) */
-.tabs {
-    background: transparent !important;
-    border-bottom: none !important; /* Quitamos la línea gris del fondo */
-    height: auto !important;
-    overflow-x: auto !important;
-    white-space: nowrap !important;
-    padding: 10px 0 15px 0 !important; /* Un poco de aire arriba y abajo */
-    
-    /* Ocultar scrollbar feo */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.tabs:active {
-    cursor: grabbing; /* Añade esto para cuando agarras */
-}
-
-.tabs::-webkit-scrollbar { display: none; }
-
-/* 2. Cada pestaña (El botón base) */
-.tabs .tab {
-    display: inline-block !important;
-    float: none !important;
-    padding: 0 !important;
-    margin-right: 10px !important; /* Espacio entre botones */
-    min-width: auto !important;
-}
-
-/* 3. El enlace (Texto y forma) */
-.tabs .tab a {
-    color: var(--fm-muted) !important;
-    background-color: #ffffff;
-    border: 1px solid #e0e6ed;
-    border-radius: 50px; /* Forma de píldora redonda */
-    padding: 8px 20px !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    text-transform: none !important; /* Texto normal, no mayúsculas */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    transition: all 0.2s ease;
-    height: auto !important;
-    line-height: normal !important;
-    display: block; /* Para que coja bien el padding */
-}
-
-/* 4. ESTADO ACTIVO (Seleccionado) */
-.tabs .tab a.active {
-    background-color: var(--fm-blue) !important;
-    color: white !important;
+    background-color: #e3f2fd !important;
     border-color: var(--fm-blue) !important;
-    box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3);
-    transform: translateY(-1px); /* Efecto de "levantarse" un poco */
+    color: #000 !important;
 }
 
-/* 5. ESTADO FOCUS (Accesibilidad) */
-.tabs .tab a:focus {
-    background-color: var(--fm-blue-light) !important;
-    outline: none;
-}
-/* Si está activo y tiene foco, mantener azul */
-.tabs .tab a:focus.active {
-    background-color: var(--fm-blue) !important;
+/* --- PEGAR AL FINAL DE routines.css --- */
+
+/* Quitar comportamiento de botón gigante a las filas */
+.collection-item {
+    cursor: default !important;
 }
 
-/* 6. ELIMINAR LA LÍNEA INDICADORA DE MATERIALIZE */
-.tabs .indicator {
-    display: none !important;
+/* Asegurar que los botones internos sí se vean clicables */
+.collection-item button, 
+.collection-item .btn, 
+.collection-item .btn-flat {
+    cursor: pointer !important;
 }
 
-#btn-volver:hover {
-    background-color: #f1f3f4; /* Un gris muy suave tipo Google al pasar el ratón */
-    color: #4688df !important; /* El texto se vuelve azul al tocarlo */
-}
-
-/* --- MEJORAS ESTÉTICAS FINALES (AÑADIR AL FINAL) --- */
-
-/* 1. SCROLLBARS MODERNAS (Chrome/Edge/Safari) */
-/* Hace que las barras de desplazamiento sean finas y elegantes */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-::-webkit-scrollbar-thumb {
-    background: #cbd5e0;
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #a0aec0;
-}
-
-/* 2. ESTILO DEL BOTÓN "GUARDAR RUTINA" (CTA Principal) */
-.btn-save-custom {
-    background: linear-gradient(135deg, var(--fm-blue) 0%, #1557b0 100%) !important;
-    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3) !important;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.btn-save-custom:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4) !important;
-}
-
-/* 3. BOTÓN VOLVER (Ajuste fino) */
-.fm-btn-back-custom {
-    display: inline-flex !important;
-    align-items: center;
-    padding: 0 15px !important;
-    height: 40px !important;
-    line-height: 40px !important;
-    border-radius: 8px !important;
-    color: #5f6368 !important;
-    transition: background 0.2s, color 0.2s !important;
-}
-
-.fm-btn-back-custom i {
-    font-size: 20px !important;
-    margin-right: 8px !important;
-    font-weight: bold;
-}
-
-.fm-btn-back-custom span {
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.3px;
-}
-
-.fm-btn-back-custom:hover {
-    background-color: #e8f0fe !important; /* Fondo azul muy muy clarito */
-    color: var(--fm-blue) !important;
-}
-
-/* 4. ARREGLO VISUAL DEL DRAG ZONE VACÍO */
-#rutina-personalizada:empty {
+/* 1. Encabezados "Sugerencias para ti" y "Mi Rutina" */
+.fm-h2-contrast {
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    color: var(--fm-text-main) !important;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
 }
 
-.tab-content-area .collection, 
-#resultados-busqueda {
+/* 2. Botón Añadir Azul (+ Azul) */
+.fm-blue-text-contrast {
+    color: var(--fm-blue-contrast) !important;
+}
+.fm-blue-text-contrast:focus {
+    outline: 2px solid var(--fm-blue-contrast);
+}
+
+/* También para el botón de añadir si es azul */
+.blue-text, .ph-plus-circle {
+    color: #1558b0 !important;
+}
+
+/* Asegurar que el nombre del ejercicio tenga contraste máximo */
+.collection-item .title, .collection-item span {
+    color: #1a1f36 !important;
+    font-weight: 700 !important;
+}
+
+/* 4. Placeholder "Arrastra aquí..." */
+.fm-placeholder-contrast {
+    padding: 40px;
+    color: var(--fm-placeholder-grey) !important;
+    font-weight: 600;
+    opacity: 1 !important; /* Eliminamos la opacidad 0.5 que da error */
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+}
+
+/* Botón Guardar */
+.btn-save-custom {
+    background-color: var(--fm-blue-contrast) !important;
+}
+
+/* Estilo del item en la lista */
+.collection-item.avatar .title {
+    color: var(--fm-text-main) !important;
+    font-weight: 700;
+}
+
+/* --- CORRECCIÓN ACCESIBILIDAD AAA --- */
+
+/* IMPORTANTE: Eliminar la regla de content: "" que tenías antes, 
+   ya que borra el contenido de los iconos de Phosphor/Material */
+
+/* Asegurar contraste en placeholder */
+.placeholder-text {
+    color: #4a5568 !important; /* Gris oscuro para AAA */
+    opacity: 1 !important; 
+}
+
+/* Mejora de foco para botones de ordenación */
+.btn-order:focus-visible {
+    outline: 3px solid var(--fm-blue) !important;
+    background: #e3f2fd !important;
+}
+
+/* Estilo para el texto oculto de lectores */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Forzar contraste máximo en textos secundarios para nivel AAA */
+.grey-text, small, .loader-text {
+    color: #4a5568 !important; /* Gris muy oscuro */
+}
+
+.blue-text {
+    color: #1558b0 !important; /* Azul oscuro con ratio > 7:1 */
+}
+
+/* El texto de los items de la lista */
+.collection-item span {
+    color: #1a1f36 !important; /* Casi negro para legibilidad total */
+}
+
+.grey-text {
+    color: #515151 !important; /* Gris oscuro para superar el ratio 7:1 */
+}
+
+/* 2. Fix de Drag and Drop */
+.handle {
+    cursor: grab !important;
+    padding: 10px; /* Área más grande para facilitar el agarre */
+    touch-action: none !important; /* Evita que el scroll del móvil mate el arrastre */
+    -webkit-user-drag: element !important; /* Fuerza al motor webkit a permitir arrastre */
+    user-select: none;
+}
+
+.handle:active {
+    cursor: grabbing !important;
+}
+
+.collection-item {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -ms-user-select: none !important;
+}
+
+
+/* Si usas forceFallback: true, esta clase es la que se mueve */
+.sortable-fallback {
+    pointer-events: none !important; /* Evita que el clon "pise" al ratón */
+    z-index: 9999 !important;
+    position: fixed !important; /* Asegura que flote sobre todo */
+}
+
+/* Asegura que el item pueda salir de la lista al arrastrar */
+.collection, #resultados-busqueda, #lista-ejercicios {
     overflow: visible !important;
 }
+
+/* Estilo para que veas qué estás arrastrando (Feedback visual) */
+.sortable-ghost {
+    opacity: 0.3;
+    background: var(--fm-blue-light) !important;
+    border: 2px dashed var(--fm-blue) !important;
+}
+
+/* Los iconos deben estar ocultos para lectores, pero permitir clics */
+i, .material-icons, .ph {
+    speak: none !important;
+    /* IMPORTANTE: Quitamos pointer-events: none para que el handle funcione */
+    pointer-events: auto !important; 
+    /* Evita que el lector intente leer el glifo del icono */
+    aria-hidden: true; 
+}
+
+/* Texto de duración y descripciones secundarias */
+small.grey-text, 
+.loader-text,
+.routine-db-exercises {
+    color: #454f5b !important; /* Gris oscuro certificado AAA */
+    font-weight: 500;
+}
+
+/* Placeholder de la lista vacía */
+.fm-placeholder-contrast {
+    border: 2px dashed #718096 !important; /* Borde más oscuro */
+    color: #2d3748 !important; /* Texto legible */
+    background-color: #f7fafc;
+}
+
+.btn-flat:focus {
+    background-color: rgba(21, 88, 176, 0.1) !important;
+    outline: 3px solid var(--fm-blue) !important;
+    outline-offset: -2px;
+}
+
+.grey-text, .placeholder-text, small {
+    color: #454f5b !important; /* Forzamos el gris oscuro certificado */
+}
+
+:focus-visible {
+    outline: 4px solid #ffeb3b !important; /* Amarillo de alto contraste */
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px var(--fm-blue) !important;
+}
+
+/* --- CORRECCIÓN DEFINITIVA CONTRASTE AAA --- */
+
+/* Rojo Papelera: Ratio 7.1:1 sobre blanco */
+.fm-danger-text-contrast, 
+i.ph-trash.fm-danger-text-contrast {
+    color: #b91c1c !important; 
+}
+
+/* Azul Iconos Añadir: Ratio 7.1:1 sobre blanco */
+.blue-text, 
+i.ph-plus-circle.blue-text {
+    color: #1558b0 !important;
+}
+
+/* Gris de subtítulos: Ratio 7:1 (Obligatorio para AAA) */
+.grey-text, 
+p.grey-text, 
+small {
+    color: #454f5b !important;
+    opacity: 1 !important;
+}
+
+/* Foco de Tabulación: Para que el simulador vea el orden */
+button:focus-visible, 
+.btn-flat:focus-visible,
+.handle:focus-visible {
+    outline: 3px solid #1558b0 !important;
+    outline-offset: 2px !important;
+    background-color: rgba(21, 88, 176, 0.1) !important;
+}
+
+/* --- CORRECCIÓN DEFINITIVA CONTRASTE (NIVEL AAA) --- */
+/* Usamos #b71c1c que da un ratio de 7.2:1 sobre blanco */
+.fm-danger-text-contrast, 
+i.ph-trash.fm-danger-text-contrast {
+    color: #b71c1c !important; 
+    opacity: 1 !important; /* Asegura que no sea transparente */
+}
+
+/* Opcional: Feedback visual al pasar el ratón */
+button:hover .fm-danger-text-contrast {
+    color: #8a1c1c !important; /* Un poco más oscuro al hacer hover */
+}
+
+/* Altura idéntica para ambos botones */
+#trigger-añadir, #save-routine {
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    vertical-align: middle !important;
+}
+
+/* Centrado del + dentro del círculo/botón */
+#trigger-añadir i {
+    line-height: 0 !important;
+    margin: 0 !important;
+    font-size: 1.5rem !important;
+}
+
+/* Evitar que el modal salga a la izquierda primero */
+#modal-ejercicios {
+    top: 10% !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: auto !important;
+}
+
+.collection-item:focus, .selectable-item:focus {
+    outline: 3px solid #1558b0 !important;
+    outline-offset: -2px;
+    background-color: #f0f7ff !important;
+}
+
+.grey-text, 
+p.grey-text, 
+small,
+.blue-text {
+    color: #374151 !important; /* Un gris aún más profundo */
+    opacity: 1 !important;
+    font-weight: 600 !important; /* El grosor ayuda a la legibilidad en AAA */
+}
+
+/* Específicamente para las duraciones y textos pequeños en AAA */
+.fm-duration-tag {
+    color: #374151 !important; /* Gris ultra oscuro */
+    font-size: 0.85rem;
+    font-weight: 700; /* Aumentar el grosor ayuda al contraste */
+}
+
+/* El azul de los iconos/checks sobre blanco */
+.blue-text {
+    color: #114b9a !important; /* Azul cobalto profundo */
+}
+

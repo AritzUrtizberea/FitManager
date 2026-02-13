@@ -24,77 +24,78 @@
 
     <main class="main-container">
 
-        <section class="card-premium-dark" onclick="window.location.href='{{ route('routines') }}'">
+        <a href="{{ route('routines') }}" class="card-premium-dark no-decoration">
             <div class="premium-content">
                 <div class="premium-text">
                     <h2>Tu viaje empieza hoy</h2>
                     <p>Define tu plan de entrenamiento para ver tu progreso.</p>
                 </div>
                 <div class="premium-icon">
-                    <i class="ph-fill ph-trophy"></i>
+                    <i class="ph-fill ph-trophy" aria-hidden="true"></i>
                 </div>
             </div>
-            <button class="btn-action-glow">
-                Configurar Plan <i class="ph-bold ph-gear-six"></i>
-            </button>
-        </section>
+            <div class="btn-action-glow">
+                Configurar Plan <i class="ph-bold ph-gear-six" aria-hidden="true"></i>
+            </div>
+        </a>
 
         <h3 class="section-label">Recomendado</h3>
 
-        <section class="card-immersive" onclick="window.location.href='{{ route('routines') }}'">
+        <a href="{{ route('routines') }}" class="card-immersive no-decoration">
             <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=1000"
-                class="bg-img" alt="Full Body">
+                class="bg-img" alt="Mujer haciendo ejercicio en gimnasio">
             <div class="immersive-overlay">
                 <span class="tag-blur">NUEVO</span>
                 <div class="immersive-info">
                     <h4>Full Body Challenge</h4>
                     <div class="meta-row">
-                        <span><i class="ph-fill ph-clock"></i> 45 min</span>
-                        <span><i class="ph-fill ph-fire"></i> Medio</span>
+                        <span><i class="ph-fill ph-clock" aria-hidden="true"></i> 45 min</span>
+                        <span><i class="ph-fill ph-fire" aria-hidden="true"></i> Medio</span>
                     </div>
                 </div>
             </div>
-        </section>
+        </a>
 
         <h3 class="section-label">Explorar</h3>
 
         <div class="categories-scroll">
-            <div class="cat-item active" onclick="window.location.href='{{ route('routines') }}'">
-                <i class="ph-fill ph-person-simple-run"></i>
+            <a href="{{ route('routines') }}" class="cat-item active">
+                <i class="ph-fill ph-person-simple-run" aria-hidden="true"></i>
                 <span>Cardio</span>
-            </div>
-            <div class="cat-item" onclick="window.location.href='{{ route('routines') }}'">
-                <i class="ph-fill ph-barbell"></i>
+            </a>
+            <a href="{{ route('routines') }}" class="cat-item">
+                <i class="ph-fill ph-barbell" aria-hidden="true"></i>
                 <span>Fuerza</span>
-            </div>
-            <div class="cat-item" onclick="window.location.href='{{ route('routines') }}'">
-                <i class="ph-fill ph-flower-lotus"></i>
+            </a>
+            <a href="{{ route('routines') }}" class="cat-item">
+                <i class="ph-fill ph-flower-lotus" aria-hidden="true"></i>
                 <span>Yoga</span>
-            </div>
-            <div class="cat-item" onclick="window.location.href='{{ route('routines') }}'">
-                <i class="ph-fill ph-sneaker-move"></i>
+            </a>
+            <a href="{{ route('routines') }}" class="cat-item">
+                <i class="ph-fill ph-sneaker-move" aria-hidden="true"></i>
                 <span>HIIT</span>
-            </div>
+            </a>
         </div>
 
     </main>
 
     <div class="floating-dock">
-        <a href="{{ route('home') }}" class="dock-item"><i class="ph-fill ph-house"></i></a>
+        <a href="{{ route('home') }}" class="dock-item" aria-label="Ir a Inicio"><i class="ph-fill ph-house" aria-hidden="true"></i></a>
 
-        <a href="{{ route('nutrition') }}" class="dock-item"><i class="ph-bold ph-fork-knife"></i></a>
+        <a href="{{ route('nutrition') }}" class="dock-item" aria-label="Ir a Nutrición"><i class="ph-bold ph-fork-knife" aria-hidden="true"></i></a>
 
         <div class="dock-fab-container">
-            <button class="dock-fab" id="video-trigger-btn"><i class="ph-fill ph-play"></i></button>
+            <button class="dock-fab" id="video-trigger-btn" aria-label="Iniciar entrenamiento o video">
+                <i class="ph-fill ph-play" aria-hidden="true"></i>
+            </button>
         </div>
 
-        <a href="{{ route('training') }}" class="dock-item active"><i class="ph-bold ph-barbell"></i></a>
+        <a href="{{ route('training') }}" class="dock-item active" aria-label="Ir a Entrenamiento" aria-current="page"><i class="ph-bold ph-barbell" aria-hidden="true"></i></a>
         
-        <a href="/perfil" class="dock-item"><i class="ph-bold ph-user"></i></a>
+        <a href="/perfil" class="dock-item" aria-label="Ir a Perfil"><i class="ph-bold ph-user" aria-hidden="true"></i></a>
     </div>
 
     <script src="{{ asset('js/chatbot.js') }}"></script>
     <script src="{{ asset('js/trainingNav.js') }}"></script>
 </body>
-
 </html>

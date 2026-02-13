@@ -1,4 +1,4 @@
-/* chatbot.js - Lógica Accesible */
+/* chatbot.js - Lógica 100% Accesible */
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -22,23 +22,26 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     ];
 
-    // 2. CREAR EL HTML DEL CHAT (¡Aquí agregamos el botón de cerrar!)
+    // 2. CREAR EL HTML DEL CHAT
+    // CAMBIOS ACCESIBILIDAD: añadidos aria-label, aria-hidden y aria-live
     const chatHTML = `
-        <button class="chatbot-toggler">
-            <span>💬</span>
+        <button class="chatbot-toggler" aria-label="Abrir asistente virtual">
+            <span aria-hidden="true">💬</span>
         </button>
-        <div class="chatbot">
+        <div class="chatbot" role="dialog" aria-modal="false" aria-label="Asistente Virtual">
             <header style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
                 <h2 style="margin-left: 10px;">Asistente Virtual</h2>
                 <button class="close-btn" aria-label="Cerrar chat" style="background: none; border: none; color: white; cursor: pointer; font-size: 1.5rem;">
-                    ✖
+                    <span aria-hidden="true">✖</span>
                 </button>
             </header>
-            <ul class="chatbox" id="chatbox">
+            
+            <ul class="chatbox" id="chatbox" aria-live="polite">
                 <li class="chat incoming">
                     <p>¡Hola! 👋 Soy tu asistente virtual. <br>Selecciona una opción abajo:</p>
                 </li>
             </ul>
+            
             <div class="chat-input" id="faq-options">
             </div>
         </div>
@@ -48,20 +51,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 3. VARIABLES
     const chatbotToggler = document.querySelector(".chatbot-toggler");
-    const closeBtn = document.querySelector(".close-btn"); // <--- Nueva variable
+    const closeBtn = document.querySelector(".close-btn");
     const faqContainer = document.getElementById("faq-options");
     const chatbox = document.getElementById("chatbox");
 
     // 4. FUNCIONES
 
-    // Función para cerrar el chat (Reutilizable)
     const cerrarChat = () => {
         document.body.classList.remove("show-chatbot");
-        // Resetear el icono del botón flotante a "burbuja"
-        chatbotToggler.querySelector("span").innerText = "💬";
+        // Cambiar icono y etiqueta accesibilidad
+        const icon = chatbotToggler.querySelector("span");
+        icon.innerText = "💬";
+        chatbotToggler.setAttribute("aria-label", "Abrir asistente virtual");
     };
 
-    // Función para crear botones de preguntas
     function cargarBotones() {
         faqContainer.innerHTML = ""; 
         preguntas.forEach(item => {
@@ -77,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Función principal de interacción
     function gestionarClick(preguntaTexto, respuestaTexto) {
         // Mensaje USUARIO
         const liUser = document.createElement("li");
@@ -98,15 +100,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // EVENT LISTENERS
 
-    // 1. Botón flotante (Abrir/Cerrar)
+    // 1. Botón flotante
     chatbotToggler.addEventListener("click", () => {
         document.body.classList.toggle("show-chatbot");
         const icon = chatbotToggler.querySelector("span");
-        // Cambiar icono dependiendo si está abierto o cerrado
-        icon.innerText = document.body.classList.contains("show-chatbot") ? "✖" : "💬";
+        const isOpen = document.body.classList.contains("show-chatbot");
+        
+        icon.innerText = isOpen ? "✖" : "💬";
+        // Actualizar etiqueta para ciegos
+        chatbotToggler.setAttribute("aria-label", isOpen ? "Cerrar asistente virtual" : "Abrir asistente virtual");
     });
 
-    // 2. Botón interno "X" (Cerrar) - ¡ESTO ARREGLA TU PROBLEMA!
+    // 2. Botón interno "X"
     closeBtn.addEventListener("click", cerrarChat);
 
     // Iniciar

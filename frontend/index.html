@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitManager</title>
+    <meta name="description" content="FitManager: Tu entrenador personal digital. Rutinas de entrenamiento, control de nutrición y seguimiento de progreso en una sola app.">
+    <title>FitManager - Tu Entrenador Digital</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/index.css">
@@ -16,7 +18,7 @@
         <div class="container header-container">
 
             <a href="/" class="logo-left">
-                <img src="assets/img/Logo_FitManager.png" alt="Logo" class="logo-img">
+                <img src="assets/img/Logo_FitManager.png" alt="Ir al inicio de FitManager" class="logo-img">
             </a>
 
             <a href="/" class="brand-center">
@@ -24,24 +26,24 @@
             </a>
 
             <div class="nav-right">
-                <nav class="desktop-nav">
+                <nav class="desktop-nav" aria-label="Navegación principal">
                     <a href="/login" class="btn btn-ghost">Iniciar Sesión</a>
                     <a href="/register" class="btn btn-primary">Crear Cuenta</a>
                 </nav>
 
-                <div class="menu-toggle" id="menuToggle">
-                    <i class="fa-solid fa-bars"></i>
-                </div>
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
             </div>
 
         </div>
     </header>
 
-    <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
         <div class="mobile-header">
             <span class="logo-text">FitManager</span>
-            <button class="close-menu" id="closeMenu">
-                <i class="fa-solid fa-xmark"></i>
+            <button class="close-menu" id="closeMenu" aria-label="Cerrar menú">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
             </button>
         </div>
         <div class="mobile-menu-content">
@@ -54,7 +56,7 @@
         <section class="hero">
             <div class="hero-overlay"></div>
             <div class="container hero-content">
-                <span class="badge-new">Tu Entrenador Digital 📱</span>
+                <span class="badge-new">Tu Entrenador Digital <span aria-hidden="true">📱</span></span>
                 <h1>Tu mejor versión<br>empieza aquí.</h1>
                 <p>Entrenamiento, nutrición y comunidad. Todo en una app.</p>
                 <div class="hero-buttons">
@@ -65,22 +67,24 @@
 
         <section class="features">
             <div class="container">
+                <h2 class="visually-hidden">Características Principales</h2>
+                
                 <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="icon-box blue"><i class="fa-solid fa-dumbbell"></i></div>
+                    <article class="feature-card">
+                        <div class="icon-box blue"><i class="fa-solid fa-dumbbell" aria-hidden="true"></i></div>
                         <h3>Entrena</h3>
                         <p>Rutinas adaptadas a tu nivel y material.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon-box green"><i class="fa-solid fa-utensils"></i></div>
+                    </article>
+                    <article class="feature-card">
+                        <div class="icon-box green"><i class="fa-solid fa-utensils" aria-hidden="true"></i></div>
                         <h3>Come</h3>
                         <p>Control de calorías y macros fácil.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon-box purple"><i class="fa-solid fa-fire"></i></div>
+                    </article>
+                    <article class="feature-card">
+                        <div class="icon-box purple"><i class="fa-solid fa-fire" aria-hidden="true"></i></div>
                         <h3>Progresa</h3>
                         <p>Gráficos reales de tu evolución.</p>
-                    </div>
+                    </article>
                 </div>
             </div>
         </section>
@@ -97,7 +101,7 @@
                 <div class="fade-left-dark"></div>
                 <div class="fade-right-dark"></div>
 
-                <div id="contenedor-reseñas">
+                <div id="contenedor-reseñas" aria-live="polite">
                     <div class="loader-container">
                         <div class="spinner"></div>
                         <p class="loading-text">Cargando experiencias...</p>
@@ -111,28 +115,50 @@
         <div class="container footer-content">
             <div class="brand">
                 <span class="logo-text">FitManager</span>
-                <p>© 2026</p>
+                <p>© 2026 FitManager. Todos los derechos reservados.</p>
             </div>
             <div class="social-links">
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#" aria-label="Síguenos en Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Síguenos en TikTok"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></a>
             </div>
         </div>
     </footer>
 
     <script src="js/reviews.js"></script>
     <script>
-        // Lógica del Menú con la X
+        // Lógica del Menú Accesible
         const menuToggle = document.getElementById('menuToggle');
         const closeMenu = document.getElementById('closeMenu');
         const mobileMenu = document.getElementById('mobileMenu');
 
         function toggleMenu() {
-            mobileMenu.classList.toggle('active');
+            const isActive = mobileMenu.classList.toggle('active');
+            
+            // Actualizar atributos ARIA para lectores de pantalla
+            menuToggle.setAttribute('aria-expanded', isActive);
+            mobileMenu.setAttribute('aria-hidden', !isActive);
+            
+            // Bloquear scroll cuando menú está abierto
+            if(isActive) {
+                document.body.style.overflow = 'hidden';
+                // Poner foco en el botón de cerrar
+                setTimeout(() => closeMenu.focus(), 100);
+            } else {
+                document.body.style.overflow = '';
+                // Devolver foco al botón de abrir
+                menuToggle.focus();
+            }
         }
 
         menuToggle.addEventListener('click', toggleMenu);
         closeMenu.addEventListener('click', toggleMenu);
+        
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
     </script>
 </body>
 

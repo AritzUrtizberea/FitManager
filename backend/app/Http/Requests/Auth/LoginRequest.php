@@ -37,7 +37,7 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+   public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
 
@@ -45,7 +45,8 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                // AQUÍ ESTÁ EL CAMBIO: Texto directo, sin traducciones
+                'email' => 'Usuario o contraseña incorrectos.',
             ]);
         }
 

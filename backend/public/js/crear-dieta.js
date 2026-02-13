@@ -1,6 +1,7 @@
 // =========================================================
-// CREAR-DIETA.JS (Iconos de basura + Suma arreglada)
+// CREAR-DIETA.JS (Corregido: Contador + Accesibilidad)
 // =========================================================
+
 const urlParams = new URLSearchParams(window.location.search);
 const diaSeleccionado = urlParams.get('day');
 console.log("Editando el día:", diaSeleccionado);
@@ -14,27 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const diaUrl = params.get('day') || params.get('dia') || 'Lunes';
     const selectDia = document.getElementById('select-dia');
-    
+
     if (selectDia) {
         // --- INICIO: NORMALIZADOR INTELIGENTE ---
-        // Esta función convierte "Sábado" -> "sabado" para compararlos
         const limpiarTexto = (t) => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-        const diaBuscado = limpiarTexto(diaUrl); 
+        const diaBuscado = limpiarTexto(diaUrl);
 
-        let valorOficial = 'lunes'; // Valor por defecto
-        
-        // Buscamos en el select la opción que coincida (ignorando tildes y mayúsculas)
+        let valorOficial = 'lunes';
+
+        // Buscamos coincidencia flexible
         Array.from(selectDia.options).forEach(opcion => {
             if (limpiarTexto(opcion.value) === diaBuscado || limpiarTexto(opcion.text) === diaBuscado) {
-                valorOficial = opcion.value; // ¡Encontrado! Usamos el valor real del HTML (ej: "sabado")
-                selectDia.value = valorOficial; // Marcamos la opción visualmente
+                valorOficial = opcion.value;
+                selectDia.value = valorOficial;
             }
         });
         // --- FIN: NORMALIZADOR ---
 
-        // Cargamos los datos usando el valor OFICIAL (ej: "sabado")
         cargarDatosDelDia(selectDia.value);
-        
+
         // Listener para cambio manual
         selectDia.addEventListener('change', (e) => cargarDatosDelDia(e.target.value));
     }
@@ -47,9 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btnNuevo.addEventListener('click', guardarYSalir);
     }
 
-    // 3. Activar el detector inteligente de clicks
+    // 3. Activar el detector de clicks
     activarDetectorDeClicks();
-    
+
     // 4. Configurar búsqueda
     const searchInput = document.getElementById('laravel-search');
     if (searchInput) {
@@ -67,16 +66,18 @@ async function realizarBusqueda(query) {
         const response = await fetch(`/api/products/search?query=${query}`);
         if (!response.ok) throw new Error("Error red");
         const products = await response.json();
-        
+
         resultsDiv.innerHTML = '';
         products.forEach(p => {
             const div = document.createElement('div');
+            // Añadimos role="listitem" para accesibilidad
+            div.setAttribute('role', 'listitem');
             div.style.cssText = 'border-bottom:1px solid #eee; padding:10px; display:flex; justify-content:space-between; align-items:center;';
             div.innerHTML = `
-                <div><strong>${p.name}</strong><br><small>${p.kcal} kcal</small></div>
-                <button class="btn-add-item" type="button" 
-                        style="background:#2ecc71; color:white; border:none; border-radius:50%; width:30px; height:30px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                    <i class="ph ph-plus"></i>
+                <div><strong>${p.name}</strong><br><small style="color:#4B5563">${p.kcal} kcal</small></div>
+                <button class="btn-add-item" type="button" aria-label="Añadir ${p.name}"
+                        style="background:#F3F4F6; color:#007AFF; border:none; border-radius:50%; width:40px; height:40px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                    <i class="ph-bold ph-plus" aria-hidden="true"></i>
                 </button>
             `;
             resultsDiv.appendChild(div);
@@ -86,8 +87,8 @@ async function realizarBusqueda(query) {
 
 // DETECTOR DE CLICKS
 function activarDetectorDeClicks() {
-    document.body.addEventListener('click', function(e) {
-        // A. BORRAR ITEM (¡Aquí está tu icono de basura!)
+    document.body.addEventListener('click', function (e) {
+        // A. BORRAR ITEM
         const btnBorrar = e.target.closest('.btn-borrar-item');
         if (btnBorrar) {
             const index = btnBorrar.getAttribute('data-index');
@@ -100,10 +101,10 @@ function activarDetectorDeClicks() {
         const btnAdd = e.target.closest('.btn-add-item') || e.target.closest('button.add-btn');
         if (btnAdd) {
             e.preventDefault(); e.stopPropagation();
-            
+
             const contenedor = btnAdd.parentElement;
-            const texto = contenedor.innerText || contenedor.textContent; 
-            
+            const texto = contenedor.innerText || contenedor.textContent;
+
             let kcal = 0;
             const matchKcal = texto.match(/(\d+(?:\.\d+)?)\s*(?:k|c|kcal)/i);
             if (matchKcal) kcal = parseFloat(matchKcal[1]);
@@ -113,7 +114,7 @@ function activarDetectorDeClicks() {
             }
 
             let nombre = texto.split('\n')[0].replace(/\d+\s*(kcal|k|cal)/gi, '').replace(/[()]/g, '').trim();
-            if(!nombre) nombre = "Producto";
+            if (!nombre) nombre = "Producto";
 
             window.productosSeleccionados.push({ id: Date.now(), name: nombre, kcal: kcal });
             renderizarCesta();
@@ -121,49 +122,55 @@ function activarDetectorDeClicks() {
     });
 }
 
+// --- FUNCIÓN CORREGIDA (Aquí estaba el fallo del contador) ---
 function renderizarCesta() {
     const lista = document.getElementById('lista-cesta');
     const totalTxt = document.getElementById('kcal-total');
     const barra = document.getElementById('resumen-fijo');
-    
+    const badgeCount = document.getElementById('item-count'); // <--- NUEVO
+
     let suma = 0;
     const html = window.productosSeleccionados.map((p, i) => {
         const val = parseFloat(p.kcal) || 0;
         suma += val;
-        
-        // AQUÍ ESTÁ EL CAMBIO: Icono ph-trash en rojo
-        return `<div class="item-cesta" style="display:flex; justify-content:space-between; align-items:center; padding:12px; border-bottom:1px solid #eee;">
+
+        return `<div class="item-cesta" role="listitem">
             <div>
-                <strong style="display:block; color:#333;">${p.name}</strong>
-                <span style="color:#2ecc71; font-size:0.9rem;">${val.toFixed(0)} kcal</span>
+                <strong style="display:block; color:#1D1D1F;">${p.name}</strong>
+                <span style="color:#007AFF; font-size:0.9rem; font-weight:600;">${val.toFixed(0)} kcal</span>
             </div>
-            <button type="button" class="btn-borrar-item" data-index="${i}" 
-                    style="color:#e74c3c; border:none; background:none; cursor:pointer; padding:8px;">
-                <i class="ph ph-trash" style="font-size:1.4rem;"></i>
+            <button type="button" class="btn-borrar-item" data-index="${i}" aria-label="Borrar ${p.name}">
+                <i class="ph-fill ph-trash" style="font-size:1.2rem;" aria-hidden="true"></i>
             </button>
         </div>`;
     }).join('');
 
-    if (lista) lista.innerHTML = html || '<div style="padding:20px; text-align:center; color:#888;">Lista vacía</div>';
+    // 1. Renderizar lista HTML
+    if (lista) lista.innerHTML = html || '<div class="empty-state"><div class="icon-circle"><i class="ph-fill ph-basket"></i></div><p>Tu cesta está vacía</p></div>';
+
+    // 2. Actualizar Kcal Totales
     if (totalTxt) totalTxt.innerText = Math.round(suma);
+
+    // 3. Actualizar la Barra Flotante
     if (barra) barra.style.display = window.productosSeleccionados.length > 0 ? 'block' : 'none';
+
+    // 4. ¡LA CORRECCIÓN! Actualizar el contador azul
+    if (badgeCount) {
+        const cantidad = window.productosSeleccionados.length;
+        badgeCount.innerText = cantidad;
+        // Accesibilidad: Actualizar etiqueta para lectores de pantalla
+        badgeCount.setAttribute('aria-label', `${cantidad} elementos en la lista`);
+    }
 }
 
 function cargarDatosDelDia(diaSeleccionado) {
-    // 1. Definir versiones del nombre
-    // EJEMPLO: Si entras en "Martes"...
-    const diaRaw = diaSeleccionado; // "Martes"
-    const diaLimpio = diaSeleccionado.toLowerCase()
-                                     .normalize("NFD")
-                                     .replace(/[\u0300-\u036f]/g, "")
-                                     .trim(); // "martes"
+    const diaRaw = diaSeleccionado;
+    const diaLimpio = diaSeleccionado.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
-    // 2. Definir Prioridad: PRIMERO buscamos la llave limpia ('dieta_martes')
-    // Si esa existe, es la más reciente y CORRECTA. Ignoramos 'dieta_Martes'.
     const variantes = [
-        `dieta_${diaLimpio}`, // Prioridad 1: dieta_martes
-        `dieta_${diaRaw}`,    // Prioridad 2: dieta_Martes (Solo si no existe la 1)
-        `dieta_${diaSeleccionado.toLowerCase()}` // Por si acaso: dieta_martes (con tilde si aplica)
+        `dieta_${diaLimpio}`,
+        `dieta_${diaRaw}`,
+        `dieta_${diaSeleccionado.toLowerCase()}`
     ];
 
     let productosEncontrados = [];
@@ -177,27 +184,21 @@ function cargarDatosDelDia(diaSeleccionado) {
                 if (data.items && data.items.length > 0) {
                     productosEncontrados = data.items;
                     origenDatos = key;
-                    // IMPORTANTE: Si encontramos datos en la prioritaria, PARAMOS.
-                    // Así evitamos cargar la versión vieja "sucia".
-                    break; 
+                    break;
                 }
-            } catch (e) {
-                console.error("Error leyendo", key);
-            }
+            } catch (e) { console.error("Error leyendo", key); }
         }
     }
 
     console.log(`Cargando día: ${diaSeleccionado} | Fuente: ${origenDatos}`);
-
     window.productosSeleccionados = productosEncontrados;
     renderizarCesta();
 }
+
 async function guardarYSalir() {
     const selectDia = document.getElementById('select-dia');
-    let diaRaw = selectDia.value; // Ej: "Martes"
-    
-    // Limpiamos el nombre para usarlo como llave oficial
-    const diaOficial = diaRaw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim(); // "martes"
+    let diaRaw = selectDia.value;
+    const diaOficial = diaRaw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
     const total = window.productosSeleccionados.reduce((acc, item) => acc + (parseFloat(item.kcal) || 0), 0);
     const nombres = window.productosSeleccionados.map(p => p.name);
@@ -214,31 +215,26 @@ async function guardarYSalir() {
                 'X-XSRF-TOKEN': xsrfToken
             },
             body: JSON.stringify({
-                day: diaRaw, 
+                day: diaRaw,
                 calories: Math.round(total),
                 summary: resumen || "Dieta personalizada"
             })
         });
 
         if (response.ok) {
-            // 1. Guardar en la llave LIMPIA (el futuro)
-            localStorage.setItem(`dieta_${diaOficial}`, JSON.stringify({ 
-                items: window.productosSeleccionados, 
+            localStorage.setItem(`dieta_${diaOficial}`, JSON.stringify({
+                items: window.productosSeleccionados,
                 total: total,
-                completado: true 
+                completado: true
             }));
-            
-            // 2. BORRAR la llave SUCIA (el pasado)
-            // Si la llave vieja era "dieta_Martes" y es distinta a "dieta_martes", la borramos.
+
             if (`dieta_${diaRaw}` !== `dieta_${diaOficial}`) {
-                console.log(`Borrando datos fantasma en: dieta_${diaRaw}`);
                 localStorage.removeItem(`dieta_${diaRaw}`);
             }
 
-            // Opcional: Borrar otras variantes comunes por si acaso
             if (diaRaw !== 'Sabado' && diaRaw !== 'sabado') localStorage.removeItem('dieta_Sábado');
-            
-            window.location.href = '/nutrition'; 
+
+            window.location.href = '/nutrition';
         } else {
             alert("Error al guardar en servidor.");
         }

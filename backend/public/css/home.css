@@ -11,6 +11,7 @@
     --icon-green: #16a34a;
     --soft-blue: #eff6ff;
     --icon-blue: #2563eb;
+    --text-muted: #475569;
 
     --radius-xl: 32px;
     --radius-l: 24px;
@@ -355,18 +356,21 @@ body {
     margin-top: 5px;
 }
 
+/* Busca tu clase .day y actualiza estos valores */
 .day {
-    width: 20px;
-    height: 20px;
-    /* Un pelín más pequeños para que quepan 7 */
+    width: 24px;       /* Un poco más grande para que quepa el texto */
+    height: 24px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 9px;
+    
+    /* CAMBIOS PARA ACCESIBILIDAD */
+    font-size: 11px;            /* Subimos de 9px a 11px (9px es ilegible) */
     font-weight: 800;
-    background: #f1f5f9;
-    color: var(--text-muted);
+    background: #e2e8f0;        /* Un gris un pelín más oscuro de fondo */
+    color: var(--text-main);    /* Usamos negro/gris oscuro para el texto (alto contraste) */
+    
     transition: 0.3s;
 }
 
@@ -589,6 +593,12 @@ body {
     animation: pulseText 1.5s infinite ease-in-out;
     font-style: italic;
     /* Opcional: para que parezca más un estado de espera */
+}
+
+/* Añade esto al final de tu CSS para arreglar los avisos de "Focus" */
+:focus-visible {
+    outline: 3px solid var(--icon-blue); /* Un borde azul visible */
+    outline-offset: 2px; /* Un poco separado del elemento */
 }
 
 @keyframes pulseText {

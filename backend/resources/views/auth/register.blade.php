@@ -1,17 +1,20 @@
 <x-guest-layout>
+    {{-- CORRECCIÓN 1: Añadido aria-label para que sepa qué hace el botón --}}
     <a href="{{ url('/') }}" 
+       aria-label="Volver al inicio"
        style="position: absolute; top: 20px; left: 20px; background-color: white; border: 1px solid #d1d5db; padding: 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05); z-index: 50; width: 45px; height: 45px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        {{-- CORRECCIÓN 2: aria-hidden para que el lector ignore el icono decorativo --}}
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
     </a>
-    {{-- Lógica de validación con Alpine.js (TU CÓDIGO SIGUE IGUAL DEBAJO) --}}
+
+    {{-- Lógica de validación con Alpine.js --}}
     <div x-data="{
             paso: 1, 
             error: false, 
             mensajeError: '',
             
-            // Función para validar el Paso 1 (Datos de cuenta)
             validarPaso1() {
                 let name = document.getElementById('name').value;
                 let surname = document.getElementById('surname').value;
@@ -19,25 +22,21 @@
                 let pass = document.getElementById('password').value;
                 let passC = document.getElementById('password_confirmation').value;
 
-                // 1. Comprobar vacíos
                 if (!name || !surname || !email || !pass || !passC) {
                     this.mensajeError = '⚠️ Por favor, rellena todos los campos obligatorios.';
                     this.error = true;
                     return false;
                 }
-                // 2. Comprobar contraseñas
                 if (pass !== passC) {
                     this.mensajeError = '⚠️ Las contraseñas no coinciden.';
                     this.error = true;
                     return false;
                 }
                 
-                // Si todo está bien:
                 this.error = false;
                 return true;
             },
 
-            // Función para validar el Paso 2 (Datos físicos)
             validarPaso2() {
                 let phone = document.getElementById('phone').value;
                 let weight = document.getElementById('weight').value;
@@ -59,15 +58,18 @@
             <div x-show="paso === 1" x-transition:enter.duration.300ms>
                 <br><h2 class="text-2xl font-bold text-[#111318] mb-4">Crear Cuenta</h2>
 
+                {{-- Barra de Progreso --}}
                 <div class="flex items-center justify-between w-full mb-10 px-2">
-                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #71a43d !important; width: 32px; height: 32px; flex: none; display: flex;">1</div>
+                    {{-- CORRECCIÓN 3: Verde más oscuro (#4d7c2a) para contraste correcto --}}
+                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #4d7c2a !important; width: 32px; height: 32px; flex: none; display: flex;">1</div>
                     <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
                     <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #185a94 !important; width: 32px; height: 32px; flex: none; display: flex;">2</div>
                     <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
                     <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #185a94 !important; width: 32px; height: 32px; flex: none; display: flex;">3</div>
                 </div>
 
-                <p class="text-[14px] text-[#616f89] mb-8 font-medium" style="margin-top: 30px !important;">Paso 1: Datos de Cuenta</p>
+                {{-- CORRECCIÓN 4: Gris más oscuro (#4b5563) para el texto pequeño --}}
+                <p class="text-[14px] text-[#4b5563] mb-8 font-medium" style="margin-top: 30px !important;">Paso 1: Datos de Cuenta</p>
 
                 <div class="grid grid-cols-2" style="display: grid !important; grid-template-columns: 1fr 1fr !important; column-gap: 20px !important;">
                     <div>
@@ -122,14 +124,16 @@
                 <h2 class="text-2xl font-bold text-[#111318] mb-4">Perfil Fitness</h2>
 
                 <div class="flex items-center justify-between w-full mb-10 px-2">
-                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #71a43d !important; width: 32px; height: 32px; flex: none; display: flex;">1</div>
-                    <div class="flex-1 h-1" style="background-color: #71a43d !important;"></div>
-                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #71a43d !important; width: 32px; height: 32px; flex: none; display: flex;">2</div>
+                    {{-- Paso 1 completado (Verde Oscuro) --}}
+                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #4d7c2a !important; width: 32px; height: 32px; flex: none; display: flex;">1</div>
+                    <div class="flex-1 h-1" style="background-color: #4d7c2a !important;"></div>
+                    {{-- Paso 2 actual (Verde Oscuro) --}}
+                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #4d7c2a !important; width: 32px; height: 32px; flex: none; display: flex;">2</div>
                     <div class="flex-1 h-1 bg-gray-200 mx-2"></div>
                     <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #185a94 !important; width: 32px; height: 32px; flex: none; display: flex;">3</div>
                 </div>
 
-                <p class="text-[14px] text-[#616f89] mb-8 font-medium" style="margin-top: 40px !important;">Paso 2: Datos Físicos</p>
+                <p class="text-[14px] text-[#4b5563] mb-8 font-medium" style="margin-top: 40px !important;">Paso 2: Datos Físicos</p>
 
                 <div class="grid grid-cols-2" style="display: grid !important; grid-template-columns: 1fr 1fr !important; column-gap: 20px !important;">
                     <div>
@@ -173,11 +177,12 @@
                 <h2 class="text-2xl font-bold text-[#111318] mb-4">Nivel de Actividad</h2>
 
                 <div class="flex items-center justify-between w-full mb-10 px-2">
-                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #71a43d !important; width: 32px; height: 32px; flex: none; display: flex;">1</div>
-                    <div class="flex-1 h-1" style="background-color: #71a43d !important;"></div>
-                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #71a43d !important; width: 32px; height: 32px; flex: none; display: flex;">2</div>
-                    <div class="flex-1 h-1" style="background-color: #71a43d !important;"></div>
-                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #71a43d !important; width: 32px; height: 32px; flex: none; display: flex;">3</div>
+                    {{-- Todos completados o activos (Verde Oscuro) --}}
+                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #4d7c2a !important; width: 32px; height: 32px; flex: none; display: flex;">1</div>
+                    <div class="flex-1 h-1" style="background-color: #4d7c2a !important;"></div>
+                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #4d7c2a !important; width: 32px; height: 32px; flex: none; display: flex;">2</div>
+                    <div class="flex-1 h-1" style="background-color: #4d7c2a !important;"></div>
+                    <div class="flex items-center justify-center rounded-full text-white font-bold" style="background-color: #4d7c2a !important; width: 32px; height: 32px; flex: none; display: flex;">3</div>
                 </div>
 
                 <div class="space-y-6" style="margin-top: 30px !important;">
@@ -187,7 +192,7 @@
                             <input type="radio" name="activity" value="baja" class="text-[#185a94] focus:ring-[#185a94]" required>
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Poco o ningún ejercicio</span>
-                                <span class="text-xs text-[#616f89] italic">Principalmente sentado (ej. oficina)</span>
+                                <span class="text-xs text-[#4b5563] italic">Principalmente sentado (ej. oficina)</span>
                             </div>
                         </div>
                         <span class="text-2xl">🪑</span>
@@ -198,7 +203,7 @@
                             <input type="radio" name="activity" value="ligera" class="text-[#185a94] focus:ring-[#185a94]">
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Ejercicio ligero</span>
-                                <span class="text-xs text-[#616f89] italic">1-3 días a la semana</span>
+                                <span class="text-xs text-[#4b5563] italic">1-3 días a la semana</span>
                             </div>
                         </div>
                         <span class="text-2xl">🏡</span>
@@ -209,7 +214,7 @@
                             <input type="radio" name="activity" value="moderada" class="text-[#185a94] focus:ring-[#185a94]">
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Moderado</span>
-                                <span class="text-xs text-[#616f89] italic">3-5 días a la semana</span>
+                                <span class="text-xs text-[#4b5563] italic">3-5 días a la semana</span>
                             </div>
                         </div>
                         <span class="text-2xl">🏃</span>
@@ -220,7 +225,7 @@
                             <input type="radio" name="activity" value="alta" class="text-[#185a94] focus:ring-[#185a94]">
                             <div class="ml-4">
                                 <span class="block font-bold text-sm text-[#111318]">Fuerte</span>
-                                <span class="text-xs text-[#616f89] italic">6-7 días a la semana</span>
+                                <span class="text-xs text-[#4b5563] italic">6-7 días a la semana</span>
                             </div>
                         </div>
                         <span class="text-2xl">⚡</span>
@@ -233,7 +238,7 @@
                         REGISTRARSE
                     </button>
                     <div style="margin-top: 20px !important; text-align: center;">
-                        <button type="button" @click="paso = 2; error = false" class="text-[#616f89] text-sm underline font-bold">Volver al paso anterior</button>
+                        <button type="button" @click="paso = 2; error = false" class="text-[#4b5563] text-sm underline font-bold">Volver al paso anterior</button>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,8 @@
     --bg-app: #F2F4F7;
     --card-bg: #FFFFFF;
     --text-main: #1D1D1F;
-    --text-muted: #86868B;
+    /* CORRECCIÓN: Gris más oscuro para contraste AA (4.5:1) */
+    --text-muted: #4B5563;
     --primary-blue: #007AFF;
     --primary-gradient: linear-gradient(135deg, #007AFF 0%, #0055B3 100%);
     --radius-lg: 24px;
@@ -16,17 +17,49 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+/* CLASE UTILIDAD: Para ocultar etiquetas visualmente pero que las lea el lector */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 body {
     background-color: var(--bg-app);
     font-family: 'Manrope', sans-serif;
     color: var(--text-main);
     margin: 0;
     padding: 0;
-
-    /* IMPORTANTE: Espacio para Dock (70px) + Resumen (80px) + Margen */
     padding-bottom: 180px;
-
     overflow-x: hidden;
+}
+
+::placeholder {
+    color: #4B5563 !important;
+    opacity: 1; /* Firefox baja la opacidad por defecto, esto lo arregla */
+}
+
+/* 3. Iconos y textos pequeños */
+.input-label, 
+.dock-item,
+.search-icon,
+.select-arrow {
+    color: #4B5563 !important; /* Asegura que pasen el ratio 4.5:1 */
+}
+
+/* CORRECCIÓN: Foco visible para teclado */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid var(--primary-blue);
+    outline-offset: 2px;
 }
 
 /* --- 2. HEADER --- */
@@ -45,8 +78,9 @@ body {
 .btn-back {
     background: white;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    /* Aumentado a 44px (Mínimo táctil Apple/Android) */
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -57,9 +91,11 @@ body {
     font-size: 20px;
 }
 
+/* CORRECCIÓN: Ahora es un H1, reseteamos márgenes */
 .header-title {
     font-weight: 800;
     font-size: 18px;
+    margin: 0;
 }
 
 /* --- 3. LAYOUT PRINCIPAL --- */
@@ -96,7 +132,8 @@ body {
 .input-label {
     font-size: 13px;
     color: var(--text-muted);
-    font-weight: 600;
+    font-weight: 700;
+    /* Más peso para legibilidad */
     display: flex;
     align-items: center;
     gap: 6px;
@@ -155,12 +192,18 @@ body {
     background: var(--input-bg);
     border: 1px solid transparent;
     border-radius: 100px;
-    /* Pill shape */
     font-size: 15px;
     font-weight: 600;
     outline: none;
     transition: 0.2s;
     font-family: inherit;
+    color: var(--text-main);
+}
+
+/* CORRECCIÓN: Placeholder legible */
+.search-input::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
 }
 
 .search-input:focus {
@@ -169,14 +212,12 @@ body {
     box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
 }
 
-/* Resultados (Estilo para lo que genera JS) */
 .results-container {
     margin-top: 10px;
     max-height: 200px;
     overflow-y: auto;
 }
 
-/* Override para los divs generados por JS */
 #laravel-results>div {
     padding: 12px 0;
     border-bottom: 1px solid #E5E7EB;
@@ -185,18 +226,25 @@ body {
     align-items: center;
 }
 
+/* Botón Añadir (Generado por JS) */
 .btn-add-item {
-    /* Botón + generado por JS */
     background: var(--input-bg) !important;
     color: var(--primary-blue) !important;
-    width: 32px !important;
-    height: 32px !important;
+    width: 40px !important;
+    /* Mejor área táctil */
+    height: 40px !important;
     border-radius: 50% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     border: none !important;
     cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-add-item:hover,
+.btn-add-item:focus {
+    background: #E5E7EB !important;
 }
 
 /* --- 6. LISTA (CESTA) --- */
@@ -210,9 +258,10 @@ body {
 .badge-count {
     background: var(--primary-blue);
     color: white;
-    font-size: 11px;
+    font-size: 12px;
+    /* Un pelín más grande */
     font-weight: 800;
-    padding: 4px 8px;
+    padding: 4px 10px;
     border-radius: 20px;
 }
 
@@ -235,7 +284,7 @@ body {
     color: #9CA3AF;
 }
 
-/* Estilos para Items Añadidos (Generados por JS) */
+/* Items Añadidos */
 .item-cesta {
     padding: 12px 0;
     border-bottom: 1px dashed #E5E7EB;
@@ -247,16 +296,17 @@ body {
 .btn-borrar-item {
     color: #FF3B30 !important;
     background: rgba(255, 59, 48, 0.1) !important;
-    padding: 6px !important;
+    padding: 10px !important;
+    /* Más relleno para mejor click */
     border-radius: 8px !important;
     border: none !important;
+    cursor: pointer;
 }
 
 /* --- 7. RESUMEN FLOTANTE --- */
 .floating-summary {
     position: fixed;
     bottom: 100px;
-    /* Encima del dock (70px + gap) */
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -265,7 +315,8 @@ body {
 }
 
 .summary-content {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
+    /* Menos transparente para lectura */
     backdrop-filter: blur(15px);
     border: 1px solid white;
     padding: 15px 20px;
@@ -298,13 +349,13 @@ body {
 
 .btn-finish {
     background: var(--text-main);
-    /* Negro Apple */
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 14px 24px;
+    /* Botón un poco más grande */
     border-radius: 100px;
     font-weight: 700;
-    font-size: 14px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -317,8 +368,7 @@ body {
     transform: scale(0.96);
 }
 
-
-/* --- 8. DOCK FLOTANTE (Copiado de Nutrición) --- */
+/* --- 8. FLOATING DOCK --- */
 .floating-dock {
     position: fixed;
     bottom: 24px;
@@ -355,10 +405,6 @@ body {
     background: #F3F4F6;
 }
 
-.dock-item:active {
-    transform: scale(0.9);
-}
-
 .dock-fab-container {
     position: relative;
     width: 60px;
@@ -382,11 +428,8 @@ body {
     transition: transform 0.2s;
 }
 
-.dock-fab:active {
-    transform: scale(0.9);
-}
-
 /* --- 9. VIDEO MODAL --- */
+/* (Se mantiene igual que el anterior, sin cambios necesarios) */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -449,4 +492,111 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* --- ARREGLO DE ACCESIBILIDAD (CONTRASTE) --- */
+
+/* 1. Oscurecer todos los textos de ayuda (small) y metadatos */
+small, 
+.text-muted, 
+.card-subtitle,
+.h2-subtitle {
+    color: #4B5563 !important; /* Gris oscuro legible */
+}
+
+/* 2. Forzar el color de los Placeholders (el texto fantasma de los inputs) */
+/* Firefox baja la opacidad por defecto, hay que ponerla en 1 */
+::placeholder {
+    color: #4B5563 !important;
+    opacity: 1 !important; 
+}
+::-webkit-input-placeholder {
+    color: #4B5563 !important;
+    opacity: 1 !important;
+}
+::-moz-placeholder {
+    color: #4B5563 !important;
+    opacity: 1 !important;
+}
+
+/* Excepción: Si tienes texto blanco sobre fondo oscuro, no lo toques */
+.btn-primary, .badge, .text-white {
+    color: #ffffff !important;
+}
+
+/* --- FIX ACCESIBILIDAD FINAL --- */
+
+/* 1. Iconos más oscuros (Lupas, cestas, flechas) */
+i, .ph, .ph-bold, .ph-fill, .search-icon {
+    color: #374151 !important; /* Gris casi negro */
+}
+
+/* 2. Textos pequeños (kcal) más oscuros */
+small, .text-muted {
+    color: #374151 !important;
+}
+
+/* 3. El contador azul más legible */
+#item-count {
+    background-color: #0047b3 !important; /* Azul más profundo */
+    color: #FFF !important;
+    font-weight: 700;
+}
+
+.dock-fab i, 
+#video-trigger-btn i {
+    color: #ffffff !important;
+}
+
+/* --- EXCEPCIÓN BOTÓN GUARDAR --- */
+/* Forzar que el icono dentro del botón negro sea blanco */
+/* --- EXCEPCIÓN BOTÓN GUARDAR (Texto e Icono Blancos) --- */
+.btn-finish, 
+.btn-finish span, 
+.btn-finish i {
+    color: #ffffff !important; /* Fuerza blanco sobre el fondo negro */
+}
+
+/* --- FIX FINAL CONTRASTE KCAL --- */
+
+/* Caso 1: Si "kcal" está dentro de una etiqueta oscura (badge), que sea blanco puro */
+.badge small, 
+.badge .text-muted,
+span[class*="badge"] small {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+/* Caso 2: Si "kcal" está sobre el fondo blanco (ej. total abajo), que sea negro */
+#kcal-total + small,
+.info-calories small {
+    color: #000000 !important;
+    font-weight: bold;
+}
+
+/* --- FIX NUCLEAR PARA CONTRASTE DE CALORÍAS --- */
+
+/* Opción A: Si son etiquetas tipo 'pastilla' (fondo de color, texto blanco) */
+/* Oscurecemos el fondo para que el texto blanco se lea bien */
+#laravel-results span[class*="bg-"],
+.results-container span[class*="badge"],
+span[class*="bg-blue"],
+span[class*="bg-indigo"] {
+    background-color: #2563EB !important; /* Azul más oscuro (Blue 600) */
+    color: #ffffff !important;
+}
+
+/* Opción B: Si es texto de color sobre fondo blanco (lo más probable por el error 4.02) */
+/* Forzamos que el texto de las calorías sea gris oscuro, ignorando el azul original */
+#laravel-results div > span:last-child, /* Suele ser el último elemento del resultado */
+.results-container .text-primary,
+.results-container .text-blue-500 {
+    color: #1f2937 !important; /* Gris casi negro */
+    background: transparent !important;
+    font-weight: 700 !important;
+}
+
+/* Y para asegurar, definimos el color de "130 kcal" en la lista de abajo también */
+.item-cesta span:not(.title) {
+     color: #374151 !important; /* Gris oscuro */
 }

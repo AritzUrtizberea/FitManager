@@ -24,7 +24,7 @@
         <section class="profile-header">
             <div class="nav-header">
                 <a href="{{ route('profile.edit') }}">
-                    <i class="ph ph-gear-six" style="font-size: 24px; color: #333;"></i>
+                    <i class="ph ph-gear-six" style="font-size: 24px; color: #0f172a;"></i>
                 </a>
             </div>
 
@@ -93,7 +93,7 @@
             <li>
                 <a href="{{ route('reviews.index') }}" class="menu-item">
                     <div class="menu-left">
-                        <i class="ph ph-star menu-icon" style="color: #fbc02d;"></i>
+                        <i class="ph ph-star menu-icon"></i>
                         <span class="menu-text">Mis Reseñas</span>
                     </div>
                     <i class="ph ph-caret-right menu-chevron"></i>

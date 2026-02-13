@@ -8,51 +8,38 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    // 1. Carga la vista principal (el HTML que te di antes)
     public function index()
     {
         return view('reviews.index');
     }
 
-    // 2. Carga la vista obligatoria (si salta el middleware)
-    public function create()
+    public function list()
     {
-        return view('reviews.create');
-    }
+        $userId = Auth::id();
+        // El sistema se desbloquea si existe AL MENOS una reseña
+        $hasReview = Review::where('user_id', $userId)->exists();
 
-    // 3. ¡VITAL! Devuelve la lista de reseñas en JSON para que JS las pinte
-// En ReviewController.php
+        if (!$hasReview) {
+            return response()->json([
+                'locked' => true,
+                'current_user_id' => $userId,
+                'reviews' => [
+                    ['user' => ['name' => 'Usuario'], 'rating' => 5, 'comment' => 'Contenido bloqueado...', 'created_at' => now()],
+                    ['user' => ['name' => 'Ana'], 'rating' => 4, 'comment' => 'Escribe una reseña para ver más.', 'created_at' => now()],
+                ]
+            ]);
+        }
 
-public function list()
-{
-    $userId = Auth::id();
-    $hasReview = Review::where('user_id', $userId)->exists();
-
-    // CASO 1: NO HA COMENTADO -> BLOQUEADO
-    if (!$hasReview) {
+        // Si ya tiene al menos una, enviamos todas las reseñas reales
+        $reviews = Review::with('user')->latest()->get();
+        
         return response()->json([
-            'locked' => true, // <--- ESTO ES LO IMPORTANTE
+            'locked' => false,
             'current_user_id' => $userId,
-            'reviews' => [
-                // Reseñas FALSAS para que se vea algo de fondo borroso
-                ['user' => ['name' => 'Usuario'], 'rating' => 5, 'comment' => 'Texto oculto...', 'created_at' => now()],
-                ['user' => ['name' => 'Ana'], 'rating' => 4, 'comment' => 'Debes comentar para ver.', 'created_at' => now()],
-                ['user' => ['name' => 'FitUser'], 'rating' => 5, 'comment' => 'Bloqueado.', 'created_at' => now()],
-            ]
+            'reviews' => $reviews
         ]);
     }
 
-    // CASO 2: YA COMENTÓ -> DESBLOQUEADO
-    $reviews = Review::with('user')->latest()->get();
-    
-    return response()->json([
-        'locked' => false,
-        'current_user_id' => $userId,
-        'reviews' => $reviews
-    ]);
-}
-
-    // 4. Guarda la reseña y devuelve JSON
     public function store(Request $request)
     {
         $request->validate([
@@ -60,26 +47,20 @@ public function list()
             'comment' => 'required|string|max:500',
         ]);
 
-        // Verificar si ya tiene reseña (opcional, para evitar duplicados)
-        $existing = Review::where('user_id', Auth::id())->first();
-        if ($existing) {
-             // Si quieres permitir editar, actualiza aquí. Si no, lanza error.
-             $existing->update($request->all());
-             return response()->json(['message' => 'Reseña actualizada']);
-        }
-
+        // ELIMINAMOS la verificación de $existing. 
+        // Simplemente creamos una nueva cada vez.
         Review::create([
             'user_id' => Auth::id(),
             'rating' => $request->rating,
             'comment' => $request->comment,
         ]);
 
-        return response()->json(['message' => 'Reseña creada correctamente']);
+        return response()->json(['message' => 'Nueva reseña publicada']);
     }
-    
-    // 5. Borrar reseña
+
     public function destroy($id)
     {
+        // Solo el dueño puede borrar su reseña específica
         $review = Review::where('id', $id)->where('user_id', Auth::id())->first();
         
         if ($review) {

@@ -1,4 +1,4 @@
-/* chatbot.css - Versión Mini Compacta */
+/* chatbot.css - Versión Accessible */
 
 /* --- 1. BOTÓN FLOTANTE (ICONO) --- */
 .chatbot-toggler {
@@ -7,14 +7,15 @@
     right: 30px;
     outline: none;
     border: none;
-    height: 45px; /* Más pequeño (antes 55) */
-    width: 45px;  /* Más pequeño */
+    height: 45px;
+    width: 45px;
     display: flex;
     cursor: pointer;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: #607d8b;
+    /* CAMBIO: Color más oscuro para mejor contraste */
+    background: #455a64; 
     transition: all 0.2s ease;
     z-index: 9999;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -22,11 +23,11 @@
 
 .chatbot-toggler span {
     color: #fff;
-    font-size: 22px; /* Icono ajustado */
+    font-size: 22px;
 }
 
 .chatbot-toggler:hover {
-    background: #546e7a;
+    background: #37474f; /* Hover también más oscuro */
     transform: scale(1.05);
 }
 
@@ -35,7 +36,7 @@
     position: fixed;
     right: 30px;
     bottom: 135px;
-    width: 280px; /* Mucho más estrecho (antes 350px) */
+    width: 280px;
     background: #e5ddd5;
     border-radius: 12px;
     overflow: hidden;
@@ -46,7 +47,7 @@
     box-shadow: 0 5px 20px rgba(0,0,0,0.15);
     transition: all 0.3s ease;
     z-index: 9999;
-    font-family: sans-serif; /* Asegurar fuente limpia */
+    font-family: 'Manrope', sans-serif; /* Usamos tu fuente principal */
 }
 
 body.show-chatbot .chatbot {
@@ -57,26 +58,27 @@ body.show-chatbot .chatbot {
 
 /* --- 3. CABECERA --- */
 .chatbot header {
-    background: #607d8b;
-    padding: 10px 15px; /* Menos relleno */
+    /* CAMBIO: Color más oscuro para que "Asistente Virtual" se lea bien */
+    background: #455a64; 
+    padding: 10px 15px;
     display: flex;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    height: 50px; /* Altura fija pequeña */
+    height: 50px;
     box-sizing: border-box;
 }
 
 .chatbot header h2 {
     color: #fff;
-    font-size: 0.95rem; /* Letra más pequeña */
+    font-size: 0.95rem;
     margin: 0;
-    font-weight: 500;
+    font-weight: 600; /* Un poco más grueso ayuda a la legibilidad */
 }
 
-/* --- 4. ÁREA DE MENSAJES (SCROLL) --- */
+/* --- 4. ÁREA DE MENSAJES --- */
 .chatbot .chatbox {
     overflow-y: auto;
-    height: 250px; /* Altura reducida (antes 350px) */
+    height: 250px;
     padding: 10px;
     background-color: #e5ddd5;
     display: flex;
@@ -84,7 +86,6 @@ body.show-chatbot .chatbot {
     gap: 8px;
 }
 
-/* Ocultar barra de scroll fea pero permitir scroll */
 .chatbot .chatbox::-webkit-scrollbar {
     width: 4px;
 }
@@ -93,12 +94,11 @@ body.show-chatbot .chatbot {
     border-radius: 10px;
 }
 
-/* Estilo general de burbuja */
 .chatbox .chat {
     display: flex;
     list-style: none;
     max-width: 85%;
-    font-size: 0.8rem; /* Letra compacta */
+    font-size: 0.8rem;
 }
 
 /* MENSAJE DEL BOT */
@@ -107,9 +107,10 @@ body.show-chatbot .chatbot {
 }
 
 .chatbox .chat.incoming p {
-    background: #fff;
-    color: #333;
-    padding: 8px 12px; /* Burbuja más ajustada */
+    background: #ffffff;
+    /* CAMBIO: Texto casi negro para máximo contraste */
+    color: #1e293b; 
+    padding: 8px 12px;
     border-radius: 0 10px 10px 10px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
     margin: 0;
@@ -124,7 +125,8 @@ body.show-chatbot .chatbot {
 
 .chatbox .chat.outgoing p {
     background: #dcf8c6;
-    color: #333;
+    /* CAMBIO: Texto oscuro para contraste sobre verde claro */
+    color: #0f172a; 
     padding: 8px 12px;
     border-radius: 10px 0 10px 10px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.1);
@@ -144,13 +146,15 @@ body.show-chatbot .chatbot {
 
 .faq-btn {
     width: 100%;
-    padding: 8px 10px; /* Botones más finos */
+    padding: 8px 10px;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 15px;
-    color: #555;
+    /* CAMBIO: Gris oscuro en vez de gris medio */
+    color: #1e293b; 
     cursor: pointer;
-    font-size: 0.75rem; /* Letra de botón pequeña */
+    font-size: 0.75rem;
+    font-weight: 600;
     transition: background 0.2s;
     text-align: center;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);

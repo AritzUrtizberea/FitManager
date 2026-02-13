@@ -31,6 +31,7 @@ class RegisteredUserController extends Controller
     // En RegisteredUserController.php
     public function store(Request $request): RedirectResponse
     {
+        // 1. VALIDACIÓN CON MENSAJES PERSONALIZADOS
         $request->validate([
             'name'      => 'required|string|max:255',
             'surname'   => 'required|string|max:255',
@@ -41,8 +42,17 @@ class RegisteredUserController extends Controller
             'weight'    => 'required|numeric',
             'height'    => 'required|numeric',
             'activity'  => 'required',
+        ], [
+            // AQUÍ ESTÁN TUS MENSAJES EN ESPAÑOL:
+            'email.unique'       => 'Este correo electrónico ya está registrado.',
+            'email.required'     => 'El correo es obligatorio.',
+            'email.email'        => 'Debes introducir un correo válido.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+            'password.required'  => 'La contraseña es obligatoria.',
+            'required'           => 'El campo :attribute es obligatorio.', // Mensaje genérico para los demás
         ]);
 
+        // 2. CREAR USUARIO
         $user = User::create([
             'name'     => $request->name,
             'surname'  => $request->surname,
@@ -50,7 +60,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // USA ESTA FORMA QUE ES MÁS SEGURA:
+        // 3. CREAR PERFIL
         $profile = new \App\Models\Profile();
         $profile->user_id  = $user->id;
         $profile->phone    = $request->phone;
@@ -58,9 +68,10 @@ class RegisteredUserController extends Controller
         $profile->weight   = $request->weight;
         $profile->height   = $request->height;
         $profile->activity = $request->activity;
-        $profile->save(); // Forzamos el guardado físico
+        $profile->save();
 
         Auth::login($user);
+
         return redirect('/home');
     }
     }

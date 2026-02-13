@@ -386,3 +386,76 @@ body {
 .dock-fab i {
     margin-left: 2px;
 }
+
+/* --- CORRECCIONES ESTRUCTURALES --- */
+
+/* Clase utilitaria para quitar estilos de link por defecto */
+.no-decoration {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Importante para que el <a> ocupe el espacio de la tarjeta */
+}
+
+/* Modificación a las Cards para asegurar que funcionen como <a> */
+.card-premium-dark,
+.card-immersive {
+    /* Mantenemos lo que tenías, pero aseguramos display block */
+    display: block; 
+    text-decoration: none; /* Asegurar que no haya subrayado */
+    cursor: pointer;
+}
+
+/* Arreglo para el botón visual dentro de la tarjeta */
+/* Como ahora está dentro de un <a>, cambiamos el <button> por un <div> con clase de botón */
+.card-premium-dark .btn-action-glow {
+    /* Aseguramos que el hover del padre no rompa el estilo del hijo */
+    color: white; 
+    text-decoration: none;
+}
+
+/* Modificación a los items de categoría */
+.cat-item {
+    /* Cambiado de div flex a a flex */
+    text-decoration: none;
+    /* Color base corregido para el estado inactivo */
+    color: var(--text-muted); 
+    display: flex; /* Recuperamos el flex que tenía el div */
+}
+
+/* Importante: Sobrescribir el color azul de Materialize o user agent para los links */
+a.card-premium-dark,
+a.card-immersive,
+a.cat-item,
+a.dock-item {
+    -webkit-tap-highlight-color: transparent; /* Quita el flash azul en móviles al tocar */
+}
+
+/* --- (El resto de tu CSS se mantiene igual) --- */
+
+/* --- CORRECCIÓN DE CONTRASTE EN TARJETA ENLACE --- */
+
+/* Forzamos que el título H2 dentro de la tarjeta oscura sea blanco puro */
+.card-premium-dark h2 {
+    color: #ffffff !important;
+}
+
+/* De paso, aseguramos que el texto descriptivo sea un gris muy claro legible */
+.card-premium-dark p {
+    color: #e2e8f0 !important; /* Casi blanco */
+}
+
+/* Aseguramos que al pasar el mouse (hover) no se ponga azul */
+.card-premium-dark:hover h2,
+.card-premium-dark:hover p {
+    color: #ffffff !important;
+}
+
+/* --- CORRECCIÓN FINAL DE ACCESIBILIDAD (ETIQUETA) --- */
+
+.tag-blur {
+    /* Cambiamos el texto a oscuro para que contraste con el fondo "cristal" */
+    color: #0f172a !important; 
+    
+    /* Opcional: hacemos el fondo un pelín más blanco para asegurar legibilidad */
+    background: rgba(255, 255, 255, 0.6) !important;
+}
